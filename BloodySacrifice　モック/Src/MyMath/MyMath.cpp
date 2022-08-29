@@ -107,6 +107,16 @@ float CMyMath::VecDot(VECTOR vec1, VECTOR vec2)
 	return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
 }
 
+// ベクトルの外積
+VECTOR CMyMath::VecCross(VECTOR vec1, VECTOR vec2)
+{
+	VECTOR result;
+	result.x = vec1.y * vec2.z - vec1.z * vec2.y;
+	result.y = vec1.z * vec2.x - vec1.x * vec2.z;
+	result.z = vec1.x * vec2.y - vec1.y * vec2.x;
+	return result;
+}
+
 // ベクトルの向きをラジアン値で取得
 float CMyMath::VecDir(VECTOR vec)
 {

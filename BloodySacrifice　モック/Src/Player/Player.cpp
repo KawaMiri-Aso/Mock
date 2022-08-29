@@ -182,7 +182,16 @@ void CPlayer::Step()
 	//¶‰ñ“]
 	if(g_input.IsCont(KEY_LEFT))
 	{
-		m_vRot.y -= 0.1f;
+		/*m_vRot.y -= 0.1f;*/
+
+		VECTOR move_left = { 0 };
+
+		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
+
+		move_left= CMyMath::VecCreate(play_camera->GetLook(), m_vPos);
+		move_left= CMyMath::VecNormalize(move_left);
+
+
 	}
 	//‰E‰ñ“]
 	if(g_input.IsCont(KEY_RIGHT))

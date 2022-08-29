@@ -14,6 +14,7 @@ public:
 	static VECTOR VecNormalize(VECTOR vec);
 	static VECTOR VecScale(VECTOR vec, float scale);
 	static float VecDot(VECTOR vec1, VECTOR vec2);
+	static VECTOR VecCross(VECTOR vec1, VECTOR vec2);
 	static float VecDir(VECTOR vec);
 
 	static MATRIX GetIdentityMatrix();
