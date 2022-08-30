@@ -18,12 +18,17 @@ public:
 	static float VecDir(VECTOR vec);
 
 	static MATRIX GetIdentityMatrix();
+	//•½sˆÚ“®s—ñ‚ğæ“¾
 	static MATRIX GetTranslateMatrix(float x, float y, float z);
 	static MATRIX GetTranslateMatrix(VECTOR translation);
+	//Šgks—ñ‚ğæ“¾
 	static MATRIX GetScaleMatrix(float x, float y, float z);
 	static MATRIX GetScaleMatrix(VECTOR scale);
+	//X²‰ñ“]s—ñ‚ğæ“¾
 	static MATRIX GetPitchMatrix(float rot);
+	//Y²‰ñ“]s—ñ‚ğæ“¾
 	static MATRIX GetYawMatrix(float rot);
+	//Z²‰ñ“]s—ñ‚ğæ“¾
 	static MATRIX GetRollMatrix(float rot);
 	static MATRIX MatAdd(MATRIX matA, MATRIX matB);
 	static MATRIX MatSub(MATRIX matA, MATRIX matB);

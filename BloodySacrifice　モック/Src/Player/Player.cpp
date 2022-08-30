@@ -18,7 +18,10 @@ CMyMath* math;
 #define PLAYER_RAD	(1.0f)	//プレイヤーの半径
 #define PLAYER_JUMP_VAL		(0.3f)	//ジャンプ量
 #define PLAYER_JUMP_TIME	(0.8f)	//ジャンプの時間
-#define PLAYER_WALK_SPEED	(3.0f)	//歩く速さ
+#define PLAYER_WALK_SPEED	(0.3f)	//歩く速さ
+#define PLAYER_WALK_SPEED_HALF	(0.15f)		//斜め歩き用の速さ
+#define PLAYER_ROT_SCALING		(0.5f)		//左右入力用の数値
+#define PLAYER_ROT_SCALING_HALF	(0.25f)		//斜め入力用の数値
 
 //重力
 #define GRAVITY		(0.15f)
@@ -126,77 +129,173 @@ void CPlayer::Step()
 		m_eState = PLAYER_STATE_NORMAL;	//通常状態にしておく
 	}
 
-
-	//向いている方向へ移動
-	if(g_input.IsCont(KEY_UP))
+	//斜め移動
+	if (g_input.IsCont(KEY_UP) && g_input.IsCont(KEY_LEFT) || g_input.IsCont(KEY_UP) && g_input.IsCont(KEY_RIGHT))
 	{
-		//VECTOR move = {0};
+		VECTOR move_up_sidle = { 0 };
 
-		////向きベクトルを求める
-		//move.x = sinf(m_vRot.y);
-		//move.z = cosf(m_vRot.y);
+		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
 
-		////向きベクトルを適切な大きさに変更して座標に加算
-		//m_vPos.x += move.x * -0.1f;
-		//m_vPos.z += move.z * -0.1f;
+		//カメラの視点、注視点からベクトルを作成
+		move_up_sidle = CMyMath::VecCreate(play_camera->GetLook(), play_camera->GetPos());
+		//Y成分は初期化
+		move_up_sidle.y = 0;
+		//正規化
+		move_up_sidle = CMyMath::VecNormalize(move_up_sidle);
+		//歩く速さを掛け算
+		move_up_sidle = CMyMath::VecScale(move_up_sidle, -PLAYER_WALK_SPEED);
 
+		MATRIX m_dir = MGetTranslate(move_up_sidle);
+		MATRIX m_rotY;
+		if (!g_input.IsCont(KEY_RIGHT))
+		{
+			m_rotY = MGetRotY(DX_PI_F * -PLAYER_ROT_SCALING_HALF);
+		}
+		else
+		{
+			m_rotY = MGetRotY(DX_PI_F * PLAYER_ROT_SCALING_HALF);
+		}
+		MATRIX m_result = MMult(m_dir, m_rotY);
+
+		VECTOR v_Res;
+		v_Res.x = m_result.m[3][0];
+		v_Res.y = m_result.m[3][1];
+		v_Res.z = m_result.m[3][2];
+
+		m_vPos = VAdd(m_vPos, v_Res);
+
+	}
+	else if (g_input.IsCont(KEY_DOWN) && g_input.IsCont(KEY_LEFT) || g_input.IsCont(KEY_DOWN) && g_input.IsCont(KEY_RIGHT))
+	{
+		VECTOR move_up_sidle = { 0 };
+
+		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
+
+		//カメラの視点、注視点からベクトルを作成
+		move_up_sidle = CMyMath::VecCreate(play_camera->GetLook(), play_camera->GetPos());
+		//Y成分は初期化
+		move_up_sidle.y = 0;
+		//正規化
+		move_up_sidle = CMyMath::VecNormalize(move_up_sidle);
+		//歩く速さを掛け算
+		move_up_sidle = CMyMath::VecScale(move_up_sidle, PLAYER_WALK_SPEED);
+
+		MATRIX m_dir = MGetTranslate(move_up_sidle);
+		MATRIX m_rotY;
+		if (!g_input.IsCont(KEY_RIGHT))
+		{
+			m_rotY = MGetRotY(DX_PI_F * PLAYER_ROT_SCALING_HALF);
+		}
+		else
+		{
+			m_rotY = MGetRotY(DX_PI_F * -PLAYER_ROT_SCALING_HALF);
+		}
+		MATRIX m_result = MMult(m_dir, m_rotY);
+
+		VECTOR v_Res;
+		v_Res.x = m_result.m[3][0];
+		v_Res.y = m_result.m[3][1];
+		v_Res.z = m_result.m[3][2];
+
+		m_vPos = VAdd(m_vPos, v_Res);
+
+	}
+	//カメラが向いている方向へ移動
+	else if(g_input.IsCont(KEY_UP))
+	{
 		VECTOR move_up = { 0 };
 
 		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
 
+		//カメラの視点、注視点からベクトルを作成
 		move_up = CMyMath::VecCreate(play_camera->GetLook(), play_camera->GetPos());
+		//正規化
 		move_up = CMyMath::VecNormalize(move_up);
-		move_up = CMyMath::VecScale(move_up, PLAYER_WALK_SPEED);
+		//歩く速さを掛け算
+		move_up = CMyMath::VecScale(move_up, -PLAYER_WALK_SPEED);
 
-		m_vPos.x += move_up.x * -0.1f;
-		m_vPos.z += move_up.z * -0.1f;
+		m_vPos.x += move_up.x;
+		m_vPos.z += move_up.z;
 
-		move_up = { 0 };
+		AngleProcess();
 	}
-
-	//向いている方向とは逆へ移動
-	if(g_input.IsCont(KEY_DOWN))
+	//カメラが向いている方向とは逆へ移動
+	else if(g_input.IsCont(KEY_DOWN))
 	{
-		//VECTOR move = {0};
-
-		////向きベクトルを求める
-		//move.x = sinf(m_vRot.y);
-		//move.z = cosf(m_vRot.y);
-
-		////向きベクトルを適切な大きさ・向きに変更して座標に加算
-		//m_vPos.x += move.x * 0.1f;
-		//m_vPos.z += move.z * 0.1f;
-
 		VECTOR move_down = { 0 };
 
 		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
 
+		//カメラの視点、注視点からベクトルを作成
 		move_down = CMyMath::VecCreate(play_camera->GetLook(), play_camera->GetPos());
+		//正規化
 		move_down = CMyMath::VecNormalize(move_down);
+		//歩く速さを掛け算
 		move_down = CMyMath::VecScale(move_down, PLAYER_WALK_SPEED);
 
-		m_vPos.x += move_down.x * 0.1f;
-		m_vPos.z += move_down.z * 0.1f;
+		m_vPos.x += move_down.x;
+		m_vPos.z += move_down.z;
+
+		AngleProcess();
 	}
-
-	//左回転
-	if(g_input.IsCont(KEY_LEFT))
+	//左へ移動
+	else if(g_input.IsCont(KEY_LEFT))
 	{
-		/*m_vRot.y -= 0.1f;*/
-
 		VECTOR move_left = { 0 };
 
 		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
 
-		move_left= CMyMath::VecCreate(play_camera->GetLook(), m_vPos);
-		move_left= CMyMath::VecNormalize(move_left);
+		//カメラの視点、注視点からベクトルを作成
+		move_left = CMyMath::VecCreate(play_camera->GetLook(), play_camera->GetPos());
+		//Y成分は初期化
+		move_left.y = 0;
+		//正規化
+		move_left = CMyMath::VecNormalize(move_left);
+		//歩く速さを掛け算
+		move_left = CMyMath::VecScale(move_left, PLAYER_WALK_SPEED);
+		
 
+		MATRIX m_dir = MGetTranslate(move_left);
+		MATRIX m_rotY = MGetRotY(DX_PI_F * PLAYER_ROT_SCALING);
+		MATRIX m_result = MMult(m_dir, m_rotY);
 
+		VECTOR v_Res;
+		v_Res.x = m_result.m[3][0];
+		v_Res.y = m_result.m[3][1];
+		v_Res.z = m_result.m[3][2];
+
+		m_vPos = CMyMath::VecAdd(m_vPos, v_Res);
+
+		AngleProcess();
 	}
-	//右回転
-	if(g_input.IsCont(KEY_RIGHT))
+	//右へ移動
+	else if(g_input.IsCont(KEY_RIGHT))
 	{
-		m_vRot.y += 0.1f;
+		VECTOR move_right = { 0 };
+
+		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
+
+		//カメラの視点、注視点からベクトルを作成
+		move_right = CMyMath::VecCreate(play_camera->GetLook(), play_camera->GetPos());
+		//Y成分は初期化
+		move_right.y = 0;
+		//正規化
+		move_right = CMyMath::VecNormalize(move_right);
+		//歩く速さを掛け算
+		move_right = CMyMath::VecScale(move_right, PLAYER_WALK_SPEED);
+
+		MATRIX m_dir = MGetTranslate(move_right);
+		MATRIX m_rotY = MGetRotY(DX_PI_F * -PLAYER_ROT_SCALING);
+		MATRIX m_result = MMult(m_dir, m_rotY);
+
+		VECTOR v_Res;
+		v_Res.x = m_result.m[3][0];
+		v_Res.y = m_result.m[3][1];
+		v_Res.z = m_result.m[3][2];
+
+		m_vPos = CMyMath::VecAdd(m_vPos, v_Res);
+
+		AngleProcess();
 	}
 
 	//座標設定 =====
@@ -226,3 +325,46 @@ void CPlayer::Fin()
 	}
 }
 
+//プレイヤーの回転処理
+void CPlayer::AngleProcess()
+{
+	//目標角度
+	float TargetAngle;
+	//目標角度と現在の角度との差
+	float SaAngle;
+
+	TargetAngle = atan2f(m_vPos.x, m_vPos.z);
+
+	SaAngle = TargetAngle - m_vRot.y;
+
+	if (SaAngle < -DX_PI_F)
+	{
+		SaAngle += DX_TWO_PI_F;
+	}
+	else if (SaAngle > DX_PI_F)
+	{
+		SaAngle -= DX_TWO_PI_F;
+	}
+
+	// 角度の差を０に近づける
+	if (SaAngle > 0.0f)
+	{
+		// 差がプラスの場合は引く
+		SaAngle -= PLAYER_WALK_SPEED;
+		if (SaAngle < 0.0f)
+		{
+			SaAngle = 0.0f;
+		}
+	}
+	else
+	{
+		// 差がマイナスの場合は足す
+		SaAngle += PLAYER_WALK_SPEED;
+		if (SaAngle > 0.0f)
+		{
+			SaAngle = 0.0f;
+		}
+	}
+
+	m_vRot.y = TargetAngle - SaAngle;
+}

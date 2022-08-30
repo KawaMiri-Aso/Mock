@@ -1,15 +1,2 @@
-﻿  CameraManager.cpp
-  DebugCamera.cpp
-  PlayCamera.cpp
-  TitleCamera.cpp
-  Input.cpp
-  Main.cpp
-  MyMath.cpp
-  Player.cpp
-  PlayerManager.cpp
-  PlayScene.cpp
-  SceneManager.cpp
-  TitleScene.cpp
-  コードを生成中...
-  LINK : 前回のインクリメンタル リンクで D:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice　モック\Debug\Sample3D.exe が見つからなかったか、ビルドされませんでした。フル リンクを行います。
-  Sample3D.vcxproj -> D:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice　モック\Debug\Sample3D.exe
+﻿  Player.cpp
+  Sample3D.vcxproj -> C:\Users\mirih\Documents\GitHub\Mock\BloodySacrifice　モック\Debug\Sample3D.exe

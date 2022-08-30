@@ -44,11 +44,15 @@ public:
 	//回転を取得
 	VECTOR GetRot(){ return m_vRot; }
 
+	//プレイヤーの回転処理
+	void AngleProcess();
+
 private:
 
 	int				m_nHandle;		//ハンドル
 	VECTOR			m_vPos;			//座標
 	VECTOR			m_vRot;			//回転
+	float			m_fAngle;		//向き
 	PLAYER_STATE	m_eState;		//状態
 	float			m_fJumpTime;	//ジャンプの時間
 
