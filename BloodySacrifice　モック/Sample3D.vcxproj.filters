@@ -23,6 +23,9 @@
     <Filter Include="MyMath">
       <UniqueIdentifier>{2fb3aa7e-a6a4-494f-89bd-045f2b3dd84a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{3c4d0335-95bc-4216-b793-39b140a25b5c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Input\Input.cpp">
@@ -59,6 +62,9 @@
     <ClCompile Include="Src\MyMath\MyMath.cpp">
       <Filter>MyMath</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Collision\Collision.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Input\Input.h">
@@ -94,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="Src\MyMath\MyMath.h">
       <Filter>MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Collision\Collision.h">
+      <Filter>Collision</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

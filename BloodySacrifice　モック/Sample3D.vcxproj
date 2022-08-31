@@ -15,6 +15,7 @@
     <ClCompile Include="Src\Camera\DebugCamera.cpp" />
     <ClCompile Include="Src\Camera\PlayCamera.cpp" />
     <ClCompile Include="Src\Camera\TitleCamera.cpp" />
+    <ClCompile Include="Src\Collision\Collision.cpp" />
     <ClCompile Include="Src\Input\Input.cpp" />
     <ClCompile Include="Src\Main.cpp" />
     <ClCompile Include="Src\MyMath\MyMath.cpp" />
@@ -29,6 +30,7 @@
     <ClInclude Include="Src\Camera\DebugCamera.h" />
     <ClInclude Include="Src\Camera\PlayCamera.h" />
     <ClInclude Include="Src\Camera\TitleCamera.h" />
+    <ClInclude Include="Src\Collision\Collision.h" />
     <ClInclude Include="Src\Common.h" />
     <ClInclude Include="Src\Input\Input.h" />
     <ClInclude Include="Src\MyMath\MyMath.h" />

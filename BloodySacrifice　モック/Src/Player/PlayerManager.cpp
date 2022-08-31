@@ -22,7 +22,7 @@ CPlayerManager::~CPlayerManager()
 void CPlayerManager::Init()
 {
 	//プレイヤーの初期化を呼ぶ
-	m_player.Init(VGet(0.0f, 1.0f, 0.0f), VGet(0.0f, 0.0f, 0.0f));
+	m_player.Init(VGet(0.0f, 1.0f, 0.0f), VGet(1.0f, 0.0f, 0.0f));
 }
 
 //ステップ

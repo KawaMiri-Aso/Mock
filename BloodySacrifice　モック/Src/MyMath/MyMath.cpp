@@ -1,99 +1,46 @@
 #include "MyMath.h"
 #include <math.h>
 
-// 点P(x1, y1)から点Q(x2, y2)までの距離を返す
-float CMyMath::GetDistance(float x1, float y1, float x2, float y2)
+VECTOR MyMath::VecCreate(VECTOR vPosA, VECTOR vPosB)
 {
-	// 点Pから点Qまでの直線を斜辺とする直角三角形を作り、
-	// ピタゴラスの定理から斜辺の長さを計算する。
-	// ①まずは底辺の長さを計算する
-	float a = x2 - x1;
-
-	// ②高さを計算する
-	float b = y2 - y1;
-
-	// ③斜辺の2乗の値を計算する
-	float double_c = a * a + b * b;
-
-	// ④2乗の値なので平方根を計算して長さとする
-	// 　平方根は<math.h>のsqrtf関数で取得できる
-	return sqrtf(double_c);
+	VECTOR result;
+	result.x = vPosB.x - vPosA.x;
+	result.y = vPosB.y - vPosA.y;
+	result.z = vPosB.z - vPosA.z;
+	return result;
 }
 
-// 回転値を0～2πの値にする
-float CMyMath::RadianNormalize(float rad)
+float MyMath::VecLong(VECTOR Vec)
 {
-	float result = rad;
-	if (result < 0.0f) {
-		while (result < 0.0f) {
-			result += DX_TWO_PI_F;
-		}
-	}
-	else if (result > DX_TWO_PI_F) {
-		while (result <= DX_TWO_PI_F) {
-			result -= DX_TWO_PI_F;
-		}
-	}
+	float result;
+	result = sqrtf(Vec.x * Vec.x + Vec.y * Vec.y + Vec.z * Vec.z);
+	return result;
+}
+
+VECTOR MyMath::VecAdd(VECTOR vecA, VECTOR vecB)
+{
+	VECTOR result;
+	result.x = vecA.x + vecB.x;
+	result.y = vecA.y + vecB.y;
+	result.z = vecA.z + vecB.z;
 
 	return result;
 }
 
-// 始点と終点からベクトルを作成
-VECTOR CMyMath::VecCreate(VECTOR start, VECTOR end)
+VECTOR MyMath::VecSubtract(VECTOR vecA, VECTOR vecB)
 {
 	VECTOR result;
-
-	// ①ベクトルは「終点 - 始点」で求められる
-	result.x = end.x - start.x;
-	result.y = end.y - start.y;
-	result.z = end.z - start.z;
+	result.x = vecA.x - vecB.x;
+	result.y = vecA.y - vecB.y;
+	result.z = vecA.z - vecB.z;
 
 	return result;
+
 }
 
-// ベクトルの足し算
-VECTOR CMyMath::VecAdd(VECTOR vec1, VECTOR vec2)
+VECTOR MyMath::VecScale(VECTOR vec, float scale)
 {
 	VECTOR result;
-
-	// ①各成分を足し算する
-	result.x = vec1.x + vec2.x;
-	result.y = vec1.y + vec2.y;
-	result.z = vec1.z + vec2.z;
-
-	return result;
-}
-
-// ベクトルの長さ
-float CMyMath::VecLong(VECTOR vec)
-{
-	// ①ピタゴラスの定理からベクトルの長さを求める
-	return sqrtf(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
-}
-
-
-// ベクトルの正規化
-VECTOR CMyMath::VecNormalize(VECTOR vec)
-{
-	VECTOR result;
-
-	// ①ベクトルの長さを求める
-	float vec_long = VecLong(vec);
-
-	// ②各成分を長さで割ることにより正規化する
-	result.x = vec.x / vec_long;
-	result.y = vec.y / vec_long;
-	result.z = vec.z / vec_long;
-
-	return result;
-}
-
-// ベクトルのスカラー倍
-VECTOR CMyMath::VecScale(VECTOR vec, float scale)
-{
-	VECTOR result;
-
-	// ①各成分をスカラー倍する
 	result.x = vec.x * scale;
 	result.y = vec.y * scale;
 	result.z = vec.z * scale;
@@ -101,46 +48,64 @@ VECTOR CMyMath::VecScale(VECTOR vec, float scale)
 	return result;
 }
 
-// ベクトルの内積
-float CMyMath::VecDot(VECTOR vec1, VECTOR vec2)
+float MyMath::VecDot(VECTOR vecA, VECTOR vecB)
 {
-	return vec1.x * vec2.x + vec1.y * vec2.y + vec1.z * vec2.z;
+	float result;
+	result = vecA.x * vecB.x + vecA.y * vecB.y + vecA.z * vecB.z;
+	return result;
 }
 
-// ベクトルの外積
-VECTOR CMyMath::VecCross(VECTOR vec1, VECTOR vec2)
+VECTOR MyMath::VecCross(VECTOR vecA, VECTOR vecB)
 {
 	VECTOR result;
-	result.x = vec1.y * vec2.z - vec1.z * vec2.y;
-	result.y = vec1.z * vec2.x - vec1.x * vec2.z;
-	result.z = vec1.x * vec2.y - vec1.y * vec2.x;
+	result.x = vecA.y * vecB.z - vecA.z * vecB.y;
+	result.y = vecA.z * vecB.x - vecA.x * vecB.z;
+	result.z = vecA.x * vecB.y - vecA.y * vecB.x;
 	return result;
 }
 
-// ベクトルの向きをラジアン値で取得
-float CMyMath::VecDir(VECTOR vec)
+VECTOR MyMath::VecNormalize(VECTOR vec)
 {
-	return atan2f(vec.y, vec.x);
-}
-
-//単位行列を取得
-MATRIX CMyMath::GetIdentityMatrix()
-{
-	MATRIX result = { 0.0f };
-
-	result.m[0][0] = 1.0f;
-	result.m[1][1] = 1.0f;
-	result.m[2][2] = 1.0f;
-	result.m[3][3] = 1.0f;
+	float size;
+	VECTOR result;
+	size = vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
+	size = sqrtf(size);
+	result.x = vec.x / size;
+	result.y = vec.y / size;
+	result.z = vec.z / size;
 
 	return result;
 }
 
-//平行移動行列を取得
-MATRIX CMyMath::GetTranslateMatrix(float x, float y, float z)
+VECTOR MyMath::GetPolygonNormalVec(VECTOR vertexA, VECTOR vertexB, VECTOR vertexC)
 {
-	MATRIX result = GetIdentityMatrix();
+	VECTOR vecAB = VecCreate(vertexA, vertexB);
+	VECTOR vecAC = VecCreate(vertexA, vertexC);
+	VECTOR vecABAC = VecCross(vecAB, vecAC);
+	return VecNormalize(vecABAC);
+}
 
+MATRIX MyMath::GetldentityMatrix()
+{
+	MATRIX result = { 0 };
+	for(int i = 0; i < 4; i++)	{
+		for(int j = 0; j < 4; j++){
+			if(i == j){
+				result.m[i][j] = 1;
+			}
+			else{
+				result.m[i][j] = 0;
+			}
+		}
+	}
+
+	return result;
+}
+
+//平行移動行列の取得
+MATRIX MyMath::GetTranslateMatrix(float x, float y, float z)
+{
+	MATRIX result = GetldentityMatrix();
 	result.m[0][3] = x;
 	result.m[1][3] = y;
 	result.m[2][3] = z;
@@ -148,16 +113,22 @@ MATRIX CMyMath::GetTranslateMatrix(float x, float y, float z)
 	return result;
 }
 
-MATRIX CMyMath::GetTranslateMatrix(VECTOR translation)
+//平行移動行列の取得
+MATRIX MyMath::GetTranslateMatrix(VECTOR trans)
 {
-	return GetTranslateMatrix(translation.x, translation.y, translation.z);
+	MATRIX result = GetldentityMatrix();
+	result.m[0][3] = trans.x;
+	result.m[1][3] = trans.y;
+	result.m[2][3] = trans.z;
+
+	return result;
 }
 
-//拡縮行列を取得
-MATRIX CMyMath::GetScaleMatrix(float x, float y, float z)
-{
-	MATRIX result = GetIdentityMatrix();
 
+//拡縮行列の取得
+MATRIX MyMath::GetScaleMatrix(float x, float y, float z)
+{
+	MATRIX result = GetldentityMatrix();
 	result.m[0][0] = x;
 	result.m[1][1] = y;
 	result.m[2][2] = z;
@@ -165,15 +136,10 @@ MATRIX CMyMath::GetScaleMatrix(float x, float y, float z)
 	return result;
 }
 
-MATRIX CMyMath::GetScaleMatrix(VECTOR scale)
+//X軸回転行列の取得
+MATRIX MyMath::GetPitchMatrix(float rot)
 {
-	return GetScaleMatrix(scale.x, scale.y, scale.z);
-}
-
-//X軸回転行列を取得
-MATRIX CMyMath::GetPitchMatrix(float rot)
-{
-	MATRIX result = GetIdentityMatrix();
+	MATRIX result = GetldentityMatrix();
 	result.m[1][1] = cosf(rot);
 	result.m[1][2] = -sinf(rot);
 	result.m[2][1] = sinf(rot);
@@ -182,10 +148,10 @@ MATRIX CMyMath::GetPitchMatrix(float rot)
 	return result;
 }
 
-//Y軸回転行列を取得
-MATRIX CMyMath::GetYawMatrix(float rot)
+//Y軸回転行列の取得
+MATRIX MyMath::GetYawMatrix(float rot)
 {
-	MATRIX result = GetIdentityMatrix();
+	MATRIX result = GetldentityMatrix();
 	result.m[0][0] = cosf(rot);
 	result.m[0][2] = sinf(rot);
 	result.m[2][0] = -sinf(rot);
@@ -194,10 +160,10 @@ MATRIX CMyMath::GetYawMatrix(float rot)
 	return result;
 }
 
-//Z軸回転行列を取得
-MATRIX CMyMath::GetRollMatrix(float rot)
+//Z軸回転行列の取得
+MATRIX MyMath::GetRollMatrix(float rot)
 {
-	MATRIX result = GetIdentityMatrix();
+	MATRIX result = GetldentityMatrix();
 	result.m[0][0] = cosf(rot);
 	result.m[0][1] = -sinf(rot);
 	result.m[1][0] = sinf(rot);
@@ -206,14 +172,12 @@ MATRIX CMyMath::GetRollMatrix(float rot)
 	return result;
 }
 
-//行列の足し算
-MATRIX CMyMath::MatAdd(MATRIX matA, MATRIX matB)
+
+MATRIX MyMath::MatAdd(MATRIX matA, MATRIX matB)
 {
-	MATRIX result = { 0.0f };
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
+	MATRIX result = { 0 };
+	for(int i = 0; i < 4; i++){
+		for(int j = 0; j < 4; j++){
 			result.m[i][j] = matA.m[i][j] + matB.m[i][j];
 		}
 	}
@@ -221,47 +185,13 @@ MATRIX CMyMath::MatAdd(MATRIX matA, MATRIX matB)
 	return result;
 }
 
-//行列の引き算
-MATRIX CMyMath::MatSub(MATRIX matA, MATRIX matB)
+MATRIX MyMath::MatMult(MATRIX matA, MATRIX matB)
 {
-	MATRIX result = { 0.0f };
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			result.m[i][j] = matA.m[i][j] - matB.m[i][j];
-		}
-	}
-
-	return result;
-}
-
-//行列をスカラー倍する
-MATRIX CMyMath::MatScale(MATRIX mat, float scale)
-{
-	MATRIX result = { 0.0f };
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			result.m[i][j] = mat.m[i][j] * scale;
-		}
-	}
-
-	return result;
-}
-
-//2つの行列の掛け算
-MATRIX CMyMath::MatMult(MATRIX matA, MATRIX matB)
-{
-	MATRIX result = { 0.0f };
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			for (int k = 0; k < 4; k++)
-			{
-				result.m[i][j] += matA.m[i][k] * matB.m[k][j];
+	MATRIX result = { 0 };
+	for(int i = 0; i < 4; i++){
+		for(int j = 0; j < 4; j++){
+			for(int k = 0; k < 4; k++){
+				result.m[i][j] += (matA.m[i][k] * matB.m[k][j]);
 			}
 		}
 	}
@@ -269,34 +199,105 @@ MATRIX CMyMath::MatMult(MATRIX matA, MATRIX matB)
 	return result;
 }
 
-//行列×ベクトル
-VECTOR CMyMath::MatTransform(MATRIX mat, VECTOR pos)
+MATRIX MyMath::MatScale(MATRIX mat, float scale)
 {
-	float work[4] = { pos.x,pos.y,pos.z,1.0f };
-	float transform[4] = { 0.0f };
-	
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			transform[i] += mat.m[i][j] * work[j];
-		}
-	}
-
-	return VGet(transform[0], transform[1], transform[2]);
-}
-
-//行列転置
-MATRIX CMyMath::MatTranspse(MATRIX mat)
-{
-	MATRIX result = { 0.0f };
-	for (int i = 0; i < 4; i++)
-	{
-		for (int j = 0; j < 4; j++)
-		{
-			result.m[i][j] = result.m[j][i];
+	MATRIX result = { 0 };
+	for(int i = 0; i < 4; i++){
+		for(int j = 0; j < 4; j++){
+			result.m[i][j] = mat.m[i][j] * scale;
 		}
 	}
 
 	return result;
+}
+
+VECTOR MyMath::MatTransform(MATRIX mat, VECTOR vec)
+{
+	float work[4] = { 0 };
+	float result_buf[4] = { 0 };
+	VECTOR result_vec;
+	work[0] = vec.x;
+	work[1] = vec.y;
+	work[2] = vec.z;
+	work[3] = 1;
+	for(int i = 0; i < 4; i++){
+		for(int k = 0; k < 4; k++){
+			result_buf[i] += (mat.m[i][k] * work[k]);
+		}
+	}
+
+	result_vec.x = result_buf[0];
+	result_vec.y = result_buf[1];
+	result_vec.z = result_buf[2];
+
+	return result_vec;
+}
+
+MATRIX MyMath::MatTranspose(MATRIX mat)
+{
+	MATRIX result = { 0 };
+	for (int y = 0; y < 4; y++) {
+		for (int x = 0; x < 4; x++) {
+			result.m[x][y] = mat.m[y][x];
+		}
+	}
+
+	return result;
+}
+
+float MyMath::GetTriangleHeightXY(VECTOR point, VECTOR vertexA, VECTOR vertexB, VECTOR vertexC)
+{
+	// 辺に沿ったベクトルABとACを計算
+	VECTOR vecAB = VecCreate(vertexA, vertexB);
+	VECTOR vecAC = VecCreate(vertexA, vertexC);
+	// 面法線を計算
+	VECTOR vecNorm = VecCross(vecAB, vecAC);
+	vecNorm = VecNormalize(vecNorm);
+	// 平面の方程式から高さ（Y座標を計算）
+	float z = (-vecNorm.x * (point.x - vertexA.x) - vecNorm.y * (point.y - vertexA.y) + vecNorm.z * vertexA.z) / vecNorm.z;
+
+	return z;
+}
+
+float MyMath::GetTriangleHeightXZ(VECTOR point, VECTOR vertexA, VECTOR vertexB, VECTOR vertexC)
+{
+	// 辺に沿ったベクトルABとACを計算
+	VECTOR vecAB = VecCreate(vertexA, vertexB);
+	VECTOR vecAC = VecCreate(vertexA, vertexC);
+	// 面法線を計算
+	VECTOR vecNorm = VecCross(vecAB, vecAC);
+	vecNorm = VecNormalize(vecNorm);
+	// 平面の方程式から高さ（Y座標を計算）
+	float y = (-vecNorm.x * (point.x - vertexA.x) - vecNorm.z * (point.z - vertexA.z) + vecNorm.y * vertexA.y) / vecNorm.y;
+
+	return y;
+}
+
+float MyMath::GetTriangleHeightYZ(VECTOR point, VECTOR vertexA, VECTOR vertexB, VECTOR vertexC)
+{
+	// 辺に沿ったベクトルABとACを計算
+	VECTOR vecAB = VecCreate(vertexA, vertexB);
+	VECTOR vecAC = VecCreate(vertexA, vertexC);
+	// 面法線を計算
+	VECTOR vecNorm = VecCross(vecAB, vecAC);
+	vecNorm = VecNormalize(vecNorm);
+	// 平面の方程式から高さ（Y座標を計算）
+	float x = (-vecNorm.y * (point.y - vertexA.y) - vecNorm.z * (point.z - vertexA.z) + vecNorm.x * vertexA.x) / vecNorm.x;
+
+	return x;
+}
+
+
+float MyMath::Abs(float val) 
+{
+	if (val < 0.0f) {
+		return -val;
+	}
+	return val;
+}
+
+float MyMath::GetDistance(VECTOR posA, VECTOR posB)
+{
+	VECTOR vec = VecCreate(posA, posB);
+	return VecLong(vec);
 }

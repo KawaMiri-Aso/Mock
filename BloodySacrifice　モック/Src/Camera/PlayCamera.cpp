@@ -54,29 +54,10 @@ void CPlayCamera::Step()
 	// 視点の処理
 	//=======================
 
-	////カメラの視点をプレイヤーの後ろにする
-	//VECTOR player_dir = {0};
-
-	////プレイヤーの向きを求める
-	//VECTOR player_rot = player->GetRot();
-	//player_dir.x = sinf(player_rot.y);
-	//player_dir.z = cosf(player_rot.y);
-	//player_dir.x *= -1.0f;
-	//player_dir.z *= -1.0f;
-
-	//VECTOR offset_vec = {0};
-
-	////プレイヤーの移動ベクトルの逆方向のベクトルを求め、
-	////ずらす量を乗算する
-	//offset_vec.x = player_dir.x * -CAMERA_OFFSET_POS;
-	//offset_vec.z = player_dir.z * -CAMERA_OFFSET_POS;
-
-	//プレイヤー座標にずらす量を加算し、
 	//カメラの座標を求める
 	VECTOR player_pos = player->GetPos();
-	//m_vPos.x = player_pos.x + player_dir.x;
-	//m_vPos.z = player_pos.z + player_dir.z;
 
+	//カメラは常に斜め上からプレイヤーを見る
 	m_vPos.x = player_pos.x + 15.0f;
 	m_vPos.z = player_pos.z + 15.0f;
 
