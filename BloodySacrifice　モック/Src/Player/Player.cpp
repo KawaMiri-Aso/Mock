@@ -96,7 +96,7 @@ void CPlayer::Step()
 	//プレイヤーに常に重力をかける
 	m_vPos.y -= GRAVITY;
 
-	m_vSpeed = { 0.0f };
+	m_vSpeed = { 0 };
 
 	//プレイヤー通常
 	if(m_eState == PLAYER_STATE_NORMAL)
@@ -227,8 +227,11 @@ void CPlayer::Step()
 		//歩く速さを掛け算
 		move_up = math->VecScale(move_up, PLAYER_WALK_SPEED);
 
-		m_vPos.x += move_up.x;
-		m_vPos.z += move_up.z;
+		/*m_vPos.x += move_up.x;
+		m_vPos.z += move_up.z;*/
+
+		m_vSpeed = move_up;
+		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
 
 	}
 	//カメラが向いている方向とは逆へ移動
@@ -246,8 +249,12 @@ void CPlayer::Step()
 		//歩く速さを掛け算
 		move_down = math->VecScale(move_down, -PLAYER_WALK_SPEED);
 
-		m_vPos.x += move_down.x;
-		m_vPos.z += move_down.z;
+		/*m_vPos.x += move_down.x;
+		m_vPos.z += move_down.z;*/
+
+		m_vSpeed = move_down;
+	
+		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
 	}
 	//左へ移動
 	else if(g_input.IsCont(KEY_LEFT))
@@ -343,11 +350,10 @@ void CPlayer::AngleProcess()
 	//目標角度と現在の角度との差
 	float DffrncAngle;
 
-	CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
-
-	VECTOR v_Angle = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
-
-	TargetAngle = atan2f(m_vSpeed.x - v_Angle.x, m_vSpeed.z - v_Angle.z);
+	if (!m_vSpeed.x == 0 && !m_vSpeed.z == 0)
+	{
+		TargetAngle = atan2f(m_vSpeed.x, m_vSpeed.z);
+	}
 
 	/*if (g_input.IsCont(KEY_UP))
 	{
@@ -365,8 +371,6 @@ void CPlayer::AngleProcess()
 	{
 		TargetAngle = -atan2f(v_Angle.x, v_Angle.z) * 5.0f;
 	}*/
-	
-
 
 	// 目標の角度と現在の角度との差を割り出す
 	{
@@ -402,8 +406,9 @@ void CPlayer::AngleProcess()
 			DffrncAngle = 0.0f;
 		}
 	}
-
+	
 	m_fAngle = TargetAngle - DffrncAngle;
+
 	//プレイヤーの回転
 	MV1SetRotationXYZ(m_nHandle, VGet(0.0f, m_fAngle + DX_PI_F, 0.0f));
 }

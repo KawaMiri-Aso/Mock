@@ -51,10 +51,9 @@ private:
 
 	int				m_nHandle;		//ハンドル
 	VECTOR			m_vPos;			//座標
+	VECTOR			m_vSpeed;		//移動速度ベクトル
 	VECTOR			m_vRot;			//向くべき方向ベクトル
 	float			m_fAngle;		//向いている方向の角度
 	PLAYER_STATE	m_eState;		//状態
 	float			m_fJumpTime;	//ジャンプの時間
-	VECTOR			m_vSpeed;
-
 };
