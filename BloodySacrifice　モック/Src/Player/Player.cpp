@@ -96,6 +96,7 @@ void CPlayer::Step()
 	//プレイヤーに常に重力をかける
 	m_vPos.y -= GRAVITY;
 
+	//移動速度ベクトルを初期化
 	m_vSpeed = { 0 };
 
 	//プレイヤー通常
@@ -128,17 +129,16 @@ void CPlayer::Step()
 	//地面と当たった
 	if(m_vPos.y - PLAYER_RAD < 0.0f)
 	{
-		m_vPos.y = PLAYER_RAD;				//めり込まない位置に置く
+		m_vPos.y = PLAYER_RAD;			//めり込まない位置に置く
 		m_eState = PLAYER_STATE_NORMAL;	//通常状態にしておく
 	}
-
-	
 
 	//斜め移動
 	if (g_input.IsCont(KEY_UP) && g_input.IsCont(KEY_LEFT) || g_input.IsCont(KEY_UP) && g_input.IsCont(KEY_RIGHT))
 	{
 		VECTOR move_up_sidle = { 0 };
 
+		//カメラ情報取得
 		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
 
 		//カメラの視点、注視点からベクトルを作成
@@ -166,6 +166,7 @@ void CPlayer::Step()
 		//行列同士の掛け算
 		MATRIX m_result = MMult(m_dir, m_rotY);
 
+		//移動速度ベクトルに入れる
 		m_vSpeed.x = m_result.m[3][0];
 		m_vSpeed.y = m_result.m[3][1];
 		m_vSpeed.z = m_result.m[3][2];
@@ -180,6 +181,7 @@ void CPlayer::Step()
 	{
 		VECTOR move_up_sidle = { 0 };
 
+		//カメラ情報取得
 		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
 
 		//カメラの視点、注視点からベクトルを作成
@@ -207,6 +209,7 @@ void CPlayer::Step()
 		//行列同士の掛け算
 		MATRIX m_result = MMult(m_dir, m_rotY);
 
+		//移動速度ベクトルに入れる
 		m_vSpeed.x = m_result.m[3][0];
 		m_vSpeed.y = m_result.m[3][1];
 		m_vSpeed.z = m_result.m[3][2];
@@ -222,6 +225,7 @@ void CPlayer::Step()
 	{
 		VECTOR move_up = { 0 };
 
+		//カメラ情報取得
 		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
 
 		//カメラの視点、注視点からベクトルを作成
@@ -234,9 +238,7 @@ void CPlayer::Step()
 		//歩く速さを掛け算
 		move_up = math->VecScale(move_up, PLAYER_WALK_SPEED);
 
-		/*m_vPos.x += move_up.x;
-		m_vPos.z += move_up.z;*/
-
+		//移動速度ベクトルに入れる
 		m_vSpeed = move_up;
 
 		//移動前の座標と足して新たな座標を得る
@@ -263,9 +265,7 @@ void CPlayer::Step()
 		//歩く速さを掛け算
 		move_down = math->VecScale(move_down, -PLAYER_WALK_SPEED);
 
-		/*m_vPos.x += move_down.x;
-		m_vPos.z += move_down.z;*/
-
+		//移動速度ベクトルに入れる
 		m_vSpeed = move_down;
 	
 		//移動前の座標と足して新たな座標を得る
@@ -298,6 +298,7 @@ void CPlayer::Step()
 		//各行列を合成
 		MATRIX m_result = MMult(m_dir, m_rotY);
 
+		//移動速度ベクトルに入れる
 		m_vSpeed.x = m_result.m[3][0];
 		m_vSpeed.y = m_result.m[3][1];
 		m_vSpeed.z = m_result.m[3][2];
@@ -330,6 +331,7 @@ void CPlayer::Step()
 		MATRIX m_rotY = MGetRotY(DX_PI_F * -PLAYER_ROT_SCALING);
 		MATRIX m_result = MMult(m_dir, m_rotY);
 
+		//移動速度ベクトルに入れる
 		m_vSpeed.x = m_result.m[3][0];
 		m_vSpeed.y = m_result.m[3][1];
 		m_vSpeed.z = m_result.m[3][2];
@@ -343,6 +345,7 @@ void CPlayer::Step()
 
 	//座標設定 =====
 	
+	//移動してなければ回転処理をしない
 	if (moveFlg)
 	{
 		//プレイヤーの回転
@@ -379,27 +382,12 @@ void CPlayer::AngleProcess()
 	//目標角度と現在の角度との差
 	float DffrncAngle;
 
+	//移動速度ベクトルが0以外のときに計算する
+
 	if (m_vSpeed.x != 0 || m_vSpeed.z != 0)
 	{
 		TargetAngle = atan2f(m_vSpeed.x, m_vSpeed.z);
 	}
-
-	/*if (g_input.IsCont(KEY_UP))
-	{
-		TargetAngle = atan2f(v_Angle.x, v_Angle.z);
-	}
-	else if (g_input.IsCont(KEY_LEFT))
-	{
-		TargetAngle = -atan2f(v_Angle.x, v_Angle.z);
-	}
-	else if (g_input.IsCont(KEY_DOWN))
-	{
-		TargetAngle = atan2f(v_Angle.x, v_Angle.z) * 5.0f;
-	}
-	else if(g_input.IsCont(KEY_RIGHT))
-	{
-		TargetAngle = -atan2f(v_Angle.x, v_Angle.z) * 5.0f;
-	}*/
 
 	// 目標の角度と現在の角度との差を割り出す
 	{
