@@ -56,4 +56,5 @@ private:
 	float			m_fAngle;		//Œü‚¢‚Ä‚¢‚é•ûŒü‚ÌŠp“x
 	PLAYER_STATE	m_eState;		//ó‘Ô
 	float			m_fJumpTime;	//ƒWƒƒƒ“ƒv‚ÌŠÔ
+	
 };

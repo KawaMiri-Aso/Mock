@@ -65,7 +65,6 @@ void CPlayer::Init(VECTOR pos, VECTOR rot)
 	m_nHandle = 0;
 	m_eState = PLAYER_STATE_NORMAL;
 	m_fJumpTime = 0.0f;
-
 }
 
 //読み込み
@@ -88,10 +87,11 @@ void CPlayer::Delete()
 //毎フレーム呼ぶ処理（操作）
 void CPlayer::Step()
 {
-	//注意：箱とゴールの当たり判定は消しています
+	//移動フラグ
+	bool moveFlg;
 
-	//移動前の座標を格納
-	VECTOR player_pre_pos = m_vPos;
+	//初期状態では移動していない
+	moveFlg = false;
 
 	//プレイヤーに常に重力をかける
 	m_vPos.y -= GRAVITY;
@@ -171,8 +171,10 @@ void CPlayer::Step()
 		m_vSpeed.z = m_result.m[3][2];
 
 		//移動前の座標と足して新たな座標を得る
-		m_vPos = VAdd(m_vPos, m_vSpeed);
+		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
 
+		//移動したに変える
+		moveFlg = true;
 	}
 	else if (g_input.IsCont(KEY_DOWN) && g_input.IsCont(KEY_LEFT) || g_input.IsCont(KEY_DOWN) && g_input.IsCont(KEY_RIGHT))
 	{
@@ -209,8 +211,11 @@ void CPlayer::Step()
 		m_vSpeed.y = m_result.m[3][1];
 		m_vSpeed.z = m_result.m[3][2];
 
-		m_vPos = VAdd(m_vPos, m_vSpeed);
+		//移動前の座標と足して新たな座標を得る
+		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
 
+		//移動したに変える
+		moveFlg = true;
 	}
 	//カメラが向いている方向へ移動
 	else if(g_input.IsCont(KEY_UP))
@@ -221,6 +226,8 @@ void CPlayer::Step()
 
 		//カメラの視点、注視点からベクトルを作成
 		move_up = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
+		//Y成分は初期化
+		move_up.y = 0;
 		//正規化
 		move_up = math->VecNormalize(move_up);
 		m_vRot = move_up;
@@ -231,7 +238,12 @@ void CPlayer::Step()
 		m_vPos.z += move_up.z;*/
 
 		m_vSpeed = move_up;
+
+		//移動前の座標と足して新たな座標を得る
 		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
+
+		//移動したに変える
+		moveFlg = true;
 
 	}
 	//カメラが向いている方向とは逆へ移動
@@ -243,6 +255,8 @@ void CPlayer::Step()
 
 		//カメラの視点、注視点からベクトルを作成
 		move_down = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
+		//Y成分は初期化
+		move_down.y = 0;
 		//正規化
 		move_down = math->VecNormalize(move_down);
 		m_vRot = move_down;
@@ -254,7 +268,11 @@ void CPlayer::Step()
 
 		m_vSpeed = move_down;
 	
+		//移動前の座標と足して新たな座標を得る
 		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
+
+		//移動したに変える
+		moveFlg = true;
 	}
 	//左へ移動
 	else if(g_input.IsCont(KEY_LEFT))
@@ -284,7 +302,11 @@ void CPlayer::Step()
 		m_vSpeed.y = m_result.m[3][1];
 		m_vSpeed.z = m_result.m[3][2];
 
+		//移動前の座標と足して新たな座標を得る
 		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
+
+		//移動したに変える
+		moveFlg = true;
 	}
 	//右へ移動
 	else if(g_input.IsCont(KEY_RIGHT))
@@ -312,14 +334,21 @@ void CPlayer::Step()
 		m_vSpeed.y = m_result.m[3][1];
 		m_vSpeed.z = m_result.m[3][2];
 
+		//移動前の座標と足して新たな座標を得る
 		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
+
+		//移動したに変える
+		moveFlg = true;
 	}
 
 	//座標設定 =====
 	
-	//プレイヤーの回転
-	AngleProcess();
-
+	if (moveFlg)
+	{
+		//プレイヤーの回転
+		AngleProcess();
+	}
+	
 	//プレイヤーの座標
 	MV1SetPosition(m_nHandle, m_vPos);
 }
@@ -350,7 +379,7 @@ void CPlayer::AngleProcess()
 	//目標角度と現在の角度との差
 	float DffrncAngle;
 
-	if (!m_vSpeed.x == 0 && !m_vSpeed.z == 0)
+	if (m_vSpeed.x != 0 || m_vSpeed.z != 0)
 	{
 		TargetAngle = atan2f(m_vSpeed.x, m_vSpeed.z);
 	}
