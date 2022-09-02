@@ -12,10 +12,7 @@
 MyMath* math;
 
 //プレイヤー関連
-#define PLAYER_W	(2.0f)	//プレイヤーの横幅
-#define PLAYER_H	(2.0f)	//プレイヤーの高さ
-#define PLAYER_D	(2.0f)	//プレイヤーの奥行き
-#define PLAYER_RAD	(1.0f)	//プレイヤーの半径
+
 #define PLAYER_JUMP_VAL		(0.3f)	//ジャンプ量
 #define PLAYER_JUMP_TIME	(0.8f)	//ジャンプの時間
 #define PLAYER_WALK_SPEED	(0.3f)	//歩く速さ

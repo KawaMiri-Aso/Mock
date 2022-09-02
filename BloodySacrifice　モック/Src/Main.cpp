@@ -17,29 +17,11 @@
 #define BOX_H		(2.0f)	//箱の高さ
 #define BOX_D		(2.0f)	//箱の奥行き
 
-//ゴール関連
-#define GOAL_RAD	(2.0f)	//ゴール半径
-
-//フィールド情報
-struct FieldInfo
-{
-	int		handle;		//ハンドル
-	VECTOR	pos;		//座標
-};
-
 //箱情報
 struct BoxInfo
 {
 	int		handle;		//ハンドル
 	VECTOR	pos;		//座標
-};
-
-//ゴール情報
-struct GoalInfo
-{
-	int		handle;		//ハンドル
-	VECTOR	pos;		//座標
-	VECTOR	rot;		//角度
 };
 
 //------------------------------
@@ -63,12 +45,6 @@ void CalcFrameRate();
 
 //フレームレート表示（デバッグ用）
 void DrawFrameRate();
-
-//直方体の当たり判定（AABB）
-bool IsHitRect(VECTOR v1, float w1, float h1, float d1, VECTOR v2, float w2, float h2, float d2);
-
-//球の当たり判定
-bool IsHitSphere(VECTOR v1, float r1, VECTOR v2, float r2);
 
 //プログラムは WinMain から始まる
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
@@ -110,9 +86,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	player->Load("Data/Model/Player/player-mock.x");
 
 	//フィールド初期化
-	FieldInfo field_info;
+	/*FieldInfo field_info;
 	field_info.handle = MV1LoadModel("Data/Model/Field/Field.x");
-	field_info.pos = VGet(0.0f, 0.0f, 0.0f);
+	field_info.pos = VGet(0.0f, 0.0f, 0.0f);*/
 
 	//箱初期化
 	BoxInfo box_info[BOX_NUM];
@@ -136,12 +112,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		//コピー元モデルは削除
 		MV1DeleteModel(box_original_handle);
 	} 
-
-	//ゴール初期化
-	GoalInfo goal_info;
-	goal_info.handle = MV1LoadModel("Data/Model/Goal/Goal.x");
-	goal_info.pos = VGet(0.0f, 2.0f, 10.0f);
-	goal_info.rot = VGet(0.0f, 0.0f, 0.0f);
 
 	//シーン管理初期化
 	g_scene_manager.Init();
@@ -191,14 +161,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			//モデル関連
 			//====================
 
-			//ゴールの回転
-			goal_info.rot.y += 0.01f;
-
 			//シーン管理のループ
 			g_scene_manager.Loop();
 
 			//フィールドの座標
-			MV1SetPosition(field_info.handle, field_info.pos);
+			/*MV1SetPosition(field_info.handle, field_info.pos);*/
 
 			//箱の座標
 			for(int box_index = 0; box_index < BOX_NUM; box_index++)
@@ -206,11 +173,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 				MV1SetPosition(box_info[box_index].handle, box_info[box_index].pos);
 			}
 
-			//ゴールの回転と座標
-			MV1SetRotationXYZ(goal_info.handle, goal_info.rot);
-			MV1SetPosition(goal_info.handle, goal_info.pos);
-
-			
 			//カメラ関連 =====
 
 			//Cキー押された
@@ -240,16 +202,14 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			//描画 =====
 
 			//フィールドの描画
-			MV1DrawModel(field_info.handle);
+			/*MV1DrawModel(field_info.handle);*/
+		
 
 			//箱の描画
 			for(int box_index = 0; box_index < BOX_NUM; box_index++)
 			{
 				MV1DrawModel(box_info[box_index].handle);
 			}
-
-			//ゴールの描画
-			MV1DrawModel(goal_info.handle);
 
 			//フレームレート計算
 			CalcFrameRate();
@@ -275,16 +235,15 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	//シーン管理の後処理
 	g_scene_manager.Fin();
 
-	MV1DeleteModel(field_info.handle);	//フィールド削除
+	//フィールド削除
+	/*MV1DeleteModel(field_info.handle);*/
+	
 
 	//箱の削除
 	for(int box_index = 0; box_index < BOX_NUM; box_index++)
 	{
 		MV1DeleteModel(box_info[box_index].handle);
 	}
-
-	MV1DeleteModel(goal_info.handle);	//ゴール削除
-
 	
 	//使用したすべての画像を破棄
 	InitGraph();
@@ -327,59 +286,4 @@ void CalcFrameRate()
 void DrawFrameRate()
 {
 	DrawFormatString(695, 580, GetColor(255, 30, 30), "FPS[%.2f]", g_fFrameRate);	
-}
-
-//直方体の当たり判定（AABB）
-// v1			… 対象AのX,Y,Z座標（モデルの中心座標）
-// w1, h1, d1	… 対象AのW,H,D（横幅、高さ、奥行き）
-// v2			… 対象BのX,Y,Z座標（モデルの中心座標）
-// w2, h2, d2	… 対象BのW,H（横幅、高さ、奥行き）
-bool IsHitRect(VECTOR v1, float w1, float h1, float d1, VECTOR v2, float w2, float h2, float d2)
-{
-	float w1_half = (w1 / 2);		//対象Aの横幅の半分（中心から端までの長さ）
-	float h1_half = (h1 / 2);		//対象Aの高さの半分（中心から端までの長さ）
-	float d1_half = (d1 / 2);		//対象Aの奥行きの半分（中心から端までの長さ）
-
-	float x1min = v1.x - w1_half;	//対象Aの最小X
-	float x1max = v1.x + w1_half;	//対象Aの最大X
-	float y1min = v1.y - h1_half;	//対象Aの最小Y
-	float y1max = v1.y + h1_half;	//対象Aの最大Y
-	float z1min = v1.z - d1_half;	//対象Aの最小Z
-	float z1max = v1.z + d1_half;	//対象Aの最大Z
-
-	float w2_half = (w2 / 2);		//対象Bの横幅の半分（中心から端までの長さ）
-	float h2_half = (h2 / 2);		//対象Bの高さの半分（中心から端までの長さ）
-	float d2_half = (d2 / 2);		//対象Bの奥行きの半分（中心から端までの長さ）
-
-	float x2min = v2.x - w2_half;		//対象Bの最小X
-	float x2max = v2.x + w2_half;		//対象Bの最大X
-	float y2min = v2.y - h2_half;		//対象Bの最小Y
-	float y2max = v2.y + h2_half;		//対象Bの最大Y
-	float z2min = v2.z - d2_half;		//対象Bの最小Z
-	float z2max = v2.z + d2_half;		//対象Bの最大Z
-
-	if(x1min < x2max && x1max > x2min && y1min < y2max && y1max > y2min && z1min < z2max && z1max > z2min )
-		return true;
-
-	return false;
-}
-
-//球と球
-// v1	… 対象Aの座標
-// r1	… 対象Aの半径
-// v2	… 対象Bの座標
-// r2	… 対象Bの半径
-bool IsHitSphere(VECTOR v1, float r1, VECTOR v2, float r2)
-{
-	float len_x = (v2.x - v1.x) * (v2.x - v1.x);
-	float len_y = (v2.y - v1.y) * (v2.y - v1.y);
-	float len_z = (v2.z - v1.z) * (v2.z - v1.z);
-	float len_r = (r2 + r1) * (r2 + r1);
-
-	if (len_x + len_y + len_z <= len_r)
-	{
-		return true;
-	}
-
-	return false;
 }

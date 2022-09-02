@@ -6,6 +6,11 @@
 
 #include "DxLib.h"
 
+#define PLAYER_W	(4.8f)	//プレイヤーの横幅
+#define PLAYER_H	(12.8f)	//プレイヤーの高さ
+#define PLAYER_D	(3.6f)	//プレイヤーの奥行き
+#define PLAYER_RAD	(6.4f)	//プレイヤーの半径
+
 //プレイヤー状態
 enum PLAYER_STATE
 {
@@ -43,6 +48,9 @@ public:
 
 	//回転を取得
 	VECTOR GetRot(){ return m_vRot; }
+
+	//移動速度ベクトルを取得
+	VECTOR GetSpeed() { return m_vSpeed; }
 
 	//プレイヤーの回転処理
 	void AngleProcess();

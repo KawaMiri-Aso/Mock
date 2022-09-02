@@ -5,104 +5,120 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{86f118da-520c-4ccf-ba1b-0adabbc6bfdc}</UniqueIdentifier>
+    <Filter Include="Src">
+      <UniqueIdentifier>{d33181c7-2144-4341-86dc-b9f7dff3619a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Camera">
+    <Filter Include="Src\Camera">
       <UniqueIdentifier>{ecd0d5f7-57eb-479b-941b-1a00a3cccfda}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Player">
-      <UniqueIdentifier>{04fc5b0e-6ded-486a-921b-0a04c5292b9f}</UniqueIdentifier>
+    <Filter Include="Src\Collision">
+      <UniqueIdentifier>{3c4d0335-95bc-4216-b793-39b140a25b5c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Scene">
-      <UniqueIdentifier>{7f9c73c9-ccc4-4b6c-af4a-0cc8c85ce23b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Enemy">
+    <Filter Include="Src\Enemy">
       <UniqueIdentifier>{cee6cee1-0a0e-48f2-a277-55f01b8eb06e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="MyMath">
+    <Filter Include="Src\Input">
+      <UniqueIdentifier>{86f118da-520c-4ccf-ba1b-0adabbc6bfdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\MyMath">
       <UniqueIdentifier>{2fb3aa7e-a6a4-494f-89bd-045f2b3dd84a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Collision">
-      <UniqueIdentifier>{3c4d0335-95bc-4216-b793-39b140a25b5c}</UniqueIdentifier>
+    <Filter Include="Src\Player">
+      <UniqueIdentifier>{04fc5b0e-6ded-486a-921b-0a04c5292b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Scene">
+      <UniqueIdentifier>{7f9c73c9-ccc4-4b6c-af4a-0cc8c85ce23b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Map">
+      <UniqueIdentifier>{e517351b-311a-43c9-a880-97c4dc4ce1d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Input\Input.cpp">
-      <Filter>Input</Filter>
+      <Filter>Src\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Main.cpp" />
     <ClCompile Include="Src\Camera\PlayCamera.cpp">
-      <Filter>Camera</Filter>
+      <Filter>Src\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Src\Player\Player.cpp">
-      <Filter>Player</Filter>
+      <Filter>Src\Player</Filter>
     </ClCompile>
     <ClCompile Include="Src\Player\PlayerManager.cpp">
-      <Filter>Player</Filter>
+      <Filter>Src\Player</Filter>
     </ClCompile>
     <ClCompile Include="Src\Camera\CameraManager.cpp">
-      <Filter>Camera</Filter>
+      <Filter>Src\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Src\Camera\DebugCamera.cpp">
-      <Filter>Camera</Filter>
+      <Filter>Src\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Src\Scene\PlayScene.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Src\Scene\SceneManager.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Src\Scene\TitleScene.cpp">
-      <Filter>Scene</Filter>
+      <Filter>Src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Src\Camera\TitleCamera.cpp">
-      <Filter>Camera</Filter>
+      <Filter>Src\Camera</Filter>
     </ClCompile>
     <ClCompile Include="Src\MyMath\MyMath.cpp">
-      <Filter>MyMath</Filter>
+      <Filter>Src\MyMath</Filter>
     </ClCompile>
     <ClCompile Include="Src\Collision\Collision.cpp">
-      <Filter>Collision</Filter>
+      <Filter>Src\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Main.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Map\Map.cpp">
+      <Filter>Src\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Input\Input.h">
-      <Filter>Input</Filter>
+      <Filter>Src\Input</Filter>
     </ClInclude>
     <ClInclude Include="Src\Player\Player.h">
-      <Filter>Player</Filter>
+      <Filter>Src\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Common.h" />
     <ClInclude Include="Src\Player\PlayerManager.h">
-      <Filter>Player</Filter>
+      <Filter>Src\Player</Filter>
     </ClInclude>
     <ClInclude Include="Src\Camera\CameraManager.h">
-      <Filter>Camera</Filter>
+      <Filter>Src\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Src\Camera\DebugCamera.h">
-      <Filter>Camera</Filter>
+      <Filter>Src\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Src\Camera\PlayCamera.h">
-      <Filter>Camera</Filter>
+      <Filter>Src\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Src\Scene\PlayScene.h">
-      <Filter>Scene</Filter>
+      <Filter>Src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Src\Scene\SceneManager.h">
-      <Filter>Scene</Filter>
+      <Filter>Src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Src\Scene\TitleScene.h">
-      <Filter>Scene</Filter>
+      <Filter>Src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Src\Camera\TitleCamera.h">
-      <Filter>Camera</Filter>
+      <Filter>Src\Camera</Filter>
     </ClInclude>
     <ClInclude Include="Src\MyMath\MyMath.h">
-      <Filter>MyMath</Filter>
+      <Filter>Src\MyMath</Filter>
     </ClInclude>
     <ClInclude Include="Src\Collision\Collision.h">
-      <Filter>Collision</Filter>
+      <Filter>Src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Common.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Map.h">
+      <Filter>Src\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
