@@ -76,6 +76,9 @@
     <ClCompile Include="Src\Map\Map.cpp">
       <Filter>Src\Map</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Enemy\Enemy.cpp">
+      <Filter>Src\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Input\Input.h">
@@ -119,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="Src\Map\Map.h">
       <Filter>Src\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Enemy\Enemy.h">
+      <Filter>Src\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

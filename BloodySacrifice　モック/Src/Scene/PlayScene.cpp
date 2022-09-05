@@ -55,9 +55,6 @@ void CPlayScene::Step()
 	//カメラ視点・注視点の操作
 	g_camera_manager.Step();
 
-	// 当たり判定
-	CCollision::CheckCollision();
-
 	//カメラの座標が終わった後に天球の処理
 	//プレイカメラを取得して、カメラの座標に天球を置く
 	CPlayCamera *play_camera = g_camera_manager.GetPlayCamera();

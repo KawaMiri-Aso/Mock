@@ -43,7 +43,7 @@ public:
 	// r2	c ‘ÎÛB‚Ì”¼Œa
 	static bool IsHitSphere(VECTOR v1, float r1, VECTOR v2, float r2);
 
-	static void CheckCollision();
+	
 
 };
 #endif

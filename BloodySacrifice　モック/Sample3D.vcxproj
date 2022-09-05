@@ -16,6 +16,7 @@
     <ClCompile Include="Src\Camera\PlayCamera.cpp" />
     <ClCompile Include="Src\Camera\TitleCamera.cpp" />
     <ClCompile Include="Src\Collision\Collision.cpp" />
+    <ClCompile Include="Src\Enemy\Enemy.cpp" />
     <ClCompile Include="Src\Input\Input.cpp" />
     <ClCompile Include="Src\Main.cpp" />
     <ClCompile Include="Src\Map\Map.cpp" />
@@ -33,6 +34,7 @@
     <ClInclude Include="Src\Camera\TitleCamera.h" />
     <ClInclude Include="Src\Collision\Collision.h" />
     <ClInclude Include="Src\Common.h" />
+    <ClInclude Include="Src\Enemy\Enemy.h" />
     <ClInclude Include="Src\Input\Input.h" />
     <ClInclude Include="Src\Map\Map.h" />
     <ClInclude Include="Src\MyMath\MyMath.h" />
