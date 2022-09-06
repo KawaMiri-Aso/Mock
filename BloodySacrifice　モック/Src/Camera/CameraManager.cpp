@@ -19,7 +19,7 @@ CCameraManager::~CCameraManager()
 void CCameraManager::Init()
 {
 	//‘S‚Ä‚ÌƒJƒƒ‰‚Ì‰Šú‰»
-	m_PlayCamera.Init(VGet(15.0f, 14.0f, 15.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
+	m_PlayCamera.Init(VGet(15.0f, 30.0f, 15.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
 	m_TitleCamera.Init(VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
 	m_DebugCamera.Init(VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
 }

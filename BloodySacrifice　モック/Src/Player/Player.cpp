@@ -10,20 +10,9 @@
 #include "../MyMath/MyMath.h"
 #include "../Collision/Collision.h"
 #include "../Map/Map.h"
+#include "../Trap/Stone.h"
 
 MyMath* math;
-
-//プレイヤー関連
-#define PLAYER_W	(4.8f)	//プレイヤーの横幅
-#define PLAYER_H	(12.8f)	//プレイヤーの高さ
-#define PLAYER_D	(3.2f)	//プレイヤーの奥行き
-#define PLAYER_RAD	(6.4f)	//プレイヤーの半径
-#define PLAYER_JUMP_VAL		(0.3f)	//ジャンプ量
-#define PLAYER_JUMP_TIME	(0.8f)	//ジャンプの時間
-#define PLAYER_WALK_SPEED	(0.3f)	//歩く速さ
-#define PLAYER_WALK_SPEED_HALF	(0.15f)		//斜め歩き用の速さ
-#define PLAYER_ROT_SCALING		(0.5f)		//左右入力用の数値
-#define PLAYER_ROT_SCALING_HALF	(0.25f)		//斜め入力用の数値
 
 //重力
 #define GRAVITY		(0.15f)
@@ -153,7 +142,14 @@ void CPlayer::Step()
 		move_up_sidle = math->VecNormalize(move_up_sidle);
 		m_vRot = move_up_sidle;
 		//歩く速さを掛け算
-		move_up_sidle = math->VecScale(move_up_sidle, PLAYER_WALK_SPEED);
+		if (!IsPushStone())
+		{
+			move_up_sidle = math->VecScale(move_up_sidle, PLAYER_WALK_SPEED);
+		}
+		else
+		{
+			move_up_sidle = math->VecScale(move_up_sidle, PLAYER_WALK_SPEED_HALF);
+		}
 
 		//平行移動行列取得
 		MATRIX m_dir = MGetTranslate(move_up_sidle);
@@ -196,7 +192,14 @@ void CPlayer::Step()
 		move_up_sidle = math->VecNormalize(move_up_sidle);
 		m_vRot = move_up_sidle;
 		//歩く速さを掛け算
-		move_up_sidle = math->VecScale(move_up_sidle, -PLAYER_WALK_SPEED);
+		if (!IsPushStone())
+		{
+			move_up_sidle = math->VecScale(move_up_sidle, -PLAYER_WALK_SPEED);
+		}
+		else
+		{
+			move_up_sidle = math->VecScale(move_up_sidle, -PLAYER_WALK_SPEED_HALF);
+		}
 
 		//平行移動行列取得
 		MATRIX m_dir = MGetTranslate(move_up_sidle);
@@ -240,7 +243,14 @@ void CPlayer::Step()
 		move_up = math->VecNormalize(move_up);
 		m_vRot = move_up;
 		//歩く速さを掛け算
-		move_up = math->VecScale(move_up, PLAYER_WALK_SPEED);
+		if (!IsPushStone())
+		{
+			move_up = math->VecScale(move_up, PLAYER_WALK_SPEED);
+		}
+		else
+		{
+			move_up = math->VecScale(move_up, PLAYER_WALK_SPEED_HALF);
+		}
 
 		//移動速度ベクトルに入れる
 		m_vSpeed = move_up;
@@ -267,7 +277,14 @@ void CPlayer::Step()
 		move_down = math->VecNormalize(move_down);
 		m_vRot = move_down;
 		//歩く速さを掛け算
-		move_down = math->VecScale(move_down, -PLAYER_WALK_SPEED);
+		if (!IsPushStone())
+		{
+			move_down = math->VecScale(move_down, -PLAYER_WALK_SPEED);
+		}
+		else
+		{
+			move_down = math->VecScale(move_down, -PLAYER_WALK_SPEED_HALF);
+		}
 
 		//移動速度ベクトルに入れる
 		m_vSpeed = move_down;
@@ -293,7 +310,14 @@ void CPlayer::Step()
 		move_left = math->VecNormalize(move_left);
 		m_vRot = move_left;
 		//歩く速さを掛け算
-		move_left = math->VecScale(move_left, -PLAYER_WALK_SPEED);
+		if (!IsPushStone())
+		{
+			move_left = math->VecScale(move_left, -PLAYER_WALK_SPEED);
+		}
+		else
+		{
+			move_left = math->VecScale(move_left, -PLAYER_WALK_SPEED_HALF);
+		}
 		
 		//平行移動行列取得
 		MATRIX m_dir = MGetTranslate(move_left);
@@ -328,7 +352,14 @@ void CPlayer::Step()
 		move_right = math->VecNormalize(move_right);
 		m_vRot = move_right;
 		//歩く速さを掛け算
-		move_right = math->VecScale(move_right, -PLAYER_WALK_SPEED);
+		if (!IsPushStone())
+		{
+			move_right = math->VecScale(move_right, -PLAYER_WALK_SPEED);
+		}
+		else
+		{
+			move_right = math->VecScale(move_right, -PLAYER_WALK_SPEED_HALF);
+		}
 
 		//平行移動行列
 		MATRIX m_dir = MGetTranslate(move_right);
@@ -357,6 +388,8 @@ void CPlayer::Step()
 	}
 
 	CheckCollision();
+
+
 	
 	//プレイヤーの座標
 	MV1SetPosition(m_nHandle, m_vPos);
@@ -386,10 +419,9 @@ void CPlayer::AngleProcess()
 	//目標角度
 	float TargetAngle = 0.0f;
 	//目標角度と現在の角度との差
-	float DffrncAngle;
+	float DiffAngle;
 
 	//移動速度ベクトルが0以外のときに計算する
-
 	if (m_vSpeed.x != 0 || m_vSpeed.z != 0)
 	{
 		TargetAngle = atan2f(m_vSpeed.x, m_vSpeed.z);
@@ -397,40 +429,40 @@ void CPlayer::AngleProcess()
 
 	// 目標の角度と現在の角度との差を割り出す
 	{
-		DffrncAngle = TargetAngle - m_fAngle;
+		DiffAngle = TargetAngle - m_fAngle;
 
 		// ある方向からある方向の差が１８０度以上になることは無いので
 		// 差の値が１８０度以上になっていたら修正する
-		if (DffrncAngle < -DX_PI_F)
+		if (DiffAngle < -DX_PI_F)
 		{
-			DffrncAngle += DX_TWO_PI_F;
+			DiffAngle += DX_TWO_PI_F;
 		}
-		else if (DffrncAngle > DX_PI_F)
+		else if (DiffAngle > DX_PI_F)
 		{
-			DffrncAngle -= DX_TWO_PI_F;
+			DiffAngle -= DX_TWO_PI_F;
 		}
 	}
 
-	if (DffrncAngle > 0.0f)
+	if (DiffAngle > 0.0f)
 	{
 		// 差がプラスの場合は引く
-		DffrncAngle -= PLAYER_WALK_SPEED;
-		if (DffrncAngle < 0.0f)
+		DiffAngle -= PLAYER_WALK_SPEED;
+		if (DiffAngle < 0.0f)
 		{
-			DffrncAngle = 0.0f;
+			DiffAngle = 0.0f;
 		}
 	}
 	else
 	{
 		// 差がマイナスの場合は足す
-		DffrncAngle += PLAYER_WALK_SPEED;
-		if (DffrncAngle > 0.0f)
+		DiffAngle += PLAYER_WALK_SPEED;
+		if (DiffAngle > 0.0f)
 		{
-			DffrncAngle = 0.0f;
+			DiffAngle = 0.0f;
 		}
 	}
 	
-	m_fAngle = TargetAngle - DffrncAngle;
+	m_fAngle = TargetAngle - DiffAngle;
 
 	//プレイヤーの回転
 	MV1SetRotationXYZ(m_nHandle, VGet(0.0f, m_fAngle + DX_PI_F, 0.0f));
@@ -548,5 +580,17 @@ void CPlayer::CheckCollision()
 				}
 			}
 		}
+	}
+}
+
+bool CPlayer::IsPushStone()
+{
+	if (CCollision::IsHitRect(m_vPos, STONE_W, STONE_H, STONE_D, g_stone_trap.GetPos(), PLAYER_W, PLAYER_H, PLAYER_D))
+	{
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }

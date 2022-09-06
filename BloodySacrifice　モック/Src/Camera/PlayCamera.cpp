@@ -28,7 +28,7 @@ CPlayCamera::~CPlayCamera()
 void CPlayCamera::Init()
 {
 	//引数なしならすべてゼロにする
-	m_vPos.x = 15.0f; m_vPos.y = 10.0f; m_vPos.z = 15.0f;
+	m_vPos.x = 15.0f; m_vPos.y = 20.0f; m_vPos.z = 15.0f;
 	memset(&m_vLook, 0, sizeof(VECTOR));
 	memset(&m_vUp, 0, sizeof(VECTOR));
 }
@@ -59,6 +59,7 @@ void CPlayCamera::Step()
 
 	//カメラは常に斜め上からプレイヤーを見る
 	m_vPos.x = player_pos.x + 15.0f;
+	m_vPos.y = player_pos.y + 20.0f;
 	m_vPos.z = player_pos.z + 15.0f;
 
 

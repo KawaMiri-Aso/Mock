@@ -26,6 +26,7 @@
     <ClCompile Include="Src\Scene\PlayScene.cpp" />
     <ClCompile Include="Src\Scene\SceneManager.cpp" />
     <ClCompile Include="Src\Scene\TitleScene.cpp" />
+    <ClCompile Include="Src\Trap\Stone.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Camera\CameraManager.h" />
@@ -43,6 +44,7 @@
     <ClInclude Include="Src\Scene\PlayScene.h" />
     <ClInclude Include="Src\Scene\SceneManager.h" />
     <ClInclude Include="Src\Scene\TitleScene.h" />
+    <ClInclude Include="Src\Trap\Stone.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BF61C0DE-A358-4639-B336-2F4DE3C8E15B}</ProjectGuid>

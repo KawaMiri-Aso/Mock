@@ -32,6 +32,9 @@
     <Filter Include="Src\Map">
       <UniqueIdentifier>{e517351b-311a-43c9-a880-97c4dc4ce1d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Trap">
+      <UniqueIdentifier>{0d8baeda-1fbd-44a4-b0fe-615bea719dd6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Input\Input.cpp">
@@ -79,6 +82,9 @@
     <ClCompile Include="Src\Enemy\Enemy.cpp">
       <Filter>Src\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Trap\Stone.cpp">
+      <Filter>Src\Trap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Input\Input.h">
@@ -125,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="Src\Enemy\Enemy.h">
       <Filter>Src\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Trap\Stone.h">
+      <Filter>Src\Trap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
