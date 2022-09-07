@@ -19,13 +19,14 @@ CCameraManager::~CCameraManager()
 void CCameraManager::Init()
 {
 	//全てのカメラの初期化
-	m_PlayCamera.Init(VGet(15.0f, 30.0f, 15.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
+	m_PlayCamera.Init(VGet(45.0f, 50.0f, 45.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
 	m_TitleCamera.Init(VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
 	m_DebugCamera.Init(VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
 }
 
 //ステップ
 void CCameraManager::Step()
+
 {
 	//現在のカメラIDによってステップ処理を振り分ける
 	switch (m_eCurrentCameraID)

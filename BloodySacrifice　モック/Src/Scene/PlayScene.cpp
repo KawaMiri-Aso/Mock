@@ -91,7 +91,6 @@ void CPlayScene::Draw()
 	//文字列描画
 	DrawString(10, 10, "上下左右で移動", GetColor(255, 255, 255));
 	DrawString(10, 26, "スペースでジャンプ", GetColor(255, 255, 255));
-	DrawString(10, 42, " <箱とは直方体の当たり判定>", GetColor(255, 255, 128));
 }
 
 //後処理

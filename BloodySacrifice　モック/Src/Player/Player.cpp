@@ -15,7 +15,7 @@
 MyMath* math;
 
 //重力
-#define GRAVITY		(0.15f)
+#define GRAVITY		(0.45f)
 
 //コンストラクタ
 CPlayer::CPlayer()
@@ -115,16 +115,6 @@ void CPlayer::Step()
 			m_eState = PLAYER_STATE_NORMAL;
 		}
 	}
-
-
-
-	//Y軸当たり判定 =====
-	//地面と当たった
-	//if(m_vPos.y - PLAYER_RAD < 0.0f)
-	//{
-	//	m_vPos.y = PLAYER_RAD;			//めり込まない位置に置く
-	//	m_eState = PLAYER_STATE_NORMAL;	//通常状態にしておく
-	//}
 
 	//斜め移動
 	if (g_input.IsCont(KEY_UP) && g_input.IsCont(KEY_LEFT) || g_input.IsCont(KEY_UP) && g_input.IsCont(KEY_RIGHT))
@@ -387,10 +377,10 @@ void CPlayer::Step()
 		AngleProcess();
 	}
 
-	CheckCollision();
+	VECTOR vVec;
+	vVec = g_map.HitCheck(m_vPos, PLAYER_RAD);
+	m_vPos = VAdd(m_vPos, vVec);
 
-
-	
 	//プレイヤーの座標
 	MV1SetPosition(m_nHandle, m_vPos);
 }
@@ -468,126 +458,14 @@ void CPlayer::AngleProcess()
 	MV1SetRotationXYZ(m_nHandle, VGet(0.0f, m_fAngle + DX_PI_F, 0.0f));
 }
 
-void CPlayer::CheckCollision()
-{
-	// マップとの当たり判定/////////////////////////////////////////
-
-	// ポリゴン情報を取得
-	MV1_REF_POLYGONLIST polygons = MV1GetReferenceMesh(g_map.GetCol_handle(), -1, TRUE);
-
-	// ポリゴンの数だけ繰り返す
-	for (int i = 0; i < polygons.PolygonNum; i++)
-	{
-		// ポリゴン情報を取得する
-		MV1_REF_POLYGON polygon = polygons.Polygons[i];
-		// ポリゴンを形成する三角形の3頂点を取得する
-		VECTOR vertexs[3];
-		int index = polygon.VIndex[0];
-		vertexs[0] = polygons.Vertexs[index].Position;
-		index = polygon.VIndex[1];
-		vertexs[1] = polygons.Vertexs[index].Position;
-		index = polygon.VIndex[2];
-		vertexs[2] = polygons.Vertexs[index].Position;
-
-		// ポリゴン法線を算出する
-		VECTOR norm = MyMath::GetPolygonNormalVec(vertexs[0], vertexs[1], vertexs[2]);
-		//法線のY成分がMAP_FLOOR_NORM_Y以上であれば床
-		if (norm.y >= MAP_FLOOR_NORM_Y) {
-			// 三角形の当たり判定
-			if (CCollision::IsHitTriangleXZ(m_vPos, vertexs[0], vertexs[1], vertexs[2])) {
-				// 面の方程式から床の高さを計算
-				float floor_height = MyMath::GetTriangleHeightXZ(m_vPos, vertexs[0], vertexs[1], vertexs[2]);
-				// プレイヤーの足元の座標を計算
-				float player_bottom = m_vPos.y - PLAYER_RAD;
-				// 床から足元までの距離を計算
-				float dist = player_bottom - floor_height;
-				// 足元の方が低い　かつ　足元と床との距離が離れすぎていなければ押し上げる
-				if (dist < 0.0f && MyMath::Abs(dist) <= PLAYER_RAD) {
-					m_vPos.y = floor_height + PLAYER_RAD;
-				}
-			}
-		}
-		else if (norm.y <= MAP_CEIL_NORM_Y)
-		{
-			//天井の場合
-			//三角形の当たり判定
-			if (CCollision::IsHitTriangleXZ(m_vPos, vertexs[0], vertexs[1], vertexs[2]))
-			{
-				//面の方程式から天井の高さを計算
-				float ceil_height = MyMath::GetTriangleHeightXZ(m_vPos, vertexs[0], vertexs[1], vertexs[2]);
-				//プレイヤーの脳天の座標を計算
-				float player_top = m_vPos.y + PLAYER_RAD;
-				//天井から脳天までの距離を計算
-				float dist = player_top - ceil_height;
-				//脳天の方が高い　かつ　脳天と天井との距離が離れすぎていなければ押し下げる
-				if (dist > 0.0f && MyMath::Abs(dist) <= PLAYER_RAD)
-				{
-					m_vPos.y = ceil_height - PLAYER_RAD;
-				}
-			}
-		}
-		else
-		{
-			//そうでなければ壁
-			//法線とプレイヤーの移動ベクトルが向かい合っている場合のみ判定を取る
-			if (MyMath::VecDot(m_vSpeed, norm) < 0.0f)
-			{
-				if (MyMath::Abs(norm.z) >= MAP_WALL_NORM_Z)
-				{
-					//XY平面の壁
-					if (CCollision::IsHitTriangleXY(m_vPos, vertexs[0], vertexs[1], vertexs[2]))
-					{
-						//平面上の壁の高さを算出
-						float wall_height = MyMath::GetTriangleHeightXY(m_vPos, vertexs[0], vertexs[1], vertexs[2]);
-						//衝突点までの距離を算出
-						float player_front = norm.z < 0.0f ? m_vPos.z + PLAYER_RAD : m_vPos.z - PLAYER_RAD;
-						float dist = player_front - wall_height;
-						//壁から離れすぎていないかチェック
-						if (MyMath::Abs(dist) <= PLAYER_RAD)
-						{
-							//法線の向きに気を付けてめり込んでいるかチェックする
-							if ((norm.z < 0.0f && dist > 0.0f) || (norm.z > 0.0f && dist < 0.0f))
-							{
-								//法線の方向にめり込んでいる分だけ押し出す
-								VECTOR push = MyMath::VecScale(norm, MyMath::Abs(dist));
-								m_vPos = MyMath::VecAdd(m_vPos, push);
-							}
-						}
-					}
-				}
-				else
-				{
-					//YZ平面の壁
-					if (CCollision::IsHitTriangleYZ(m_vPos, vertexs[0], vertexs[1], vertexs[2]))
-					{
-						//平面上の壁の高さを算出
-						float wall_height = MyMath::GetTriangleHeightYZ(m_vPos, vertexs[0], vertexs[1], vertexs[2]);
-						//衝突点までの距離を算出
-						float player_front = norm.x < 0.0f ? m_vPos.x + PLAYER_RAD : m_vPos.x - PLAYER_RAD;
-						float dist = player_front - wall_height;
-						//壁から離れすぎていないかチェック
-						if (MyMath::Abs(dist) <= PLAYER_RAD)
-						{
-							//法線の向きに気を付けてめり込んでいるかチェックする
-							if ((norm.x < 0.0f && dist > 0.0f) || (norm.x > 0.0f && dist < 0.0f))
-							{
-								//法線の方向にめり込んでいる分だけ押し出す
-								VECTOR push = MyMath::VecScale(norm, MyMath::Abs(dist));
-								m_vPos = MyMath::VecAdd(m_vPos, push);
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-
 bool CPlayer::IsPushStone()
 {
-	if (CCollision::IsHitSphere(m_vPos, PLAYER_RAD, g_stone_trap.GetPos(), STONE_RAD))
+	if (g_stone_trap.GetState() != STONE_TRAP_STATE_OUT)
 	{
-		return true;
+		if (CCollision::IsHitSphere(m_vPos, PLAYER_W * 0.5f, g_stone_trap.GetPos(), STONE_RAD))
+		{
+			return true;
+		}
 	}
 	else
 	{

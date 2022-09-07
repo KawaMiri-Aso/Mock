@@ -60,7 +60,7 @@ VECTOR CMap::HitCheck(VECTOR vCenter, float fRadius)
 	VECTOR	vOut = { 0.0f, 0.0f, 0.0f };	//@•¨‘Ì‚ª”wŒi‚É‚ß‚è‚ñ‚¾‹——£
 
 	MV1_COLL_RESULT_POLY_DIM	res;	// “–‚½‚è”»’èŒ‹‰ÊŠi”[\‘¢‘Ì
-	res = MV1CollCheck_Sphere(col_handle, -1, vCenter, fRadius);	// “–‚½‚è”»’èŒ‹‰ÊŠi”[
+	res = MV1CollCheck_Sphere(col_handle, -1, vCenter, fRadius);	// ‹…‚Ì“–‚½‚è”»’èŒ‹‰ÊŠi”[
 
 	// “–‚½‚Á‚½ƒ|ƒŠƒSƒ“‚Ì”‚¾‚¯ŒJ•Ô‚·
 	for (int i = 0; i < res.HitNum; i++)
