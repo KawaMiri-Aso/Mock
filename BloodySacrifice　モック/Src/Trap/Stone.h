@@ -27,6 +27,7 @@ public:
 	void Fin();
 
 	void CheckCollision();
+	void ReflectCollision(VECTOR vAddVec);
 
 	//À•W‚ğæ“¾
 	VECTOR GetPos() { return m_vPos; }

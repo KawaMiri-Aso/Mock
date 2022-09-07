@@ -28,7 +28,7 @@ void CPlayScene::Init()
 	g_map.Init();
 
 	//岩罠初期化
-	g_stone_trap.Init(VGet(-20.0f, 15.0f, 0.0f));
+	g_stone_trap.Init(VGet(-30.0f, 12.0f, 0.0f));
 
 	//天球のサイズを大きくする
 	MV1SetScale(m_sky_handle, VGet(150.0f, 150.0f, 150.0f));

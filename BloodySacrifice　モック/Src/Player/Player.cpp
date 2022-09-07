@@ -585,7 +585,7 @@ void CPlayer::CheckCollision()
 
 bool CPlayer::IsPushStone()
 {
-	if (CCollision::IsHitRect(m_vPos, STONE_W, STONE_H, STONE_D, g_stone_trap.GetPos(), PLAYER_W, PLAYER_H, PLAYER_D))
+	if (CCollision::IsHitSphere(m_vPos, PLAYER_RAD, g_stone_trap.GetPos(), STONE_RAD))
 	{
 		return true;
 	}

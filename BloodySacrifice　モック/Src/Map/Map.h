@@ -25,8 +25,10 @@ public:
 	//•`‰æ
 	void Draw();
 
-	//Œãˆ—();
+	//Œãˆ—
 	void Fin();
+
+	VECTOR HitCheck(VECTOR vCenter, float fRadius);
 
 	int GetCol_handle() { return col_handle; }
 
