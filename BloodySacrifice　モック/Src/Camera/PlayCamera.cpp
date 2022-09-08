@@ -14,9 +14,9 @@
 CPlayCamera::CPlayCamera()
 {
 	//値を初期化しておく
-	memset(&m_vPos, 0, sizeof(VECTOR));
-	memset(&m_vLook, 0, sizeof(VECTOR));
-	memset(&m_vUp, 0, sizeof(VECTOR));
+	memset(&pos_, 0, sizeof(VECTOR));
+	memset(&look_, 0, sizeof(VECTOR));
+	memset(&up_, 0, sizeof(VECTOR));
 }
 
 //デストラクタ
@@ -28,18 +28,18 @@ CPlayCamera::~CPlayCamera()
 void CPlayCamera::Init()
 {
 	//引数なしならすべてゼロにする
-	m_vPos = VGet(45.0f, 50.0f, 45.0f);
-	memset(&m_vLook, 0, sizeof(VECTOR));
-	memset(&m_vUp, 0, sizeof(VECTOR));
+	pos_ = VGet(45.0f, 50.0f, 45.0f);
+	memset(&look_, 0, sizeof(VECTOR));
+	memset(&up_, 0, sizeof(VECTOR));
 }
 
 //初期化（引数あり）
 void CPlayCamera::Init(VECTOR pos, VECTOR look, VECTOR up)
 {
 	//引数ありなら設定する
-	m_vPos = pos;
-	m_vLook = look;
-	m_vUp = up;
+	pos_ = pos;
+	look_ = look;
+	up_ = up;
 }
 
 //毎フレーム呼ぶ処理（操作）
@@ -58,9 +58,9 @@ void CPlayCamera::Step()
 	VECTOR player_pos = player->GetPos();
 
 	//カメラは常に斜め上からプレイヤーを見る
-	m_vPos.x = player_pos.x + 45.0f;
-	m_vPos.y = player_pos.y + 50.0f;
-	m_vPos.z = player_pos.z + 45.0f;
+	pos_.x = player_pos.x + 45.0f;
+	pos_.y = player_pos.y + 50.0f;
+	pos_.z = player_pos.z + 45.0f;
 
 
 	//=======================
@@ -69,10 +69,10 @@ void CPlayCamera::Step()
 
 	//カメラの注視点をプレイヤーの上にする
 	//カメラ注視点にプレイヤー座標を代入
-	m_vLook = player_pos;
+	look_ = player_pos;
 
 	//Yだけ座標の上方にする
-	m_vLook.y += CAMERA_OFFSET_LOOK_Y;
+	look_.y += CAMERA_OFFSET_LOOK_Y;
 
 }
 
@@ -80,7 +80,7 @@ void CPlayCamera::Step()
 void CPlayCamera::Update()
 {
 	//カメラの視点（座標）・注視点・アップベクトル設定
-	SetCameraPositionAndTargetAndUpVec(m_vPos, m_vLook, m_vUp);
+	SetCameraPositionAndTargetAndUpVec(pos_, look_, up_);
 }
 
 //後処理

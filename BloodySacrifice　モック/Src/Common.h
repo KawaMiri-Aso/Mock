@@ -10,3 +10,9 @@
 //ウィンドウの幅と高さ
 #define WINDOW_W (800)
 #define WINDOW_H (600)
+
+//重力
+#define GRAVITY	(0.45f)
+
+//岩の重力
+#define GRAVITY_STONE (1.15f)

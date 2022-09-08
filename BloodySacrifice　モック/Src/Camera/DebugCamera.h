@@ -30,14 +30,14 @@ public:
 	void Fin();
 
 	//視点を設定
-	void SetPos(VECTOR pos){ m_vPos = pos; }
+	void SetPos(VECTOR pos){ pos_ = pos; }
 	
 	//注視点を設定
-	void SetLook(VECTOR look){ m_vLook = look; }
+	void SetLook(VECTOR look){ look_ = look; }
 
 private:
 
-	VECTOR	m_vPos;		//視点
-	VECTOR	m_vLook;	//注視点
-	VECTOR	m_vUp;		//アップベクトル
+	VECTOR	pos_;		//視点
+	VECTOR	look_;	//注視点
+	VECTOR	up_;		//アップベクトル
 };

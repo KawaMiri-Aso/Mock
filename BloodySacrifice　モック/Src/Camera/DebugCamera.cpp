@@ -20,9 +20,9 @@ namespace
 CDebugCamera::CDebugCamera()
 {
 	//値を初期化しておく
-	memset(&m_vPos, 0, sizeof(VECTOR));
-	memset(&m_vLook, 0, sizeof(VECTOR));
-	memset(&m_vUp, 0, sizeof(VECTOR));
+	memset(&pos_, 0, sizeof(VECTOR));
+	memset(&look_, 0, sizeof(VECTOR));
+	memset(&up_, 0, sizeof(VECTOR));
 }
 
 CDebugCamera::~CDebugCamera()
@@ -33,17 +33,17 @@ CDebugCamera::~CDebugCamera()
 void CDebugCamera::Init()
 {
 	//値を初期化しておく
-	memset(&m_vPos, 0, sizeof(VECTOR));
-	memset(&m_vLook, 0, sizeof(VECTOR));
-	memset(&m_vUp, 0, sizeof(VECTOR));
+	memset(&pos_, 0, sizeof(VECTOR));
+	memset(&look_, 0, sizeof(VECTOR));
+	memset(&up_, 0, sizeof(VECTOR));
 }
 
 void CDebugCamera::Init(VECTOR pos, VECTOR look, VECTOR up)
 {
 	//引数ありなら設定する
-	m_vPos = pos;
-	m_vLook = look;
-	m_vUp = up;
+	pos_ = pos;
+	look_ = look;
+	up_ = up;
 }
 
 //毎フレーム呼ぶ処理（操作）
@@ -57,25 +57,25 @@ void CDebugCamera::Step()
 	if(g_input.IsCont(KEY_UP))
 	{
 		//注視点を上へ移動
-		m_vLook.y += LOOK_SPD;
+		look_.y += LOOK_SPD;
 
-		if(m_vLook.y - m_vPos.y > LOOK_LIMIT_Y)
-			m_vLook.y = m_vPos.y + LOOK_LIMIT_Y;
+		if(look_.y - pos_.y > LOOK_LIMIT_Y)
+			look_.y = pos_.y + LOOK_LIMIT_Y;
 	}
 	//下矢印
 	if(g_input.IsCont(KEY_DOWN))
 	{
 		//注視点を下へ移動
-		m_vLook.y -= LOOK_SPD;
+		look_.y -= LOOK_SPD;
 
-		if(m_vLook.y - m_vPos.y < -LOOK_LIMIT_Y)
-			m_vLook.y = m_vPos.y -LOOK_LIMIT_Y;
+		if(look_.y - pos_.y < -LOOK_LIMIT_Y)
+			look_.y = pos_.y -LOOK_LIMIT_Y;
 	}
 	//左矢印か右矢印
 	if(g_input.IsCont(KEY_LEFT) || g_input.IsCont(KEY_RIGHT))
 	{
 		//注視点までのベクトルを求める
-		VECTOR dir = VSub(m_vLook, m_vPos);
+		VECTOR dir = VSub(look_, pos_);
 
 		//注視点までのベクトルとYベクトルの外積を求める
 		//横移動用のベクトルが求められる
@@ -90,7 +90,7 @@ void CDebugCamera::Step()
 			side = VScale(side, -1.f);
 
 		//注視点に移動ベクトルを加算する
-		m_vLook = VAdd(m_vLook, side);
+		look_ = VAdd(look_, side);
 	}
 
 	//============================
@@ -101,7 +101,7 @@ void CDebugCamera::Step()
 	if(g_input.IsCont(KEY_W) == 1 || g_input.IsCont(KEY_S))
 	{
 		//注視点までのベクトルを求める
-		VECTOR dir = VSub(m_vLook, m_vPos);
+		VECTOR dir = VSub(look_, pos_);
 
 		//求めたベクトルを正規化して移動速度を乗算する
 		dir = VNorm(dir);
@@ -112,16 +112,16 @@ void CDebugCamera::Step()
 			dir = VScale(dir, -1.f);
 
 		//視点に移動ベクトルを加算する
-		m_vPos = VAdd(m_vPos, dir);
+		pos_ = VAdd(pos_, dir);
 
 		//注視点に移動ベクトルを加算する
-		m_vLook = VAdd(m_vLook, dir);
+		look_ = VAdd(look_, dir);
 	}
 	//Aキーまたは Dキー
 	if(g_input.IsCont(KEY_A) == 1 || g_input.IsCont(KEY_D))
 	{
 		//注視点までのベクトルを求める
-		VECTOR dir = VSub(m_vLook, m_vPos);
+		VECTOR dir = VSub(look_, pos_);
 
 		//注視点までのベクトルとYベクトルの外積を求める
 		VECTOR side = VCross(dir, VGet(0.f, 1.f, 0.f));
@@ -135,10 +135,10 @@ void CDebugCamera::Step()
 			side = VScale(side, -1.f);
 			
 		//視点に移動ベクトルを加算する
-		m_vPos = VAdd(m_vPos, side);
+		pos_ = VAdd(pos_, side);
 
 		//注視点に移動ベクトルを加算する
-		m_vLook = VAdd(m_vLook, side);
+		look_ = VAdd(look_, side);
 	}
 }
 
@@ -146,18 +146,18 @@ void CDebugCamera::Step()
 void CDebugCamera::Draw()
 {
 	//注視点に球体を表示する
-	DrawSphere3D(m_vLook, LOOK_SPHERE_RAD, LOOK_SPHERE_DIV_NUM, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+	DrawSphere3D(look_, LOOK_SPHERE_RAD, LOOK_SPHERE_DIV_NUM, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
 
 	DrawString(WINDOW_W - 280, 10, "デバッグカメラモード", GetColor(255, 255, 0));
-	DrawFormatString(WINDOW_W - 270, 26, GetColor(255, 255, 255), "Pos  = (%.2f, %.2f, %.2f)", m_vPos.x, m_vPos.y, m_vPos.z);
-	DrawFormatString(WINDOW_W - 270, 42, GetColor(255, 255, 255), "Look = (%.2f, %.2f, %.2f)", m_vLook.x, m_vLook.y, m_vLook.z);
+	DrawFormatString(WINDOW_W - 270, 26, GetColor(255, 255, 255), "Pos  = (%.2f, %.2f, %.2f)", pos_.x, pos_.y, pos_.z);
+	DrawFormatString(WINDOW_W - 270, 42, GetColor(255, 255, 255), "Look = (%.2f, %.2f, %.2f)", look_.x, look_.y, look_.z);
 }
 
 //カメラ情報の更新処理
 void CDebugCamera::Update()
 {
 	//カメラの視点（座標）・注視点・アップベクトル設定
-	SetCameraPositionAndTargetAndUpVec(m_vPos, m_vLook, m_vUp);
+	SetCameraPositionAndTargetAndUpVec(pos_, look_, up_);
 }
 
 //後処理

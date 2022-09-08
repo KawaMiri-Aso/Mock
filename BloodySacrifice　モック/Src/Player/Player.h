@@ -33,7 +33,7 @@ public:
 
 	//初期化
 	void Init();
-	void Init(VECTOR pos, VECTOR rot);
+	void Init(VECTOR pos);
 
 	//読み込み
 	void Load(const char* file_path);
@@ -51,13 +51,10 @@ public:
 	void Fin();
 
 	//座標を取得
-	VECTOR GetPos(){ return m_vPos; }
-
-	//回転を取得
-	VECTOR GetRot(){ return m_vRot; }
+	VECTOR GetPos()const { return pos_; }
 
 	//移動速度ベクトルを取得
-	VECTOR GetSpeed() { return m_vSpeed; }
+	VECTOR GetSpeed()const { return speed_; }
 
 	//プレイヤーの回転処理
 	void AngleProcess();
@@ -67,12 +64,12 @@ public:
 
 private:
 
-	int				m_nHandle;		//ハンドル
-	VECTOR			m_vPos;			//座標
-	VECTOR			m_vSpeed;		//移動速度ベクトル
-	VECTOR			m_vRot;			//向くべき方向ベクトル
-	float			m_fAngle;		//向いている方向の角度
-	PLAYER_STATE	m_eState;		//状態
-	float			m_fJumpTime;	//ジャンプの時間
+	int				handle_;		//ハンドル
+	VECTOR			pos_;			//座標
+	VECTOR			speed_;			//移動速度ベクトル
+	float			angle_;			//向いている方向の角度
+	PLAYER_STATE	player_state_;	//状態
+	float			jump_time_;		//ジャンプの時間
+	int				hp_;			//HP
 	
 };

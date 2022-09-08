@@ -14,17 +14,13 @@
 
 MyMath* math;
 
-//重力
-#define GRAVITY		(0.45f)
-
 //コンストラクタ
 CPlayer::CPlayer()
 {
-	m_nHandle = 0;
-	memset(&m_vPos, 0, sizeof(VECTOR));
-	memset(&m_vRot, 0, sizeof(VECTOR));
-	m_eState = PLAYER_STATE_NORMAL;
-	m_fJumpTime = 0.0f;
+	handle_ = 0;
+	memset(&pos_, 0, sizeof(VECTOR));
+	player_state_ = PLAYER_STATE_NORMAL;
+	jump_time_ = 0.0f;
 }
 
 //デストラクタ
@@ -36,43 +32,41 @@ CPlayer::~CPlayer()
 void CPlayer::Init()
 {
 	//引数なしならすべてゼロにする
-	m_nHandle = 0;
-	m_vPos = VGet(0.0f, 1.0f, 0.0f);
-	memset(&m_vRot, 0, sizeof(VECTOR));
-	m_fAngle = 0.0f;
-	m_eState = PLAYER_STATE_NORMAL;
-	m_fJumpTime = 0.0f;
+	handle_ = 0;
+	pos_ = VGet(0.0f, 1.0f, 0.0f);
+	angle_ = 0.0f;
+	player_state_ = PLAYER_STATE_NORMAL;
+	jump_time_ = 0.0f;
 }
 
 //初期化（引数あり）
-void CPlayer::Init(VECTOR pos, VECTOR rot)
+void CPlayer::Init(VECTOR pos)
 {
 	//座標と回転を設定
-	m_vPos = pos;
-	m_vRot = rot;
+	pos_ = pos;
 
 	//他はゼロにする
-	m_fAngle = 0.0f;
-	m_nHandle = 0;
-	m_eState = PLAYER_STATE_NORMAL;
-	m_fJumpTime = 0.0f;
+	angle_ = 0.0f;
+	handle_ = 0;
+	player_state_ = PLAYER_STATE_NORMAL;
+	jump_time_ = 0.0f;
 }
 
 //読み込み
 void CPlayer::Load(const char* file_path)
 {
 	//モデルの読み込み
-	m_nHandle = MV1LoadModel(file_path);
+	handle_ = MV1LoadModel(file_path);
 }
 
 //削除
 void CPlayer::Delete()
 {
 	//モデル破棄
-	MV1DeleteModel(m_nHandle);
+	MV1DeleteModel(handle_);
 
 	//削除したら0を代入しておく
-	m_nHandle = 0;
+	handle_ = 0;
 }
 
 //毎フレーム呼ぶ処理（操作）
@@ -85,34 +79,34 @@ void CPlayer::Step()
 	moveFlg = false;
 
 	//プレイヤーに常に重力をかける
-	m_vPos.y -= GRAVITY;
+	pos_.y -= GRAVITY;
 
 	//移動速度ベクトルを初期化
-	m_vSpeed = { 0 };
+	speed_ = { 0 };
 
 	//プレイヤー通常
-	if(m_eState == PLAYER_STATE_NORMAL)
+	if(player_state_ == PLAYER_STATE_NORMAL)
 	{
 		if(g_input.IsPush(KEY_SPACE))
 		{
 			//状態をジャンプ上昇中へ
-			m_eState = PLAYER_STATE_JUMP_UP;
-			m_fJumpTime = 0.0f;
+			player_state_ = PLAYER_STATE_JUMP_UP;
+			jump_time_ = 0.0f;
 		}
 	}
 
 	//プレイヤージャンプ上昇中
-	if(m_eState == PLAYER_STATE_JUMP_UP)
+	if(player_state_ == PLAYER_STATE_JUMP_UP)
 	{
 		//上昇
-		m_vPos.y += PLAYER_JUMP_VAL;
-		m_fJumpTime += 1.0f / FRAME_RATE;
+		pos_.y += PLAYER_JUMP_VAL;
+		jump_time_ += 1.0f / FRAME_RATE;
 
 		//ジャンプ時間が過ぎたら
-		if(m_fJumpTime >= PLAYER_JUMP_TIME)
+		if(jump_time_ >= PLAYER_JUMP_TIME)
 		{
-			m_fJumpTime = 0.0f;
-			m_eState = PLAYER_STATE_NORMAL;
+			jump_time_ = 0.0f;
+			player_state_ = PLAYER_STATE_NORMAL;
 		}
 	}
 
@@ -130,7 +124,6 @@ void CPlayer::Step()
 		move_up_sidle.y = 0;
 		//正規化
 		move_up_sidle = math->VecNormalize(move_up_sidle);
-		m_vRot = move_up_sidle;
 		//歩く速さを掛け算
 		if (!IsPushStone())
 		{
@@ -157,12 +150,12 @@ void CPlayer::Step()
 		MATRIX m_result = MMult(m_dir, m_rotY);
 
 		//移動速度ベクトルに入れる
-		m_vSpeed.x = m_result.m[3][0];
-		m_vSpeed.y = m_result.m[3][1];
-		m_vSpeed.z = m_result.m[3][2];
+		speed_.x = m_result.m[3][0];
+		speed_.y = m_result.m[3][1];
+		speed_.z = m_result.m[3][2];
 
 		//移動前の座標と足して新たな座標を得る
-		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
+		pos_ = math->VecAdd(pos_, speed_);
 
 		//移動したに変える
 		moveFlg = true;
@@ -180,7 +173,6 @@ void CPlayer::Step()
 		move_up_sidle.y = 0;
 		//正規化
 		move_up_sidle = math->VecNormalize(move_up_sidle);
-		m_vRot = move_up_sidle;
 		//歩く速さを掛け算
 		if (!IsPushStone())
 		{
@@ -207,12 +199,12 @@ void CPlayer::Step()
 		MATRIX m_result = MMult(m_dir, m_rotY);
 
 		//移動速度ベクトルに入れる
-		m_vSpeed.x = m_result.m[3][0];
-		m_vSpeed.y = m_result.m[3][1];
-		m_vSpeed.z = m_result.m[3][2];
+		speed_.x = m_result.m[3][0];
+		speed_.y = m_result.m[3][1];
+		speed_.z = m_result.m[3][2];
 
 		//移動前の座標と足して新たな座標を得る
-		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
+		pos_ = math->VecAdd(pos_, speed_);
 
 		//移動したに変える
 		moveFlg = true;
@@ -231,7 +223,6 @@ void CPlayer::Step()
 		move_up.y = 0;
 		//正規化
 		move_up = math->VecNormalize(move_up);
-		m_vRot = move_up;
 		//歩く速さを掛け算
 		if (!IsPushStone())
 		{
@@ -243,10 +234,10 @@ void CPlayer::Step()
 		}
 
 		//移動速度ベクトルに入れる
-		m_vSpeed = move_up;
+		speed_ = move_up;
 
 		//移動前の座標と足して新たな座標を得る
-		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
+		pos_ = math->VecAdd(pos_, speed_);
 
 		//移動したに変える
 		moveFlg = true;
@@ -265,7 +256,6 @@ void CPlayer::Step()
 		move_down.y = 0;
 		//正規化
 		move_down = math->VecNormalize(move_down);
-		m_vRot = move_down;
 		//歩く速さを掛け算
 		if (!IsPushStone())
 		{
@@ -277,10 +267,10 @@ void CPlayer::Step()
 		}
 
 		//移動速度ベクトルに入れる
-		m_vSpeed = move_down;
+		speed_ = move_down;
 	
 		//移動前の座標と足して新たな座標を得る
-		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
+		pos_ = math->VecAdd(pos_, speed_);
 
 		//移動したに変える
 		moveFlg = true;
@@ -298,7 +288,6 @@ void CPlayer::Step()
 		move_left.y = 0;
 		//正規化
 		move_left = math->VecNormalize(move_left);
-		m_vRot = move_left;
 		//歩く速さを掛け算
 		if (!IsPushStone())
 		{
@@ -317,12 +306,12 @@ void CPlayer::Step()
 		MATRIX m_result = MMult(m_dir, m_rotY);
 
 		//移動速度ベクトルに入れる
-		m_vSpeed.x = m_result.m[3][0];
-		m_vSpeed.y = m_result.m[3][1];
-		m_vSpeed.z = m_result.m[3][2];
+		speed_.x = m_result.m[3][0];
+		speed_.y = m_result.m[3][1];
+		speed_.z = m_result.m[3][2];
 
 		//移動前の座標と足して新たな座標を得る
-		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
+		pos_ = math->VecAdd(pos_, speed_);
 
 		//移動したに変える
 		moveFlg = true;
@@ -340,7 +329,6 @@ void CPlayer::Step()
 		move_right.y = 0;
 		//正規化
 		move_right = math->VecNormalize(move_right);
-		m_vRot = move_right;
 		//歩く速さを掛け算
 		if (!IsPushStone())
 		{
@@ -357,12 +345,12 @@ void CPlayer::Step()
 		MATRIX m_result = MMult(m_dir, m_rotY);
 
 		//移動速度ベクトルに入れる
-		m_vSpeed.x = m_result.m[3][0];
-		m_vSpeed.y = m_result.m[3][1];
-		m_vSpeed.z = m_result.m[3][2];
+		speed_.x = m_result.m[3][0];
+		speed_.y = m_result.m[3][1];
+		speed_.z = m_result.m[3][2];
 
 		//移動前の座標と足して新たな座標を得る
-		m_vPos = math->VecAdd(m_vPos, m_vSpeed);
+		pos_ = math->VecAdd(pos_, speed_);
 
 		//移動したに変える
 		moveFlg = true;
@@ -378,25 +366,25 @@ void CPlayer::Step()
 	}
 
 	VECTOR vVec;
-	vVec = g_map.HitCheck(m_vPos, PLAYER_RAD);
-	m_vPos = VAdd(m_vPos, vVec);
+	vVec = g_map.HitCheck(pos_, PLAYER_RAD);
+	pos_ = VAdd(pos_, vVec);
 
 	//プレイヤーの座標
-	MV1SetPosition(m_nHandle, m_vPos);
+	MV1SetPosition(handle_, pos_);
 }
 
 //描画
 void CPlayer::Draw()
 {
 	//プレイヤーの描画
-	MV1DrawModel(m_nHandle);
+	MV1DrawModel(handle_);
 }
 
 //後処理
 void CPlayer::Fin()
 {
 	//Deleteが呼ばれていないなら
-	if(m_nHandle != 0)
+	if(handle_ != 0)
 	{
 		//削除を呼んでおく
 		Delete();
@@ -412,14 +400,14 @@ void CPlayer::AngleProcess()
 	float DiffAngle;
 
 	//移動速度ベクトルが0以外のときに計算する
-	if (m_vSpeed.x != 0 || m_vSpeed.z != 0)
+	if (speed_.x != 0 || speed_.z != 0)
 	{
-		TargetAngle = atan2f(m_vSpeed.x, m_vSpeed.z);
+		TargetAngle = atan2f(speed_.x, speed_.z);
 	}
 
 	// 目標の角度と現在の角度との差を割り出す
 	{
-		DiffAngle = TargetAngle - m_fAngle;
+		DiffAngle = TargetAngle - angle_;
 
 		// ある方向からある方向の差が１８０度以上になることは無いので
 		// 差の値が１８０度以上になっていたら修正する
@@ -452,17 +440,19 @@ void CPlayer::AngleProcess()
 		}
 	}
 	
-	m_fAngle = TargetAngle - DiffAngle;
+	angle_ = TargetAngle - DiffAngle;
 
 	//プレイヤーの回転
-	MV1SetRotationXYZ(m_nHandle, VGet(0.0f, m_fAngle + DX_PI_F, 0.0f));
+	MV1SetRotationXYZ(handle_, VGet(0.0f, angle_ + DX_PI_F, 0.0f));
 }
 
 bool CPlayer::IsPushStone()
 {
+	//岩が消滅状態でなかったら
 	if (g_stone_trap.GetState() != STONE_TRAP_STATE_OUT)
 	{
-		if (CCollision::IsHitSphere(m_vPos, PLAYER_W * 0.5f, g_stone_trap.GetPos(), STONE_RAD))
+		//プレイヤーと岩が当たったら
+		if (CCollision::IsHitSphere(pos_, PLAYER_W * 0.5f, g_stone_trap.GetPos(), STONE_RAD))
 		{
 			return true;
 		}

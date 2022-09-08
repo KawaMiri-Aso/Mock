@@ -27,16 +27,16 @@ public:
 	void Fin();
 
 	//視点を取得
-	VECTOR GetPos(){ return m_vPos; }
+	VECTOR GetPos(){ return pos_; }
 
 	//注視点を取得
-	VECTOR GetLook(){ return m_vLook; }
+	VECTOR GetLook(){ return look_; }
 
 private:
 	
-	VECTOR	m_vPos;		//視点
-	VECTOR	m_vLook;	//注視点
-	VECTOR	m_vUp;		//アップベクトル
+	VECTOR	pos_;		//視点
+	VECTOR	look_;		//注視点
+	VECTOR	up_;		//アップベクトル
 
 };
 

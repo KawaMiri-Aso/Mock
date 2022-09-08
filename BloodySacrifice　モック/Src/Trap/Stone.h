@@ -29,20 +29,20 @@ public:
 	void Fin();
 
 	//座標を取得
-	VECTOR GetPos() { return m_vPos; }
+	VECTOR GetPos() { return pos_; }
 
 	//回転を取得
-	VECTOR GetRot() { return m_vRot; }
+	VECTOR GetRot() { return rot_; }
 
 	//作動状態を取得
-	STONE_TRAP_STATE GetState() { return m_eState; }
+	STONE_TRAP_STATE GetState() { return state_; }
 
 private:
-	int m_nHandle;				//ハンドル
-	VECTOR m_vPos;				//座標
-	VECTOR m_vRot;				//回転
-	STONE_TRAP_STATE m_eState;	//状態
-	float m_fAppTime;			//出現時間
+	int handle_;				//ハンドル
+	VECTOR pos_;				//座標
+	VECTOR rot_;				//回転
+	STONE_TRAP_STATE state_;	//状態
+	float app_time_;			//出現時間
 };
 
 extern CStoneTrap g_stone_trap;

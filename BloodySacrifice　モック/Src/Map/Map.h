@@ -30,12 +30,12 @@ public:
 
 	VECTOR HitCheck(VECTOR vCenter, float fRadius);
 
-	int GetCol_handle() { return col_handle; }
+	int GetCol_handle() { return col_handle_; }
 
 private:
-	int handle;						//画像ハンドル
-	int col_handle;					//当たり判定用モデルハンドル
-	VECTOR pos;						//座標
+	int handle_;						//画像ハンドル
+	int col_handle_;					//当たり判定用モデルハンドル
+	VECTOR pos_;						//座標
 };
 
 extern CMap g_map;
