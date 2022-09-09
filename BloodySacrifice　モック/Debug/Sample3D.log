@@ -1,3 +1,4 @@
-﻿  Player.cpp
-C:\Users\mirih\Documents\GitHub\Mock\BloodySacrifice　モック\Src\Player\Player.cpp(474): warning C4715: 'CPlayer::IsPushStone': 値を返さないコントロール パスがあります。
-  Sample3D.vcxproj -> C:\Users\mirih\Documents\GitHub\Mock\BloodySacrifice　モック\Debug\Sample3D.exe
+﻿  Main.cpp
+  PlayScene.cpp
+  コードを生成中...
+  Sample3D.vcxproj -> C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice　モック\Debug\Sample3D.exe

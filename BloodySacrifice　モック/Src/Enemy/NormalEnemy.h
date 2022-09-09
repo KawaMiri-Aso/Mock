@@ -10,7 +10,6 @@ public:
 	~CNormalEnemy();
 
 	void Init() override;
-	void Init(VECTOR pos, VECTOR rot) override;
 	void Load() override;
 	void Step() override;
 	void Draw() override;

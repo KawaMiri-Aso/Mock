@@ -25,6 +25,12 @@ void CPlayerManager::Init()
 	m_player.Init(VGet(0.0f, 1.0f, 0.0f));
 }
 
+//ロード
+void CPlayerManager::Load()
+{
+	m_player.Load("Data/Model/Player/player-mock.x");
+}
+
 //ステップ
 void CPlayerManager::Step()
 {

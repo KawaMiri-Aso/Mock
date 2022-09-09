@@ -20,6 +20,9 @@ public:
 	//ステップ
 	void Step();
 
+	//ロード
+	void Load();
+
 	//描画
 	void Draw();
 

@@ -17,6 +17,9 @@ public:
 	virtual void Fin() = 0;
 	virtual CEnemy* Clone() = 0;
 
+	void SetPos(VECTOR pos) { pos_ = pos; }
+	void SetBackPos(VECTOR pos) { back_pos_ = pos; }
+
 	bool IsActive() const { return is_active_; }
 	int  GetHP() const { return hp_; }
 	VECTOR GetPos() const { return pos_; }

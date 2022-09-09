@@ -9,6 +9,7 @@
 #include "../Map/Map.h"
 #include "../Collision/Collision.h"
 #include "../Trap/Stone.h"
+#include "../Enemy/EnemyManager.h"
 
 CPlayScene::CPlayScene()
 {
@@ -45,6 +46,9 @@ void CPlayScene::Step()
 {
 	// マップステップ
 	g_map.Step();
+
+	CEnemyManager::GetInstance()->Step();
+
 	// プレイヤーの当たり判定を取るため更新も呼ぶ
 	g_map.Update();
 
@@ -82,6 +86,8 @@ void CPlayScene::Draw()
 	//プレイヤー管理描画
 	g_player_manager.Draw();
 
+	CEnemyManager::GetInstance()->Draw();
+
 	//天球描画
 	MV1DrawModel(m_sky_handle);
 
@@ -100,6 +106,8 @@ void CPlayScene::Fin()
 	g_map.Fin();
 
 	g_stone_trap.Fin();
+
+	CEnemyManager::DeleteInstance();
 
 	MV1DeleteModel(m_sky_handle);
 }

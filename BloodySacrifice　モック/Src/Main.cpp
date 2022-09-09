@@ -6,6 +6,7 @@
 #include "Player/PlayerManager.h"
 #include "Camera/CameraManager.h"
 #include "Scene/SceneManager.h"
+#include "Enemy/EnemyManager.h"
 
 //------------------------------
 // 定数
@@ -85,10 +86,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	CPlayer *player = g_player_manager.GetPlayer();
 	player->Load("Data/Model/Player/player-mock.x");
 
-	//フィールド初期化
-	/*FieldInfo field_info;
-	field_info.handle = MV1LoadModel("Data/Model/Field/Field.x");
-	field_info.pos = VGet(0.0f, 0.0f, 0.0f);*/
+	CEnemy* enemy = CEnemyManager::GetInstance()->CreateEnemy(CEnemyManager::ENEMY_ID_NORMAL);
+	enemy->Init();
+	enemy->Load();
+	enemy->SetPos(VGet(0.0f, 1.0f, 0.0f));
+	enemy->SetBackPos(VGet(0.0f, 1.0f, 0.0f));
 
 	//箱初期化
 	BoxInfo box_info[BOX_NUM];

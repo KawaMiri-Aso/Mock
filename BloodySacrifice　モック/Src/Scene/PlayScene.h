@@ -16,6 +16,9 @@ public:
 	//初期化
 	void Init();
 
+	//ロード
+	void Load();
+
 	//毎フレーム呼ぶ処理
 	void Step();
 

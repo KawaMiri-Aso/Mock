@@ -18,9 +18,6 @@ CEnemy::~CEnemy()
 
 void CEnemy::HitMap()
 {
-	//èÌÇ…èdóÕÇÇ©ÇØÇÈ
-	pos_.y -= GRAVITY;
-
 	VECTOR vVec;
 	vVec = g_map.HitCheck(pos_, rad_);
 	pos_ = VAdd(pos_, vVec);
