@@ -62,7 +62,7 @@ void CNormalEnemy::Fin()
 
 CEnemy* CNormalEnemy::Clone()
 {
-	CNormalEnemy* clone = new CNormalEnemy;
+	CNormalEnemy* clone =  new CNormalEnemy;
 	*clone = *this;
 	clone->handle_ = MV1DuplicateModel(handle_);
 	return clone;

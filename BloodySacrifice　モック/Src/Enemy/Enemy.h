@@ -9,7 +9,6 @@ public:
 	virtual ~CEnemy();
 
 	virtual void Init() = 0;
-	virtual void Init(VECTOR pos, VECTOR rot) = 0;
 	virtual void Load() = 0;
 	virtual void Step() = 0;
 	virtual void Draw() = 0;
@@ -17,6 +16,7 @@ public:
 	virtual void Fin() = 0;
 	virtual CEnemy* Clone() = 0;
 
+public:
 	void SetPos(VECTOR pos) { pos_ = pos; }
 	void SetBackPos(VECTOR pos) { back_pos_ = pos; }
 
