@@ -1,7 +1,7 @@
 #include "EnemyManager.h"
 #include "NormalEnemy.h"
 
-CEnemyManager* CEnemyManager::instance_ = NULL;
+CEnemyManager* CEnemyManager::instance_ = nullptr;
 
 CEnemyManager::CEnemyManager()
 {

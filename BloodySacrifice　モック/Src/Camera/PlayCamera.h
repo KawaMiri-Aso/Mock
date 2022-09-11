@@ -5,26 +5,31 @@
 #pragma once
 
 #include "DxLib.h"
+#include "CameraBase.h"
 
-class CPlayCamera
+class CPlayCamera :public CCameraBase
 {
-
 public:
 	CPlayCamera();	//コンストラクタ
 	~CPlayCamera();	//デストラクタ
 
-	//初期化
-	void Init();
-	void Init(VECTOR pos, VECTOR look, VECTOR up);
+	////初期化
+	//void Init();
+	//void Init(VECTOR pos, VECTOR look, VECTOR up);
 
-	//毎フレーム呼ぶ処理（操作）
-	void Step();
+	////毎フレーム呼ぶ処理（操作）
+	//void Step();
 
-	//カメラ情報の更新処理
-	void Update();
+	////カメラ情報の更新処理
+	//void Update();
 
-	//後処理
-	void Fin();
+	////後処理
+	//void Fin();
+
+	void Init() override;
+	void Step() override;
+	void Draw() override;
+	void Fin() override;
 
 	//視点を取得
 	VECTOR GetPos(){ return pos_; }
@@ -33,10 +38,10 @@ public:
 	VECTOR GetLook(){ return look_; }
 
 private:
-	
-	VECTOR	pos_;		//視点
-	VECTOR	look_;		//注視点
-	VECTOR	up_;		//アップベクトル
+
+	//VECTOR	pos_;		//視点
+	//VECTOR	look_;		//注視点
+	//VECTOR	up_;		//アップベクトル
 
 };
 

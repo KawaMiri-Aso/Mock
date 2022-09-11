@@ -74,23 +74,15 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	//透過色を設定
 	SetTransColor(0, 127, 127);
 
+	//必要なマネージャークラスを生成、初期化
+	CSceneManager::CreateInstance();
+	CCameraManager::CreateInstance();
+
+	CSceneManager* scene_manager = CSceneManager::GetInstance();
+	scene_manager->StartFirstScene(CSceneManager::SCENE_ID_PLAY);
+
 	//キー入力初期化
 	g_input.Init();
-
-	//モデル関連 =====
-
-	//プレイヤー管理初期化
-	g_player_manager.Init();
-
-	//プレイヤー読み込み
-	CPlayer *player = g_player_manager.GetPlayer();
-	player->Load("Data/Model/Player/player-mock.x");
-
-	CEnemy* enemy = CEnemyManager::GetInstance()->CreateEnemy(CEnemyManager::ENEMY_ID_NORMAL);
-	enemy->Init();
-	enemy->Load();
-	enemy->SetPos(VGet(0.0f, 1.0f, 0.0f));
-	enemy->SetBackPos(VGet(0.0f, 1.0f, 0.0f));
 
 	//箱初期化
 	BoxInfo box_info[BOX_NUM];
@@ -115,18 +107,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 		MV1DeleteModel(box_original_handle);
 	} 
 
-	//シーン管理初期化
-	g_scene_manager.Init();
-
-	//最初はタイトルシーンへ
-	g_scene_manager.ChangeScene(CSceneManager::SCENE_ID_TITLE_INIT);
-
-	//カメラ管理初期化
-	g_camera_manager.Init();
-	g_camera_manager.SetNearFar(0.1f, 150.0f);
-
-	//-----------------------------------------
-
 	//=====================================
 	//ゲームメインループ
 	while(ProcessMessage() != -1)
@@ -138,7 +118,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 		// 現在の時刻が、前回のフレーム時より
 		// 1/60秒経過していたら処理を実行する
-
 		if(g_nCurrentTime - g_nLastFrameTime >= 1000 / FRAME_RATE)
 		{
 			//フレーム実行時の時間を更新
@@ -159,15 +138,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			//キー入力ステップ
 			g_input.Step();
 
-			//====================
-			//モデル関連
-			//====================
-
 			//シーン管理のループ
-			g_scene_manager.Loop();
-
-			//フィールドの座標
-			/*MV1SetPosition(field_info.handle, field_info.pos);*/
+			scene_manager->Loop();
 
 			//箱の座標
 			for(int box_index = 0; box_index < BOX_NUM; box_index++)
@@ -175,37 +147,30 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 				MV1SetPosition(box_info[box_index].handle, box_info[box_index].pos);
 			}
 
-			//カメラ関連 =====
-
 			//Cキー押された
-			if(g_input.IsPush(KEY_C))
-			{
-				//プレイカメラ中なら
-				if(g_camera_manager.GetCameraID() == CCameraManager::CAMERA_ID_PLAY)
-				{
-					//デバッグカメラに変更
-					g_camera_manager.ChangeCamera(CCameraManager::CAMERA_ID_DEBUG);
+			//if(g_input.IsPush(KEY_C))
+			//{
+			//	//プレイカメラ中なら
+			//	if(g_camera_manager.GetCameraID() == CCameraManager::CAMERA_ID_PLAY)
+			//	{
+			//		//デバッグカメラに変更
+			//		g_camera_manager.ChangeCamera(CCameraManager::CAMERA_ID_DEBUG);
 
-					//デバッグカメラにプレイカメラの情報を設定
-					CPlayCamera *play_camera = g_camera_manager.GetPlayCamera();
-					CDebugCamera *debug_camera = g_camera_manager.GetDebugCamera();
+			//		//デバッグカメラにプレイカメラの情報を設定
+			//		CPlayCamera *play_camera = g_camera_manager.GetPlayCamera();
+			//		CDebugCamera *debug_camera = g_camera_manager.GetDebugCamera();
 
-					debug_camera->SetPos(play_camera->GetPos());
-					debug_camera->SetLook(play_camera->GetLook());
-				}
-				//デバッグカメラ中なら
-				else
-				{
-					//プレイカメラに変更
-					g_camera_manager.ChangeCamera(CCameraManager::CAMERA_ID_PLAY);
-				}
-			}
+			//		debug_camera->SetPos(play_camera->GetPos());
+			//		debug_camera->SetLook(play_camera->GetLook());
+			//	}
+			//	//デバッグカメラ中なら
+			//	else
+			//	{
+			//		//プレイカメラに変更
+			//		g_camera_manager.ChangeCamera(CCameraManager::CAMERA_ID_PLAY);
+			//	}
+			//}
 
-			//描画 =====
-
-			//フィールドの描画
-			/*MV1DrawModel(field_info.handle);*/
-		
 
 			//箱の描画
 			for(int box_index = 0; box_index < BOX_NUM; box_index++)
@@ -226,20 +191,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	//-----------------------------------------
 	//最後に１回だけやる処理をここに書く
-
-	//カメラの後処理
-	g_camera_manager.Fin();
-
-	//プレイヤー管理の後処理
-	g_player_manager.Delete();	//明示的に削除を呼ぶ
-	g_player_manager.Fin();		//後処理
-
-	//シーン管理の後処理
-	g_scene_manager.Fin();
-
-	//フィールド削除
-	/*MV1DeleteModel(field_info.handle);*/
-	
+	CSceneManager::DeleteInstance();
+	CCameraManager::DeleteInstance();
 
 	//箱の削除
 	for(int box_index = 0; box_index < BOX_NUM; box_index++)

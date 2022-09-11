@@ -46,7 +46,7 @@ void CStoneTrap::Step()
 	vVec = g_map.HitCheck(pos_, STONE_RAD);
 	pos_ = VAdd(pos_, vVec);
 
-	CPlayer* player = g_player_manager.GetPlayer();
+	CPlayer* player = CPlayerManager::GetInstance()->GetPlayer();
 	//‚Ü‚¾ã©‚ğì“®‚µ‚Ä‚È‚¢‚È‚ç
 	if (state_ == STONE_TRAP_STATE_BEFORE)
 	{

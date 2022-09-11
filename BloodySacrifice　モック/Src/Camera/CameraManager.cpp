@@ -5,10 +5,12 @@
 
 #include "CameraManager.h"
 
-CCameraManager g_camera_manager;
+CCameraManager* CCameraManager::instance_ = nullptr;
 
 CCameraManager::CCameraManager()
+	:camera_(nullptr)
 {
+	Init();
 }
 
 CCameraManager::~CCameraManager()
@@ -18,10 +20,9 @@ CCameraManager::~CCameraManager()
 //初期化
 void CCameraManager::Init()
 {
-	//全てのカメラの初期化
-	m_PlayCamera.Init(VGet(45.0f, 50.0f, 45.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
-	m_TitleCamera.Init(VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
-	m_DebugCamera.Init(VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
+	////全てのカメラの初期化
+	//m_PlayCamera.Init(VGet(45.0f, 50.0f, 45.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
+	//m_DebugCamera.Init(VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
 }
 
 //ステップ
@@ -33,30 +34,12 @@ void CCameraManager::Step()
 	{
 		//プレイカメラの処理
 		case CAMERA_ID_PLAY:
-			m_PlayCamera.Step();
-			break;
-
-		//タイトルカメラの処理
-		case CAMERA_ID_TITLE:
-			m_TitleCamera.Step();
+			camera_->Step();
 			break;
 
 		//デバッグカメラの処理
 		case CAMERA_ID_DEBUG:
-			m_DebugCamera.Step();
-			break;
-	}
-}
-
-//描画
-void CCameraManager::Draw()
-{
-	//現在のカメラIDによってステップ処理を振り分ける
-	switch (m_eCurrentCameraID)
-	{
-		//デバッグカメラの処理
-		case CAMERA_ID_DEBUG:
-			m_DebugCamera.Draw();
+			camera_->Step();
 			break;
 	}
 }
@@ -68,37 +51,55 @@ void CCameraManager::Update()
 	switch (m_eCurrentCameraID)
 	{
 		//プレイカメラの処理
-		case CAMERA_ID_PLAY:
-			m_PlayCamera.Update();
-			break;
-
-		//タイトルカメラの処理
-		case CAMERA_ID_TITLE:
-			m_TitleCamera.Update();
-			break;
+	case CAMERA_ID_PLAY:
+		camera_->Update();
+		break;
 
 		//デバッグカメラの処理
-		case CAMERA_ID_DEBUG:
-			m_DebugCamera.Update();
-			break;
+	case CAMERA_ID_DEBUG:
+		camera_->Update();
+		break;
 	}
+}
+
+//描画
+void CCameraManager::Draw()
+{
+	////現在のカメラIDによってステップ処理を振り分ける
+	//switch (m_eCurrentCameraID)
+	//{
+	//	//デバッグカメラの処理
+	//	case CAMERA_ID_DEBUG:
+	//		m_DebugCamera.Draw();
+	//		break;
+	//}
 }
 
 //後処理
 void CCameraManager::Fin()
 {
-	//全てのカメラの後処理
-	m_PlayCamera.Fin();
-	m_TitleCamera.Fin();
-	m_DebugCamera.Fin();
+	////全てのカメラの後処理
+	//m_PlayCamera.Fin();
+	//m_DebugCamera.Fin();
+}
+
+
+void CCameraManager::StartCamera(CAMERA_ID id)
+{
+	if (camera_) delete camera_;
+
+	switch (id) {
+	case CAMERA_ID_PLAY: camera_ = new CPlayCamera; break;
+	}
+	camera_->Init();
 }
 
 //引数のカメラに変更する
-void CCameraManager::ChangeCamera(CAMERA_ID cameraID)
-{
-	//現在のカメラIDを変更する
-	m_eCurrentCameraID = cameraID;
-}
+//void CCameraManager::ChangeCamera(CAMERA_ID cameraID)
+//{
+//	//現在のカメラIDを変更する
+//	m_eCurrentCameraID = cameraID;
+//}
 
 //ニアクリップ・ファークリップの設定
 void CCameraManager::SetNearFar(float near_val, float far_val)

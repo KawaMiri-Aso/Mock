@@ -5,56 +5,57 @@
 
 #include "PlayerManager.h"
 
-//CPlayerManagerの実体宣言
-CPlayerManager g_player_manager;
+CPlayerManager* CPlayerManager::instance_ = nullptr;
 
 CPlayerManager::CPlayerManager()
+	:m_player(nullptr)
 {
 	//CPlayerのコンストラクタは自動で呼ばれます
 }
 
 CPlayerManager::~CPlayerManager()
 {
-	//CPlayerのデストラクタは自動で呼ばれます
+	Fin();
 }
 
 //初期化
 void CPlayerManager::Init()
 {
 	//プレイヤーの初期化を呼ぶ
-	m_player.Init(VGet(0.0f, 1.0f, 0.0f));
+	m_player = new CPlayer;
+	m_player->Init(VGet(0.0f, 1.0f, 0.0f));
 }
 
 //ロード
 void CPlayerManager::Load()
 {
-	m_player.Load("Data/Model/Player/player-mock.x");
+	m_player->Load();
 }
 
 //ステップ
 void CPlayerManager::Step()
 {
 	//プレイヤーのステップ
-	m_player.Step();
+	m_player->Step();
 }
 
 //描画
 void CPlayerManager::Draw()
 {
 	//プレイヤーの描画
-	m_player.Draw();
+	m_player->Draw();
 }
 
 //削除
 void CPlayerManager::Delete()
 {
 	//プレイヤー削除
-	m_player.Delete();
+	m_player->Delete();
 }
 
 //後処理();
 void CPlayerManager::Fin()
 {
 	//プレイヤーの後処理を呼ぶ
-	m_player.Fin();
+	m_player->Fin();
 }

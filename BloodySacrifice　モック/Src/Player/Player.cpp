@@ -26,6 +26,7 @@ CPlayer::CPlayer()
 //デストラクタ
 CPlayer::~CPlayer()
 {
+	Fin();
 }
 
 //初期化（引数なし）
@@ -53,10 +54,10 @@ void CPlayer::Init(VECTOR pos)
 }
 
 //読み込み
-void CPlayer::Load(const char* file_path)
+void CPlayer::Load()
 {
 	//モデルの読み込み
-	handle_ = MV1LoadModel(file_path);
+	handle_ = MV1LoadModel("Data/Model/Player/player-mock.x");
 }
 
 //削除
@@ -116,7 +117,7 @@ void CPlayer::Step()
 		VECTOR move_up_sidle = { 0 };
 
 		//カメラ情報取得
-		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
+		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
 
 		//カメラの視点、注視点からベクトルを作成
 		move_up_sidle = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
@@ -165,7 +166,7 @@ void CPlayer::Step()
 		VECTOR move_up_sidle = { 0 };
 
 		//カメラ情報取得
-		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
+		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
 
 		//カメラの視点、注視点からベクトルを作成
 		move_up_sidle = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
@@ -215,7 +216,7 @@ void CPlayer::Step()
 		VECTOR move_up = { 0 };
 
 		//カメラ情報取得
-		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
+		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
 
 		//カメラの視点、注視点からベクトルを作成
 		move_up = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
@@ -248,7 +249,8 @@ void CPlayer::Step()
 	{
 		VECTOR move_down = { 0 };
 
-		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
+		//カメラ情報取得
+		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
 
 		//カメラの視点、注視点からベクトルを作成
 		move_down = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
@@ -280,7 +282,8 @@ void CPlayer::Step()
 	{
 		VECTOR move_left = { 0 };
 
-		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
+		//カメラ情報取得
+		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
 
 		//カメラの視点、注視点からベクトルを作成
 		move_left = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
@@ -321,7 +324,8 @@ void CPlayer::Step()
 	{
 		VECTOR move_right = { 0 };
 
-		CPlayCamera* play_camera = g_camera_manager.GetPlayCamera();
+		//カメラ情報取得
+		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
 
 		//カメラの視点、注視点からベクトルを作成
 		move_right = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());

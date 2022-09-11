@@ -61,12 +61,6 @@
     <ClCompile Include="Src\Scene\SceneManager.cpp">
       <Filter>Src\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Scene\TitleScene.cpp">
-      <Filter>Src\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Camera\TitleCamera.cpp">
-      <Filter>Src\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="Src\MyMath\MyMath.cpp">
       <Filter>Src\MyMath</Filter>
     </ClCompile>
@@ -120,12 +114,6 @@
     <ClInclude Include="Src\Scene\SceneManager.h">
       <Filter>Src\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Scene\TitleScene.h">
-      <Filter>Src\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Src\Camera\TitleCamera.h">
-      <Filter>Src\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="Src\MyMath\MyMath.h">
       <Filter>Src\MyMath</Filter>
     </ClInclude>
@@ -153,5 +141,13 @@
     <ClInclude Include="Src\Scene\Scene.h">
       <Filter>Src\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Src\Camera\CameraBase.h">
+      <Filter>Src\Camera</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Src\Camera\CameraBase.cpp">
+      <Filter>Src\Camera</Filter>
+    </None>
   </ItemGroup>
 </Project>

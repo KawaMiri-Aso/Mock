@@ -11,36 +11,39 @@
 #define CAMERA_OFFSET_LOOK_Y	(4.0f)	//カメラの注視点のプレイヤー座標からの高さ
 
 //コンストラクタ
-CPlayCamera::CPlayCamera()
+CPlayCamera::CPlayCamera() :CCameraBase()
 {
 	//値を初期化しておく
-	memset(&pos_, 0, sizeof(VECTOR));
-	memset(&look_, 0, sizeof(VECTOR));
-	memset(&up_, 0, sizeof(VECTOR));
+	//memset(&pos_, 0, sizeof(VECTOR));
+	//memset(&look_, 0, sizeof(VECTOR));
+	//memset(&up_, 0, sizeof(VECTOR));
 }
 
 //デストラクタ
 CPlayCamera::~CPlayCamera()
 {
+	Fin();
 }
 
 //初期化（引数なし）
 void CPlayCamera::Init()
 {
 	//引数なしならすべてゼロにする
-	pos_ = VGet(45.0f, 50.0f, 45.0f);
-	memset(&look_, 0, sizeof(VECTOR));
-	memset(&up_, 0, sizeof(VECTOR));
+	//pos_ = VGet(45.0f, 50.0f, 45.0f);
+	//memset(&look_, 0, sizeof(VECTOR));
+	//memset(&up_, 0, sizeof(VECTOR));
+
+	SetCameraNearFar(0.1f, 150.0f);
 }
 
 //初期化（引数あり）
-void CPlayCamera::Init(VECTOR pos, VECTOR look, VECTOR up)
-{
-	//引数ありなら設定する
-	pos_ = pos;
-	look_ = look;
-	up_ = up;
-}
+//void CPlayCamera::Init(VECTOR pos, VECTOR look, VECTOR up)
+//{
+//	//引数ありなら設定する
+//	pos_ = pos;
+//	look_ = look;
+//	up_ = up;
+//}
 
 //毎フレーム呼ぶ処理（操作）
 void CPlayCamera::Step()
@@ -48,7 +51,7 @@ void CPlayCamera::Step()
 	//ココでプレイヤー情報を取得して、
 	//視点や注視点を決める
 
-	CPlayer *player = g_player_manager.GetPlayer();
+	CPlayer* player = CPlayerManager::GetInstance()->GetPlayer();
 
 	//=======================
 	// 視点の処理
@@ -77,10 +80,14 @@ void CPlayCamera::Step()
 }
 
 //カメラ情報の更新処理
-void CPlayCamera::Update()
+//void CPlayCamera::Update()
+//{
+//	//カメラの視点（座標）・注視点・アップベクトル設定
+//	SetCameraPositionAndTargetAndUpVec(pos_, look_, up_);
+//}
+
+void CPlayCamera::Draw()
 {
-	//カメラの視点（座標）・注視点・アップベクトル設定
-	SetCameraPositionAndTargetAndUpVec(pos_, look_, up_);
 }
 
 //後処理

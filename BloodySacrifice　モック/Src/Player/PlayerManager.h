@@ -14,32 +14,28 @@ public:
 	CPlayerManager();
 	~CPlayerManager();
 
+	static void CreateInstance() { if (!instance_)instance_ = new CPlayerManager; }
+	static CPlayerManager* GetInstance(){return instance_; }
+	static void DeleteInstance() { if (instance_)delete instance_; instance_ = nullptr; }
+
 	//初期化
 	void Init();
-
-	//ステップ
-	void Step();
-
 	//ロード
 	void Load();
-
+	//ステップ
+	void Step();
 	//描画
 	void Draw();
-
 	//削除
 	void Delete();
-
 	//後処理();
 	void Fin();
 
 	//プレイヤークラスを取得
-	CPlayer* GetPlayer(){ return &m_player; }
+	CPlayer* GetPlayer()const { return m_player; }
 
 private:
-
-	CPlayer	m_player;	//プレイヤークラス
+	static CPlayerManager* instance_;
+	CPlayer* m_player;	//プレイヤークラス
 
 };
-
-//PlayerManager.hをインクルードした先で使えるように
-extern CPlayerManager g_player_manager;

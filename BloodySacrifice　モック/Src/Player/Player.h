@@ -29,36 +29,28 @@ class CPlayer
 {
 public:
 	CPlayer();		//コンストラクタ
-	~CPlayer();		//デストラクタ
+	virtual ~CPlayer();		//デストラクタ
 
 	//初期化
 	void Init();
 	void Init(VECTOR pos);
-
 	//読み込み
-	void Load(const char* file_path);
-
-	//削除
-	void Delete();
-
+	void Load();
 	//毎フレーム呼ぶ処理（操作）
 	void Step();
-
 	//描画
 	void Draw();
-
+	//削除
+	void Delete();
 	//後処理
 	void Fin();
 
 	//座標を取得
 	VECTOR GetPos()const { return pos_; }
-
 	//移動速度ベクトルを取得
 	VECTOR GetSpeed()const { return speed_; }
-
 	//プレイヤーの回転処理
 	void AngleProcess();
-
 	//岩を押しているか
 	bool IsPushStone();
 

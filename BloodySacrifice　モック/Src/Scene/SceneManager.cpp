@@ -4,10 +4,13 @@
 //各シーンへのアクセスは必ずCSceneManagerを経由
 
 #include "SceneManager.h"
+#include "PlayScene.h"
 
-CSceneManager g_scene_manager;
+CSceneManager* CSceneManager::instance_ = nullptr;
 
 CSceneManager::CSceneManager()
+	:scene_(nullptr)
+	, m_eCurrentSceneState(SCENE_STATE_INIT)
 {
 }
 
@@ -25,39 +28,37 @@ void CSceneManager::Init()
 //ループ
 void CSceneManager::Loop()
 {
-	switch(m_eCurrentSceneID)
+	switch(m_eCurrentSceneState)
 	{
 
-	//プレイシーン初期化
-	case SCENE_ID_PLAY_INIT:
-		m_PlayScene.Init();
+	//シーン初期化
+	case SCENE_STATE_INIT:
+		scene_->Init();
+		m_eCurrentSceneState = SCENE_STATE_LOAD;
 		break;
 
-	//プレイシーン繰り返し
-	case SCENE_ID_PLAY_LOOP:
-		m_PlayScene.Step();
-		m_PlayScene.Draw();	//描画はステップの後に呼ぶ
+	//シーン繰り返し
+	case SCENE_STATE_LOAD:
+		scene_->Load();
+		m_eCurrentSceneState = SCENE_STATE_LOAD_END;
 		break;
 
-	//プレイシーン後処理
-	case SCENE_ID_PLAY_FIN:
-		m_PlayScene.Fin();
+	//シーンロード完了
+	case SCENE_STATE_LOAD_END:
+		scene_->OnLoadEnd();
+		m_eCurrentSceneState = SCENE_STATE_LOOP;
 		break;
 
-	//タイトルシーン初期化
-	case SCENE_ID_TITLE_INIT:
-		m_TitleScene.Init();
-		break;
-
-	//タイトルシーン繰り返し
-	case SCENE_ID_TITLE_LOOP:
-		m_TitleScene.Step();
-		m_TitleScene.Draw();
+	//シーン繰り返し
+	case SCENE_STATE_LOOP:
+		scene_->Step();
+		scene_->Draw();	//描画はステップの後に呼ぶ
 		break;
 
 	//タイトルシーン後処理
-	case SCENE_ID_TITLE_FIN:
-		m_TitleScene.Fin();
+	case SCENE_STATE_FIN:
+		scene_->Fin();
+		ChangeNextScene();
 		break;
 
 	}
@@ -68,11 +69,37 @@ void CSceneManager::Loop()
 //後処理
 void CSceneManager::Fin()
 {
+	if (scene_)
+	{
+		delete scene_;
+	}
+}
+
+//１番最初のシーンを開始する
+void CSceneManager::StartFirstScene(SCENE_ID sceneID)
+{
+	//既に何かシーンが動いてるのであれば即終了
+	if (scene_) return;
+
+	//シーンを生成して初期化から開始する
+	CreateScene(sceneID);
+	m_eCurrentSceneID = sceneID;
+	m_eCurrentSceneState = SCENE_STATE_INIT;
 }
 
 //引数のシーンに変更する
 void CSceneManager::ChangeScene(SCENE_ID sceneID)
 {
-	//シーンIDを変更
-	m_eCurrentSceneID = sceneID;
+	//次に遷移するシーンを覚えておき、終了処理へ
+	m_eNextSceneID = sceneID;
+	m_eCurrentSceneState = SCENE_STATE_FIN;
+}
+
+//シーンを生成する
+void CSceneManager::CreateScene(SCENE_ID sceneID)
+{
+	//シーンを生成
+	switch (sceneID) {
+	case SCENE_ID_PLAY: scene_ = new CPlayScene; break;
+	}
 }
