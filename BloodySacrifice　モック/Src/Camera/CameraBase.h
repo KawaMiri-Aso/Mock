@@ -4,11 +4,12 @@
 
 class CCameraBase {
 public:
-	CCameraBase();
-	~CCameraBase();
+	//CCameraBase();
+	//virtual ~CCameraBase() {}
 
 public:
 	virtual void Init() = 0;
+	virtual void Init(VECTOR pos, VECTOR look, VECTOR up) = 0;
 	virtual void Step() = 0;
 	void Update();
 	virtual void Draw() = 0;

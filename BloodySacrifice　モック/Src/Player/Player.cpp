@@ -7,6 +7,7 @@
 #include "../Common.h"
 #include "../Input/Input.h"
 #include "../Camera/CameraManager.h"
+#include "../Camera/PlayCamera.h"
 #include "../MyMath/MyMath.h"
 #include "../Collision/Collision.h"
 #include "../Map/Map.h"
@@ -465,4 +466,6 @@ bool CPlayer::IsPushStone()
 	{
 		return false;
 	}
+
+	return false;
 }

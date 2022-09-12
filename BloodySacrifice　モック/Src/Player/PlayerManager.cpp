@@ -8,9 +8,8 @@
 CPlayerManager* CPlayerManager::instance_ = nullptr;
 
 CPlayerManager::CPlayerManager()
-	:m_player(nullptr)
 {
-	//CPlayerのコンストラクタは自動で呼ばれます
+	m_player = nullptr;
 }
 
 CPlayerManager::~CPlayerManager()
@@ -23,7 +22,7 @@ void CPlayerManager::Init()
 {
 	//プレイヤーの初期化を呼ぶ
 	m_player = new CPlayer;
-	m_player->Init(VGet(0.0f, 1.0f, 0.0f));
+	m_player->Init(VGet(5.0f, 1.0f, 0.0f));
 }
 
 //ロード

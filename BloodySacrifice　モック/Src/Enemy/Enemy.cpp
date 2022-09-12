@@ -10,6 +10,7 @@ CEnemy::CEnemy()
 	rot_ = { 0 };
 	move_ = { 0 };
 	rad_ = 0.0f;
+	is_hit_stonetrap = false;
 }
 
 CEnemy::~CEnemy()

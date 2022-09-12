@@ -9,9 +9,9 @@
 CSceneManager* CSceneManager::instance_ = nullptr;
 
 CSceneManager::CSceneManager()
-	:scene_(nullptr)
-	, m_eCurrentSceneState(SCENE_STATE_INIT)
 {
+	scene_ = nullptr;
+	m_eCurrentSceneState = SCENE_STATE_INIT;
 }
 
 CSceneManager::~CSceneManager()
@@ -102,4 +102,9 @@ void CSceneManager::CreateScene(SCENE_ID sceneID)
 	switch (sceneID) {
 	case SCENE_ID_PLAY: scene_ = new CPlayScene; break;
 	}
+}
+
+//ŽŸ‚Ì‰æ–Ê‚É‘JˆÚ‚³‚¹‚é
+void CSceneManager::ChangeNextScene()
+{
 }

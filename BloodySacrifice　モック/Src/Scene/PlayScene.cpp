@@ -11,10 +11,10 @@
 #include "../Trap/Stone.h"
 #include "../Enemy/EnemyManager.h"
 
-CPlayScene::CPlayScene() :CScene()
-, state_(PLAY_STATE_NONE)
-, m_sky_handle(0)
+CPlayScene::CPlayScene()
 {
+	state_ = PLAY_STATE_NONE;
+	m_sky_handle = 0;
 }
 
 CPlayScene::~CPlayScene()
@@ -58,7 +58,7 @@ void CPlayScene::OnLoadEnd()
 	CEnemy* enemy = CEnemyManager::GetInstance()->CreateEnemy(CEnemyManager::ENEMY_ID_NORMAL);
 	enemy->Init();
 	enemy->SetPos(VGet(0.0f, 1.0f, 0.0f));
-	enemy->SetBackPos(VGet(0.0f, 1.0f, 0.0f));
+	//enemy->SetBackPos(VGet(0.0f, 1.0f, 0.0f));
 }
 
 //–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—

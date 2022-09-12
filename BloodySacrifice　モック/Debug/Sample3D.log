@@ -1,14 +1,5 @@
-﻿  CameraManager.cpp
-  PlayCamera.cpp
+﻿  NormalEnemy.cpp
   Main.cpp
-  Player.cpp
   PlayScene.cpp
   コードを生成中...
-C:\Users\mirih\Documents\GitHub\Mock\BloodySacrifice　モック\Src\Player\Player.cpp(468): warning C4715: 'CPlayer::IsPushStone': 値を返さないコントロール パスがあります。
-CameraManager.obj : error LNK2019: 未解決の外部シンボル "public: __thiscall CCameraBase::~CCameraBase(void)" (??1CCameraBase@@QAE@XZ) が関数 "public: void * __thiscall CCameraBase::`scalar deleting destructor'(unsigned int)" (??_GCCameraBase@@QAEPAXI@Z) で参照されました
-PlayCamera.obj : error LNK2001: 外部シンボル "public: __thiscall CCameraBase::~CCameraBase(void)" (??1CCameraBase@@QAE@XZ) は未解決です
-CameraManager.obj : error LNK2019: 未解決の外部シンボル "public: void __thiscall CCameraBase::Update(void)" (?Update@CCameraBase@@QAEXXZ) が関数 "public: void __thiscall CCameraManager::Update(void)" (?Update@CCameraManager@@QAEXXZ) で参照されました
-PlayCamera.obj : error LNK2019: 未解決の外部シンボル "public: __thiscall CCameraBase::CCameraBase(void)" (??0CCameraBase@@QAE@XZ) が関数 "public: __thiscall CPlayCamera::CPlayCamera(void)" (??0CPlayCamera@@QAE@XZ) で参照されました
-PlayScene.obj : error LNK2019: 未解決の外部シンボル "public: void __thiscall CCameraManager::ChangeCamera(enum CCameraManager::CAMERA_ID)" (?ChangeCamera@CCameraManager@@QAEXW4CAMERA_ID@1@@Z) が関数 "private: void __thiscall CPlayScene::InitCamera(void)" (?InitCamera@CPlayScene@@AAEXXZ) で参照されました
-SceneManager.obj : error LNK2019: 未解決の外部シンボル "private: void __thiscall CSceneManager::ChangeNextScene(void)" (?ChangeNextScene@CSceneManager@@AAEXXZ) が関数 "public: void __thiscall CSceneManager::Loop(void)" (?Loop@CSceneManager@@QAEXXZ) で参照されました
-C:\Users\mirih\Documents\GitHub\Mock\BloodySacrifice　モック\Debug\Sample3D.exe : fatal error LNK1120: 5 件の未解決の外部参照
+  Sample3D.vcxproj -> D:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice　モック\Debug\Sample3D.exe

@@ -4,9 +4,9 @@
 //各カメラへのアクセスは必ずCCameraManagerを経由
 #pragma once
 
-#include "PlayCamera.h"
-#include "DebugCamera.h"
-#include "CameraBase.h"
+class CCameraBase;
+class CPlayCamera;
+class CDebugCamera;
 
 class CCameraManager
 {
@@ -48,21 +48,20 @@ public:
 	void SetNearFar(float near_val, float far_val);
 
 	//プレイカメラを取得
-	CPlayCamera* GetPlayCamera() { return &m_PlayCamera; }
+	CPlayCamera* GetPlayCamera() { return m_PlayCamera; }
 
 	//デバッグカメラを取得
-	CDebugCamera* GetDebugCamera() { return &m_DebugCamera; }
+	CDebugCamera* GetDebugCamera() { return m_DebugCamera; }
 
 private:
 
 	//各カメラの変数
-	CPlayCamera m_PlayCamera;	//プレイカメラ
-	CDebugCamera m_DebugCamera;	//デバッグカメラ
+	CPlayCamera* m_PlayCamera;	//プレイカメラ
+	CDebugCamera* m_DebugCamera;	//デバッグカメラ
 
 	//現在のカメラID
 	CAMERA_ID m_eCurrentCameraID;
 
 	static CCameraManager* instance_;
-	CCameraBase* camera_;
-
+	//CCameraBase* camera_;
 };

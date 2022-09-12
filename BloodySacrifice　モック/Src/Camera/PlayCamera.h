@@ -27,7 +27,9 @@ public:
 	//void Fin();
 
 	void Init() override;
+	void Init(VECTOR pos, VECTOR look, VECTOR up) override;
 	void Step() override;
+	void Update();
 	void Draw() override;
 	void Fin() override;
 

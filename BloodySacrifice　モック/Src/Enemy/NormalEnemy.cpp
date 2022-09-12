@@ -2,14 +2,17 @@
 #include "../Common.h"
 #include "../Player/PlayerManager.h"
 #include "../MyMath/MyMath.h"
+#include "../Map/Map.h"
+#include "../Trap/Stone.h"
+#include "../Collision/Collision.h"
 
 namespace {
 	int NORMAL_ENEMY_HP = 10;
-	float NORMAL_ENEMY_RAD = 10.0f;
+	float NORMAL_ENEMY_RAD = 3.0f;
 }
 
 
-CNormalEnemy::CNormalEnemy() : CEnemy()
+CNormalEnemy::CNormalEnemy()
 {
 	handle_ = 0;
 }
@@ -24,6 +27,7 @@ void CNormalEnemy::Init()
 	is_active_ = true;
 	hp_ = NORMAL_ENEMY_HP;
 	rad_ = NORMAL_ENEMY_RAD;
+	is_hit_stonetrap = false;
 }
 
 void CNormalEnemy::Load()
@@ -33,16 +37,24 @@ void CNormalEnemy::Load()
 
 void CNormalEnemy::Step()
 {
-	//常に重力をかける
-	move_.y -= GRAVITY;
-	//移動処理
-	pos_ = MyMath::VecAdd(pos_, move_);
+	if (IsActive())
+	{
+		//常に重力をかける
+		move_.y -= GRAVITY;
 
-	//マップとの当たり判定
-	HitMap();
+		//マップとの当たり判定
+		VECTOR vVec;
+		vVec = g_map.HitCheck(pos_, rad_);
+		pos_ = VAdd(pos_, vVec);
 
-	MV1SetRotationXYZ(handle_, rot_);
-	MV1SetPosition(handle_, pos_);
+		MV1SetRotationXYZ(handle_, rot_);
+		MV1SetPosition(handle_, pos_);
+	}
+
+	if (CCollision::IsHitSphere(pos_, NORMAL_ENEMY_RAD, g_stone_trap.GetPos(), STONE_RAD))
+	{
+		is_active_ = false;
+	}
 }
 
 void CNormalEnemy::Draw()
