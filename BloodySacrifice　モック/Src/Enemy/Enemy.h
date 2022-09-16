@@ -24,7 +24,7 @@ public:
 	int  GetHP() const { return hp_; }
 	VECTOR GetPos() const { return pos_; }
 	//VECTOR GetBackPos() const { return back_pos_; }
-	//int GetEnemyAIState() const { return ai_state_; }
+	int GetEnemyAIState() const { return ai_state_; }
 
 protected:
 	void HitMap();
@@ -32,7 +32,7 @@ protected:
 protected:
 	bool is_active_;	// ¶‘¶ƒtƒ‰ƒO
 	int hp_;			// HP
-	//int ai_state_;		// AIó‘Ô
+	int ai_state_;		// AIó‘Ô
 	VECTOR pos_;		// À•W
 	VECTOR rot_;		// ‰ñ“]
 	VECTOR move_;		// ˆÚ“®—Ê

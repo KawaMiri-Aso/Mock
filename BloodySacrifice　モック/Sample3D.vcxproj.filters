@@ -35,6 +35,9 @@
     <Filter Include="Src\Trap">
       <UniqueIdentifier>{0d8baeda-1fbd-44a4-b0fe-615bea719dd6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\AI">
+      <UniqueIdentifier>{d1d18032-e3ff-42c3-beb8-6a7538f2b527}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Input\Input.cpp">
@@ -87,6 +90,12 @@
     </ClCompile>
     <ClCompile Include="Src\Scene\Scene.cpp">
       <Filter>Src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AI\AIBase.cpp">
+      <Filter>Src\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AI\AINormalEnemy.cpp">
+      <Filter>Src\AI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +152,12 @@
     </ClInclude>
     <ClInclude Include="Src\Camera\CameraBase.h">
       <Filter>Src\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\AI\AIBase.h">
+      <Filter>Src\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\AI\AINormalEnemy.h">
+      <Filter>Src\AI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

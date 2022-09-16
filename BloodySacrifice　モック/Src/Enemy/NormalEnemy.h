@@ -1,8 +1,7 @@
 #pragma once
 
-#include "DxLib.h"
 #include "Enemy.h"
-#include <assert.h>
+#include "../AI/AIBase.h"
 
 class CNormalEnemy : public CEnemy
 {
@@ -20,5 +19,13 @@ public:
 	CEnemy* Clone() override;
 
 private:
+	void StepAI();
+	void StepIdle();
+	void StepCaution();
+	void StepAttack();
+	void StepBack();
+
+private:
 	int handle_;
+	CAIBase* enemy_ai_;
 };

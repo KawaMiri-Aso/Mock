@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\AI\AIBase.cpp" />
+    <ClCompile Include="Src\AI\AINormalEnemy.cpp" />
     <ClCompile Include="Src\Camera\CameraManager.cpp" />
     <ClCompile Include="Src\Camera\DebugCamera.cpp" />
     <ClCompile Include="Src\Camera\PlayCamera.cpp" />
@@ -30,6 +32,8 @@
     <ClCompile Include="Src\Trap\Stone.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\AI\AIBase.h" />
+    <ClInclude Include="Src\AI\AINormalEnemy.h" />
     <ClInclude Include="Src\Camera\CameraBase.h" />
     <ClInclude Include="Src\Camera\CameraManager.h" />
     <ClInclude Include="Src\Camera\DebugCamera.h" />
