@@ -22,5 +22,7 @@ float CAIBase::GetPlayerDist(CEnemy* enemy)
 ////帰還ポイントまでの距離算出
 //float CAIBase::GetBackPosDist(CEnemy* enemy)
 //{
-//
+//	VECTOR dis_vec = MyMath::VecCreate(enemy->GetBackPos(), enemy->GetPos());
+//	dis_vec.y = 0.0f;
+//	return MyMath::VecLong(dis_vec);
 //}
