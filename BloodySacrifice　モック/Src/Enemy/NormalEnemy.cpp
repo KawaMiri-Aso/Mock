@@ -12,8 +12,8 @@ namespace {
 	int NORMAL_ENEMY_HP = 10;
 	float NORMAL_ENEMY_RAD = 3.0f;
 	float NORMAL_ENEMY_MOVE_SPEED = 0.5f;
-	float NORMAL_ENEMY_ATTACK_RANGE = 0.5f;
-	float NORMAL_ENEMY_CAUTION_RANGE = 0.7f;
+	float NORMAL_ENEMY_ATTACK_RANGE = 25.0f;
+	float NORMAL_ENEMY_CAUTION_RANGE = 38.0f;
 	float NORMAL_ENEMY_BACK_RANGE = 1.3f;
 }
 
@@ -55,15 +55,15 @@ void CNormalEnemy::Step()
 		StepAI();
 
 		//常に重力をかける
-		move_.y -= GRAVITY;
+		pos_.y -= GRAVITY;
 
 		//マップとの当たり判定
 		VECTOR vVec;
 		vVec = g_map.HitCheck(pos_, rad_);
 		pos_ = VAdd(pos_, vVec);
 
-		////移動処理
-		//pos_ = MyMath::VecAdd(pos_, move_);
+		//移動処理
+		pos_ = MyMath::VecAdd(pos_, move_);
 
 		MV1SetRotationXYZ(handle_, rot_);
 		MV1SetPosition(handle_, pos_);
@@ -106,13 +106,13 @@ void CNormalEnemy::StepAI()
 	case CAIBase::ENEMY_AI_STATE_IDLE:	//待機状態更新
 		StepIdle();
 		break;
-	case CAIBase::ENEMY_AI_STATE_CAUTION:	//待機状態更新
+	case CAIBase::ENEMY_AI_STATE_CAUTION:	//警戒状態更新
 		StepCaution();
 		break;
-	case CAIBase::ENEMY_AI_STATE_ATTACK:	//待機状態更新
+	case CAIBase::ENEMY_AI_STATE_ATTACK:	//攻撃状態更新
 		StepAttack();
 		break;
-	//case CAIBase::ENEMY_AI_STATE_BACK:	//待機状態更新
+	//case CAIBase::ENEMY_AI_STATE_BACK:	//帰還状態更新
 	//	StepBack();
 	//	break;
 	}
@@ -146,7 +146,7 @@ void CNormalEnemy::StepAttack()
 	//Y要素は0
 	player_vec.y = 0.0f;
 	//向きを設定
-	rot_.y = atan2f(player_vec.x, player_vec.z);
+	rot_.y = atan2f(-player_vec.x, -player_vec.z);
 	//ベクトルを移動スピードの長さにして移動量にする
 	player_vec = MyMath::VecNormalize(player_vec);
 	VECTOR move_vec = MyMath::VecScale(player_vec, NORMAL_ENEMY_MOVE_SPEED);
