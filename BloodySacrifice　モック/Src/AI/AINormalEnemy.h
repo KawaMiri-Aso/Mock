@@ -15,8 +15,8 @@ public:
 	void SetCautionRange(float caution_range) { caution_range_ = caution_range; }
 	// 攻撃状態になる範囲を設定
 	void SetAttackRange(float attack_range) { attack_range_ = attack_range; }
-	//// 帰還状態になる範囲を設定
-	//void SetBackRange(float back_range) { back_range_ = back_range; }
+	// 帰還状態になる範囲を設定
+	void SetBackRange(float back_range) { back_range_ = back_range; }
 
 		// 基底クラスから必ず継承する
 	int GetNextState(CEnemy* enemy) override;
@@ -28,11 +28,11 @@ private:
 	int AINormalFromCaution(CEnemy* enemy);
 	// 攻撃状態から次にどの状態になるか
 	int AINormalFromAttack(CEnemy* enemy);
-	//// 帰還状態から次にどの状態になるか
-	//int AIAttackFromBack(CEnemy* enemy);
+	// 帰還状態から次にどの状態になるか
+	int AIAttackFromBack(CEnemy* enemy);
 
 private:
 	float caution_range_;	// 警戒状態になる範囲
 	float attack_range_;	// 攻撃状態になる範囲
-	//float back_range_;		// 帰還状態になる範囲
+	float back_range_;		// 帰還状態になる範囲
 };

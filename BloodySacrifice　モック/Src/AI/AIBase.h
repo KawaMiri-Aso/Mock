@@ -17,9 +17,8 @@ public:
 	virtual ~CAIBase();
 
 protected:
-	// •Ö—˜‚ÈŠÖ”‚ğ—pˆÓ
 	static float GetPlayerDist(CEnemy* enemy);
-	//static float GetBackPosDist(CEnemy* enemy);
+	static float GetBackPosDist(CEnemy* enemy);
 
 public:
 	virtual int GetNextState(CEnemy* enemy) = 0;

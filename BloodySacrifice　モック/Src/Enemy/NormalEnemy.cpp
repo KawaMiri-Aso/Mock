@@ -14,7 +14,7 @@ namespace {
 	float NORMAL_ENEMY_MOVE_SPEED = 0.5f;
 	float NORMAL_ENEMY_ATTACK_RANGE = 25.0f;
 	float NORMAL_ENEMY_CAUTION_RANGE = 38.0f;
-	float NORMAL_ENEMY_BACK_RANGE = 1.3f;
+	float NORMAL_ENEMY_BACK_RANGE = 45.0f;
 }
 
 
@@ -112,9 +112,9 @@ void CNormalEnemy::StepAI()
 	case CAIBase::ENEMY_AI_STATE_ATTACK:	//攻撃状態更新
 		StepAttack();
 		break;
-	//case CAIBase::ENEMY_AI_STATE_BACK:	//帰還状態更新
-	//	StepBack();
-	//	break;
+	case CAIBase::ENEMY_AI_STATE_BACK:	//帰還状態更新
+		StepBack();
+		break;
 	}
 }
 
@@ -154,17 +154,17 @@ void CNormalEnemy::StepAttack()
 	move_.z = move_vec.z;
 }
 
-//void CNormalEnemy::StepBack()
-//{
-//	// 帰還ポイントまでのベクトルを作成
-//	VECTOR back_vec = MyMath::VecCreate(pos_, back_pos_);
-//	// y要素は0で
-//	back_vec.y = 0.0f;
-//	// そのベクトルを移動スピードの長さにして移動量とする
-//	back_vec = MyMath::VecNormalize(back_vec);
-//	VECTOR move_vec = MyMath::VecScale(back_vec, NORMAL_ENEMY_MOVE_SPEED);
-//	move_.x = move_vec.x;
-//	move_.z = move_vec.z;
-//	// 移動する方向を向く
-//	rot_.y = atan2f(move_.x, move_.z);
-//}
+void CNormalEnemy::StepBack()
+{
+	// 帰還ポイントまでのベクトルを作成
+	VECTOR back_vec = MyMath::VecCreate(pos_, back_pos_);
+	// y要素は0で
+	back_vec.y = 0.0f;
+	// そのベクトルを移動スピードの長さにして移動量とする
+	back_vec = MyMath::VecNormalize(back_vec);
+	VECTOR move_vec = MyMath::VecScale(back_vec, NORMAL_ENEMY_MOVE_SPEED);
+	move_.x = move_vec.x;
+	move_.z = move_vec.z;
+	// 移動する方向を向く
+	rot_.y = atan2f(-move_.x, -move_.z);
+}

@@ -18,12 +18,12 @@ public:
 
 public:
 	void SetPos(VECTOR pos) { pos_ = pos; }
-	//void SetBackPos(VECTOR pos) { back_pos_ = pos; }
+	void SetBackPos(VECTOR pos) { back_pos_ = pos; }
 
 	bool IsActive() const { return is_active_; }
 	int  GetHP() const { return hp_; }
 	VECTOR GetPos() const { return pos_; }
-	//VECTOR GetBackPos() const { return back_pos_; }
+	VECTOR GetBackPos() const { return back_pos_; }
 	int GetEnemyAIState() const { return ai_state_; }
 
 protected:
@@ -36,7 +36,7 @@ protected:
 	VECTOR pos_;		// 座標
 	VECTOR rot_;		// 回転
 	VECTOR move_;		// 移動量
-	//VECTOR back_pos_;	// 帰還座標
+	VECTOR back_pos_;	// 帰還座標
 	float rad_;			// 半径
 
 	bool is_hit_stonetrap;
