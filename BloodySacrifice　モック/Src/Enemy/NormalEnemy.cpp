@@ -14,7 +14,7 @@ namespace {
 	float NORMAL_ENEMY_MOVE_SPEED = 0.5f;
 	float NORMAL_ENEMY_ATTACK_RANGE = 25.0f;
 	float NORMAL_ENEMY_CAUTION_RANGE = 38.0f;
-	float NORMAL_ENEMY_BACK_RANGE = 45.0f;
+	float NORMAL_ENEMY_BACK_RANGE = 58.0f;
 }
 
 
@@ -55,12 +55,13 @@ void CNormalEnemy::Step()
 		StepAI();
 
 		//常に重力をかける
-		pos_.y -= GRAVITY;
+		move_.y -= GRAVITY;
 
 		//マップとの当たり判定
-		VECTOR vVec;
+		/*VECTOR vVec;
 		vVec = g_map.HitCheck(pos_, rad_);
-		pos_ = VAdd(pos_, vVec);
+		pos_ = VAdd(pos_, vVec);*/
+		HitMap();
 
 		//移動処理
 		pos_ = MyMath::VecAdd(pos_, move_);

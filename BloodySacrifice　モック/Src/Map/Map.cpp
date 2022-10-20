@@ -19,9 +19,9 @@ CMap::~CMap()
 void CMap::Init()
 {
 	// モデル読み込み
-	handle_ = MV1LoadModel("Data/Model/Field/Field.x");
+	handle_ = MV1LoadModel("Data/Model/Field/19_snow_Home.x");
 	// 当たり判定用モデル読み込み
-	col_handle_ = MV1LoadModel("Data/Model/Field/coll_Field.x");
+	col_handle_ = MV1LoadModel("Data/Model/Field/col_19_snow_Home.x");
 	// 当たり判定用モデルのポリゴン情報をセットアップ
 	MV1SetupCollInfo(col_handle_);
 	pos_ = { 0 };

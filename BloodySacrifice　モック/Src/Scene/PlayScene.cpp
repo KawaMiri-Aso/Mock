@@ -58,7 +58,7 @@ void CPlayScene::OnLoadEnd()
 	CEnemy* enemy = CEnemyManager::GetInstance()->CreateEnemy(CEnemyManager::ENEMY_ID_NORMAL);
 	enemy->Init();
 	enemy->SetPos(VGet(0.0f, 1.0f, 0.0f));
-	//enemy->SetBackPos(VGet(0.0f, 1.0f, 0.0f));
+	enemy->SetBackPos(VGet(0.0f, 1.0f, 0.0f));
 }
 
 //–ˆƒtƒŒ[ƒ€ŒÄ‚Ôˆ—

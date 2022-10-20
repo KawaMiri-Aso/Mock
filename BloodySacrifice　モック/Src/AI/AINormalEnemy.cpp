@@ -38,6 +38,10 @@ int CAINomalEnemy::GetNextState(CEnemy* enemy)
 	case ENEMY_AI_STATE_ATTACK: //UŒ‚ó‘Ô‚©‚ç‚Ì‘JˆÚ
 		next = AINormalFromAttack(enemy);
 		break;
+
+	case ENEMY_AI_STATE_BACK: //‹AŠÒó‘Ô‚©‚ç‚Ì‘JˆÚ
+		next = AIAttackFromBack(enemy);
+		break;
 	}
 
 	//Ÿ‚Ìó‘Ô‚ğ•Ô‹p

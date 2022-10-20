@@ -21,5 +21,9 @@ void CEnemy::HitMap()
 {
 	VECTOR vVec;
 	vVec = g_map.HitCheck(pos_, rad_);
+	if (vVec.y > 0)
+	{
+		move_.y = 0.0f;
+	}
 	pos_ = VAdd(pos_, vVec);
 }
