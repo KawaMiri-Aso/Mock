@@ -65,8 +65,6 @@ private:
 
 private:
 
-	//“V‹…
-	int m_sky_handle;
 	PlayState state_;
 
 };

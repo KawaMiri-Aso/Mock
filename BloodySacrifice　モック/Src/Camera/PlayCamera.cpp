@@ -8,8 +8,8 @@
 #include "../Player/PlayerManager.h"
 
 //カメラ関連
-#define CAMERA_OFFSET_POS		(30.0f)	//カメラのプレイヤーからのオフセット値
-#define CAMERA_OFFSET_LOOK_Y	(4.0f)	//カメラの注視点のプレイヤー座標からの高さ
+#define CAMERA_OFFSET_POS		(100.0f)	//カメラのプレイヤーからのオフセット値
+#define CAMERA_OFFSET_LOOK_Y	(40.0f)	//カメラの注視点のプレイヤー座標からの高さ
 
 //コンストラクタ
 CPlayCamera::CPlayCamera()// : CCameraBase()
@@ -62,9 +62,9 @@ void CPlayCamera::Step()
 	VECTOR player_pos = player->GetPos();
 
 	//カメラは常に斜め上からプレイヤーを見る
-	pos_.x = player_pos.x + 45.0f;
-	pos_.y = player_pos.y + 50.0f;
-	pos_.z = player_pos.z + 45.0f;
+	pos_.x = player_pos.x + 70.0f;
+	pos_.y = player_pos.y + 95.0f;
+	pos_.z = player_pos.z + 70.0f;
 
 
 	//=======================

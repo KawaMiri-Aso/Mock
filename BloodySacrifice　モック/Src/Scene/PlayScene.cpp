@@ -14,7 +14,6 @@
 CPlayScene::CPlayScene()
 {
 	state_ = PLAY_STATE_NONE;
-	m_sky_handle = 0;
 }
 
 CPlayScene::~CPlayScene()
@@ -24,11 +23,6 @@ CPlayScene::~CPlayScene()
 //初期化
 void CPlayScene::Init()
 {
-	//天球読み込み
-	m_sky_handle = MV1LoadModel("Data/Model/Sky/Sky.x");
-	//天球のサイズを大きくする
-	MV1SetScale(m_sky_handle, VGet(150.0f, 150.0f, 150.0f));
-
 	////プレイカメラに変更
 	//g_camera_manager.ChangeCamera(CCameraManager::CAMERA_ID_PLAY);
 

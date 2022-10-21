@@ -30,7 +30,7 @@ void CCameraManager::Init()
 
 	m_PlayCamera = new CPlayCamera();
 
-	m_PlayCamera->Init(VGet(15.0f, 40.0f, 15.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
+	m_PlayCamera->Init(VGet(70.0f, 95.0f, 70.0f), VGet(0.0f, 0.0f, 0.0f), VGet(0.0f, 1.0f, 0.0f));
 }
 
 //ステップ

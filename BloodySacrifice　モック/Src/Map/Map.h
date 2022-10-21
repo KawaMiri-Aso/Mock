@@ -36,6 +36,8 @@ private:
 	int handle_;						//画像ハンドル
 	int col_handle_;					//当たり判定用モデルハンドル
 	VECTOR pos_;						//座標
+
+	int m_sky_handle;					//天球
 };
 
 extern CMap g_map;

@@ -9,6 +9,9 @@ CMap::CMap()
 	// 当たり判定用モデル
 	col_handle_ = -1;
 	pos_ = { 0 };
+
+	//天球モデル
+	m_sky_handle = -1;
 }
 
 CMap::~CMap()
@@ -21,10 +24,15 @@ void CMap::Init()
 	// モデル読み込み
 	handle_ = MV1LoadModel("Data/Model/Field/19_snow_Home.x");
 	// 当たり判定用モデル読み込み
-	col_handle_ = MV1LoadModel("Data/Model/Field/col_19_snow_Home.x");
+	col_handle_ = MV1LoadModel("Data/Model/Field/19_snow_Home.x");
 	// 当たり判定用モデルのポリゴン情報をセットアップ
 	MV1SetupCollInfo(col_handle_);
 	pos_ = { 0 };
+
+	//天球読み込み
+	m_sky_handle = MV1LoadModel("Data/Model/Sky/Sky.x");
+	//天球のサイズを大きくする
+	MV1SetScale(m_sky_handle, VGet(2000.0f, 2000.0f, 2000.0f));
 }
 
 //ステップ
