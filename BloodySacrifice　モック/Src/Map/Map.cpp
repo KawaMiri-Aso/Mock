@@ -54,6 +54,9 @@ void CMap::Update()
 void CMap::Draw()
 {
 	MV1DrawModel(handle_);
+
+	//“V‹…•`‰æ
+	MV1DrawModel(m_sky_handle);
 }
 
 //Œãˆ—();
@@ -61,6 +64,7 @@ void CMap::Fin()
 {
 	MV1DeleteModel(handle_);
 	MV1DeleteModel(col_handle_);
+	MV1DeleteModel(m_sky_handle);
 }
 
 VECTOR CMap::HitCheck(VECTOR vCenter, float fRadius)

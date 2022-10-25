@@ -84,28 +84,28 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	//キー入力初期化
 	g_input.Init();
 
-	//箱初期化
-	BoxInfo box_info[BOX_NUM];
+	////箱初期化
+	//BoxInfo box_info[BOX_NUM];
 
-	{
-		VECTOR box_pos[BOX_NUM] = {
-			{ -7.0f, 1.0f, 7.0f },
-			{ 7.0f, 1.0f, 7.0f },
-			{ -7.0f, 1.0f, -7.0f },
-			{ 7.0f, 1.0f, -7.0f }
-		};
+	//{
+	//	VECTOR box_pos[BOX_NUM] = {
+	//		{ -7.0f, 1.0f, 7.0f },
+	//		{ 7.0f, 1.0f, 7.0f },
+	//		{ -7.0f, 1.0f, -7.0f },
+	//		{ 7.0f, 1.0f, -7.0f }
+	//	};
 
-		int box_original_handle = MV1LoadModel("Data/Model/Box/Box.x");
+	//	int box_original_handle = MV1LoadModel("Data/Model/Box/Box.x");
 
-		for(int box_index = 0; box_index < BOX_NUM; box_index++)
-		{
-			box_info[box_index].handle = MV1DuplicateModel(box_original_handle);
-			box_info[box_index].pos = box_pos[box_index];
-		}
+	//	for(int box_index = 0; box_index < BOX_NUM; box_index++)
+	//	{
+	//		box_info[box_index].handle = MV1DuplicateModel(box_original_handle);
+	//		box_info[box_index].pos = box_pos[box_index];
+	//	}
 
-		//コピー元モデルは削除
-		MV1DeleteModel(box_original_handle);
-	} 
+	//	//コピー元モデルは削除
+	//	MV1DeleteModel(box_original_handle);
+	//} 
 
 	//=====================================
 	//ゲームメインループ
@@ -141,11 +141,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			//シーン管理のループ
 			scene_manager->Loop();
 
-			//箱の座標
-			for(int box_index = 0; box_index < BOX_NUM; box_index++)
-			{
-				MV1SetPosition(box_info[box_index].handle, box_info[box_index].pos);
-			}
+			////箱の座標
+			//for(int box_index = 0; box_index < BOX_NUM; box_index++)
+			//{
+			//	MV1SetPosition(box_info[box_index].handle, box_info[box_index].pos);
+			//}
 
 			//Cキー押された
 			//if(g_input.IsPush(KEY_C))
@@ -172,11 +172,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 			//}
 
 
-			//箱の描画
-			for(int box_index = 0; box_index < BOX_NUM; box_index++)
-			{
-				MV1DrawModel(box_info[box_index].handle);
-			}
+			////箱の描画
+			//for(int box_index = 0; box_index < BOX_NUM; box_index++)
+			//{
+			//	MV1DrawModel(box_info[box_index].handle);
+			//}
 
 			//フレームレート計算
 			CalcFrameRate();
@@ -194,11 +194,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	CSceneManager::DeleteInstance();
 	CCameraManager::DeleteInstance();
 
-	//箱の削除
-	for(int box_index = 0; box_index < BOX_NUM; box_index++)
-	{
-		MV1DeleteModel(box_info[box_index].handle);
-	}
+	////箱の削除
+	//for(int box_index = 0; box_index < BOX_NUM; box_index++)
+	//{
+	//	MV1DeleteModel(box_info[box_index].handle);
+	//}
 	
 	//使用したすべての画像を破棄
 	InitGraph();
@@ -240,5 +240,5 @@ void CalcFrameRate()
 //フレームレート表示（デバッグ用）
 void DrawFrameRate()
 {
-	DrawFormatString(695, 580, GetColor(255, 30, 30), "FPS[%.2f]", g_fFrameRate);	
+	DrawFormatString(1815, 1060, GetColor(255, 30, 30), "FPS[%.2f]", g_fFrameRate);	
 }

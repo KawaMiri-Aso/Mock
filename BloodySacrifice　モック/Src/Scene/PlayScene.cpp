@@ -102,9 +102,6 @@ void CPlayScene::Draw()
 	////プレイヤー管理描画
 	//g_player_manager.Draw();
 
-	//天球描画
-	MV1DrawModel(m_sky_handle);
-
 	////カメラの描画
 	//g_camera_manager.Draw();
 
@@ -128,8 +125,6 @@ void CPlayScene::Fin()
 	CPlayerManager::DeleteInstance();
 	CEnemyManager::DeleteInstance();
 	CCameraManager::DeleteInstance();
-
-	MV1DeleteModel(m_sky_handle);
 }
 
 void CPlayScene::InitPlayer()

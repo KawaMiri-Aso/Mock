@@ -8,8 +8,8 @@
 #define FRAME_RATE	(60)
 
 //ウィンドウの幅と高さ
-#define WINDOW_W (800)
-#define WINDOW_H (600)
+#define WINDOW_W (1920)
+#define WINDOW_H (1080)
 
 //重力
 #define GRAVITY	(0.45f)
