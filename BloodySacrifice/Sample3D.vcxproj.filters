@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{d33181c7-2144-4341-86dc-b9f7dff3619a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Camera">
+      <UniqueIdentifier>{ecd0d5f7-57eb-479b-941b-1a00a3cccfda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Collision">
+      <UniqueIdentifier>{3c4d0335-95bc-4216-b793-39b140a25b5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Enemy">
+      <UniqueIdentifier>{cee6cee1-0a0e-48f2-a277-55f01b8eb06e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Input">
+      <UniqueIdentifier>{86f118da-520c-4ccf-ba1b-0adabbc6bfdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\MyMath">
+      <UniqueIdentifier>{2fb3aa7e-a6a4-494f-89bd-045f2b3dd84a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Player">
+      <UniqueIdentifier>{04fc5b0e-6ded-486a-921b-0a04c5292b9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Scene">
+      <UniqueIdentifier>{7f9c73c9-ccc4-4b6c-af4a-0cc8c85ce23b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Map">
+      <UniqueIdentifier>{e517351b-311a-43c9-a880-97c4dc4ce1d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Trap">
+      <UniqueIdentifier>{0d8baeda-1fbd-44a4-b0fe-615bea719dd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\AI">
+      <UniqueIdentifier>{d1d18032-e3ff-42c3-beb8-6a7538f2b527}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Totem">
+      <UniqueIdentifier>{7a116394-3818-4f3f-bcef-4a820d355b55}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\Input\Input.cpp">
+      <Filter>Src\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Camera\PlayCamera.cpp">
+      <Filter>Src\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Player\Player.cpp">
+      <Filter>Src\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Player\PlayerManager.cpp">
+      <Filter>Src\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Camera\CameraManager.cpp">
+      <Filter>Src\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Camera\DebugCamera.cpp">
+      <Filter>Src\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene\PlayScene.cpp">
+      <Filter>Src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene\SceneManager.cpp">
+      <Filter>Src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MyMath\MyMath.cpp">
+      <Filter>Src\MyMath</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Collision\Collision.cpp">
+      <Filter>Src\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Main.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Map\Map.cpp">
+      <Filter>Src\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Enemy\Enemy.cpp">
+      <Filter>Src\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Trap\Stone.cpp">
+      <Filter>Src\Trap</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Enemy\EnemyManager.cpp">
+      <Filter>Src\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Enemy\NormalEnemy.cpp">
+      <Filter>Src\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Scene\Scene.cpp">
+      <Filter>Src\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AI\AIBase.cpp">
+      <Filter>Src\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AI\AINormalEnemy.cpp">
+      <Filter>Src\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Totem\Totem.cpp">
+      <Filter>Src\Totem</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Src\Input\Input.h">
+      <Filter>Src\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Player\Player.h">
+      <Filter>Src\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Player\PlayerManager.h">
+      <Filter>Src\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Camera\CameraManager.h">
+      <Filter>Src\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Camera\DebugCamera.h">
+      <Filter>Src\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Camera\PlayCamera.h">
+      <Filter>Src\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\PlayScene.h">
+      <Filter>Src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\SceneManager.h">
+      <Filter>Src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\MyMath\MyMath.h">
+      <Filter>Src\MyMath</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Collision\Collision.h">
+      <Filter>Src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Common.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Map\Map.h">
+      <Filter>Src\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Enemy\Enemy.h">
+      <Filter>Src\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Trap\Stone.h">
+      <Filter>Src\Trap</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Enemy\EnemyManager.h">
+      <Filter>Src\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Enemy\NormalEnemy.h">
+      <Filter>Src\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Scene\Scene.h">
+      <Filter>Src\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Camera\CameraBase.h">
+      <Filter>Src\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\AI\AIBase.h">
+      <Filter>Src\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\AI\AINormalEnemy.h">
+      <Filter>Src\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Totem\Totem.h">
+      <Filter>Src\Totem</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Src\Camera\CameraBase.cpp">
+      <Filter>Src\Camera</Filter>
+    </None>
+  </ItemGroup>
+</Project>
