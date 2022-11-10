@@ -25,6 +25,7 @@ public:
 
 	void Init();
 	void Load();
+	void OnLoadEnd();
 	void Step();
 	void Draw();
 	void Fin();

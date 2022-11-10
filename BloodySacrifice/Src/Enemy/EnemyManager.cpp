@@ -29,6 +29,11 @@ void CEnemyManager::Load()
 	org_enemy_[ENEMY_ID_NORMAL]->Load();
 }
 
+void CEnemyManager::OnLoadEnd()
+{
+
+}
+
 void CEnemyManager::Step()
 {
 	for (auto itr = enemy_list_.begin(); itr != enemy_list_.end();) {

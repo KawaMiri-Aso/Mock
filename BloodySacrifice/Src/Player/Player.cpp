@@ -59,7 +59,7 @@ void CPlayer::Init(VECTOR pos)
 void CPlayer::Load()
 {
 	//モデルの読み込み
-	handle_ = MV1LoadModel("Data/Model/Player/player-mock.x");
+	handle_ = MV1LoadModel("Data/Model/Player/Knight.x");
 }
 
 //削除
@@ -212,7 +212,7 @@ void CPlayer::Step()
 		//移動前の座標と足して新たな座標を得る
 		/*pos_ = math->VecAdd(pos_, speed_);*/
 
-			//移動前の座標と足して新たな座標を得る
+		//移動前の座標と足して新たな座標を得る
 		pos_.x += speed_.x;
 		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
 		{
@@ -509,21 +509,43 @@ void CPlayer::AngleProcess()
 	MV1SetRotationXYZ(handle_, VGet(0.0f, angle_ + DX_PI_F, 0.0f));
 }
 
-bool CPlayer::IsPushStone()
+//bool CPlayer::IsPushStone()
+//{
+//	//岩が消滅状態でなかったら
+//	if (g_stone_trap.GetState() != STONE_TRAP_STATE_OUT)
+//	{
+//		//プレイヤーと岩が当たったら
+//		if (CCollision::IsHitSphere(pos_, PLAYER_W * 0.5f, g_stone_trap.GetPos(), STONE_RAD))
+//		{
+//			return true;
+//		}
+//	}
+//	else
+//	{
+//		return false;
+//	}
+//
+//	return false;
+//}
+
+//ゲームオーバー判定
+bool CPlayer::Dead()
 {
-	//岩が消滅状態でなかったら
-	if (g_stone_trap.GetState() != STONE_TRAP_STATE_OUT)
+	if (hp_ <= 0)
 	{
-		//プレイヤーと岩が当たったら
-		if (CCollision::IsHitSphere(pos_, PLAYER_W * 0.5f, g_stone_trap.GetPos(), STONE_RAD))
-		{
-			return true;
-		}
+		player_state_ = PLAYER_STATE_DEAD;
+
+		return true;
 	}
 	else
 	{
 		return false;
 	}
+}
 
-	return false;
+
+//プレイヤーの攻撃処理
+void CPlayer::IsAttack()
+{
+
 }

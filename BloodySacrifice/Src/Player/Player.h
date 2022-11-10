@@ -7,10 +7,10 @@
 #include "DxLib.h"
 
 //プレイヤー関連
-#define PLAYER_W	(4.8f)	//プレイヤーの横幅
-#define PLAYER_H	(12.8f)	//プレイヤーの高さ
-#define PLAYER_D	(3.2f)	//プレイヤーの奥行き
-#define PLAYER_RAD	(6.4f)	//プレイヤーの半径
+#define PLAYER_W	(4.454f)	//プレイヤーの横幅
+#define PLAYER_H	(18.6f)	//プレイヤーの高さ
+#define PLAYER_D	(5.215f)	//プレイヤーの奥行き
+#define PLAYER_RAD	(9.3f)	//プレイヤーの半径
 #define PLAYER_JUMP_VAL		(0.8f)	//ジャンプ量
 #define PLAYER_JUMP_TIME	(0.8f)	//ジャンプの時間
 #define PLAYER_WALK_SPEED	(0.8f)	//歩く速さ
@@ -23,6 +23,8 @@ enum PLAYER_STATE
 {
 	PLAYER_STATE_NORMAL,	//通常
 	PLAYER_STATE_JUMP_UP,	//ジャンプ上昇中
+	PLAYER_STATE_ATTACK,	//攻撃
+	PLAYER_STATE_DEAD,		//ゲームオーバー
 };
 
 class CPlayer
@@ -49,10 +51,18 @@ public:
 	VECTOR GetPos()const { return pos_; }
 	//移動速度ベクトルを取得
 	VECTOR GetSpeed()const { return speed_; }
+
+	////岩を押しているか
+	//bool IsPushStone();
+	//プレイヤーの攻撃処理
+	void IsAttack();
+
+	//ゲームオーバー判定
+	bool Dead();
+
+private:
 	//プレイヤーの回転処理
 	void AngleProcess();
-	//岩を押しているか
-	bool IsPushStone();
 
 private:
 
@@ -63,5 +73,6 @@ private:
 	PLAYER_STATE	player_state_;	//状態
 	float			jump_time_;		//ジャンプの時間
 	int				hp_;			//HP
+	int				damage_;		//与えるダメージ
 	
 };
