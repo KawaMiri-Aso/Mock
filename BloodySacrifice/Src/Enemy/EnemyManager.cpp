@@ -31,7 +31,12 @@ void CEnemyManager::Load()
 
 void CEnemyManager::OnLoadEnd()
 {
-
+	CEnemy* ene;
+	for (int i = 0; i < 10; i++)
+	{
+		ene = CreateEnemy(0);
+		ene->SetPos()
+	}
 }
 
 void CEnemyManager::Step()
