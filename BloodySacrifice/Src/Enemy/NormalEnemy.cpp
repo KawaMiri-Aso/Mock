@@ -8,6 +8,11 @@
 #include "../AI/AINormalEnemy.h"
 #include <math.h>
 
+//À•W”Ô†
+static const int POS_ID[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+//À•W‚ÌŒÂ”
+static const int POS_NUM = 10;
+
 namespace {
 	int NORMAL_ENEMY_HP = 10;
 	float NORMAL_ENEMY_RAD = 3.0f;

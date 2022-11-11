@@ -28,4 +28,6 @@ private:
 private:
 	int handle_;
 	CAIBase* enemy_ai_;
+	int posHandle_;		//座標用のモデルハンドル
+	int posID;			//
 };

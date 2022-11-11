@@ -34,8 +34,8 @@ void CEnemyManager::OnLoadEnd()
 	CEnemy* ene;
 	for (int i = 0; i < 10; i++)
 	{
-		ene = CreateEnemy(0);
-		ene->SetPos()
+		ene = CreateEnemy(ENEMY_ID_NORMAL);
+		ene->SetPos();
 	}
 }
 
