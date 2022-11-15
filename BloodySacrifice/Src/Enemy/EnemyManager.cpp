@@ -46,6 +46,7 @@ void CEnemyManager::OnLoadEnd()
 	for (int i = 0; i < NORM_POS_NUM; i++)
 	{
 		ene = CreateEnemy(ENEMY_ID_NORMAL);
+		ene->Init();
 		VECTOR pos = MV1GetFramePosition(norm_pos_hndl, NORM_POS_ID[i]);
 		ene->SetPos(pos);
 	}
