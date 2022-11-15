@@ -3,8 +3,15 @@
 
 CEnemyManager* CEnemyManager::instance_ = nullptr;
 
+//À•W”Ô†
+static const int NORM_POS_ID[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+//À•W‚ÌŒÂ”
+static const int NORM_POS_NUM = 10;
+
 CEnemyManager::CEnemyManager()
 {
+	norm_pos_hndl = -1;
+	norm_pos_ID_ = 0;
 }
 
 CEnemyManager::~CEnemyManager()
@@ -27,15 +34,20 @@ void CEnemyManager::Init()
 void CEnemyManager::Load()
 {
 	org_enemy_[ENEMY_ID_NORMAL]->Load();
+	if (norm_pos_hndl == -1)
+	{
+		norm_pos_hndl = MV1LoadModel("Data/Model/Enemy/Pos_Bone/Enemy_Bone.x");
+	}
 }
 
 void CEnemyManager::OnLoadEnd()
 {
-	CEnemy* ene;
-	for (int i = 0; i < 10; i++)
+	CEnemy* ene = new CNormalEnemy;
+	for (int i = 0; i < NORM_POS_NUM; i++)
 	{
 		ene = CreateEnemy(ENEMY_ID_NORMAL);
-		ene->SetPos();
+		VECTOR pos = MV1GetFramePosition(norm_pos_hndl, NORM_POS_ID[i]);
+		ene->SetPos(pos);
 	}
 }
 

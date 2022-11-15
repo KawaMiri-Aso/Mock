@@ -8,10 +8,10 @@
 #include "../AI/AINormalEnemy.h"
 #include <math.h>
 
-//座標番号
-static const int POS_ID[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-//座標の個数
-static const int POS_NUM = 10;
+////座標番号
+//static const int POS_ID[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+////座標の個数
+//static const int POS_NUM = 10;
 
 namespace {
 	int NORMAL_ENEMY_HP = 10;
@@ -26,6 +26,8 @@ namespace {
 CNormalEnemy::CNormalEnemy()
 {
 	handle_ = 0;
+	//posHandle_ = -1;
+	//posID_ = 0;
 }
 
 CNormalEnemy::~CNormalEnemy()
@@ -47,7 +49,16 @@ void CNormalEnemy::Init()
 void CNormalEnemy::Load()
 {
 	handle_ = MV1LoadModel("Data/Model/Enemy/enemy-mock.x");
+	//if (posHandle_ == -1)
+	//{
+	//	posHandle_ = MV1LoadModel("Data/Model/Enemy/Pos_Bone/Enemy_Bone.x");
+	//}
 }
+
+//void CNormalEnemy::Reset()
+//{
+//	VECTOR bone_pos = MV1GetFramePosition(posHandle_, POS_ID[0]);
+//}
 
 void CNormalEnemy::Step()
 {

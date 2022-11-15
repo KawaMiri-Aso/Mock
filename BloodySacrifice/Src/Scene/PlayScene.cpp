@@ -53,10 +53,12 @@ void CPlayScene::Load()
 //ロード完了
 void CPlayScene::OnLoadEnd()
 {
-	CEnemy* enemy = CEnemyManager::GetInstance()->CreateEnemy(CEnemyManager::ENEMY_ID_NORMAL);
+	/*CEnemy* enemy = CEnemyManager::GetInstance()->CreateEnemy(CEnemyManager::ENEMY_ID_NORMAL);
 	enemy->Init();
 	enemy->SetPos(VGet(30.0f, 1.0f, 25.0f));
-	enemy->SetBackPos(VGet(30.0f, 1.0f, 25.0f));
+	enemy->SetBackPos(VGet(30.0f, 1.0f, 25.0f));*/
+
+	CEnemyManager::GetInstance()->OnLoadEnd();
 }
 
 //毎フレーム呼ぶ処理

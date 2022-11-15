@@ -25,9 +25,12 @@ private:
 	void StepAttack();
 	void StepBack();
 
+//public:
+//	void Reset();
+
 private:
 	int handle_;
 	CAIBase* enemy_ai_;
-	int posHandle_;		//座標用のモデルハンドル
-	int posID;			//
+	//int posHandle_;		//座標用のモデルハンドル
+	//int posID_;			//フレーム（ボーン）の番号
 };
