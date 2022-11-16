@@ -163,7 +163,7 @@ void CPlayScene::InitStoneTrap()
 
 void CPlayScene::InitTotem()
 {
-	g_totem.Init(VGet(0.0f, 12.2f, 0.0f));
+	g_totem.Init(VGet(0.0f, 6.1f, 0.0f));
 }
 
 void CPlayScene::LoadPlayer()

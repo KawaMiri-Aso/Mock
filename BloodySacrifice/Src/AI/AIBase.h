@@ -19,6 +19,7 @@ public:
 protected:
 	static float GetPlayerDist(CEnemy* enemy);
 	static float GetBackPosDist(CEnemy* enemy);
+	static float GetTotemDist(CEnemy* enemy);
 
 public:
 	virtual int GetNextState(CEnemy* enemy) = 0;

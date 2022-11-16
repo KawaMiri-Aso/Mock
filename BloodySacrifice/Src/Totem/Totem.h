@@ -1,8 +1,8 @@
 #include "DxLib.h"
 
-#define TOTEM_W	(13.0f)
-#define TOTEM_H	(13.0f)
-#define TOTEM_D	(13.0f)
+#define TOTEM_W		(13.0f)
+#define TOTEM_H		(12.2f)
+#define TOTEM_D		(13.0f)
 #define TOTEM_RAD	(6.5f)
 
 enum TOTEM_STATE

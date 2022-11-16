@@ -6,17 +6,13 @@
 #include "../Trap/Stone.h"
 #include "../Collision/Collision.h"
 #include "../AI/AINormalEnemy.h"
+#include "../Totem/Totem.h"
 #include <math.h>
-
-////座標番号
-//static const int POS_ID[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-////座標の個数
-//static const int POS_NUM = 10;
 
 namespace {
 	int NORMAL_ENEMY_HP = 10;
 	float NORMAL_ENEMY_RAD = 3.0f;
-	float NORMAL_ENEMY_MOVE_SPEED = 0.5f;
+	float NORMAL_ENEMY_MOVE_SPEED = 0.25f;
 	float NORMAL_ENEMY_ATTACK_RANGE = 25.0f;
 	float NORMAL_ENEMY_CAUTION_RANGE = 38.0f;
 	float NORMAL_ENEMY_BACK_RANGE = 58.0f;
@@ -26,8 +22,6 @@ namespace {
 CNormalEnemy::CNormalEnemy()
 {
 	handle_ = 0;
-	//posHandle_ = -1;
-	//posID_ = 0;
 }
 
 CNormalEnemy::~CNormalEnemy()
@@ -49,16 +43,7 @@ void CNormalEnemy::Init()
 void CNormalEnemy::Load()
 {
 	handle_ = MV1LoadModel("Data/Model/Enemy/enemy-mock.x");
-	//if (posHandle_ == -1)
-	//{
-	//	posHandle_ = MV1LoadModel("Data/Model/Enemy/Pos_Bone/Enemy_Bone.x");
-	//}
 }
-
-//void CNormalEnemy::Reset()
-//{
-//	VECTOR bone_pos = MV1GetFramePosition(posHandle_, POS_ID[0]);
-//}
 
 void CNormalEnemy::Step()
 {
@@ -86,10 +71,16 @@ void CNormalEnemy::Step()
 		MV1SetPosition(handle_, pos_);
 	}
 
-	if (CCollision::IsHitSphere(pos_, NORMAL_ENEMY_RAD, g_stone_trap.GetPos(), STONE_RAD))
+	if (CCollision::IsHitSphere(pos_, NORMAL_ENEMY_RAD, g_totem.GetPos(), TOTEM_RAD))
 	{
-		is_active_ = false;
+		pos_.x -= move_.x;
+		pos_.z -= move_.z;
 	}
+
+	//if (CCollision::IsHitSphere(pos_, NORMAL_ENEMY_RAD, g_stone_trap.GetPos(), STONE_RAD))
+	//{
+	//	is_active_ = false;
+	//}
 }
 
 void CNormalEnemy::Draw()
@@ -123,65 +114,76 @@ void CNormalEnemy::StepAI()
 	case CAIBase::ENEMY_AI_STATE_IDLE:	//待機状態更新
 		StepIdle();
 		break;
-	case CAIBase::ENEMY_AI_STATE_CAUTION:	//警戒状態更新
-		StepCaution();
-		break;
+	//case CAIBase::ENEMY_AI_STATE_CAUTION:	//警戒状態更新
+	//	StepCaution();
+	//	break;
 	case CAIBase::ENEMY_AI_STATE_ATTACK:	//攻撃状態更新
 		StepAttack();
 		break;
-	case CAIBase::ENEMY_AI_STATE_BACK:	//帰還状態更新
-		StepBack();
-		break;
+	//case CAIBase::ENEMY_AI_STATE_BACK:	//帰還状態更新
+	//	StepBack();
+	//	break;
 	}
 }
 
 void CNormalEnemy::StepIdle()
 {
-	//後でウロウロさせる
-	//ひとまず移動しない
-	move_.x = 0.0f;
-	move_.z = 0.0f;
-}
-
-void CNormalEnemy::StepCaution()
-{
-	//プレイヤーまでのベクトルを作成
-	CPlayer* player = CPlayerManager::GetInstance()->GetPlayer();
-	VECTOR player_vec = MyMath::VecCreate(pos_, player->GetPos());
-	//プレイヤーの向く角度を算出してY回転値に代入
-	rot_.y = atan2f(-player_vec.x, -player_vec.z);
-	//移動を止める
-	move_.x = 0.0f;
-	move_.z = 0.0f;
-}
-
-void CNormalEnemy::StepAttack()
-{
-	//プレイヤーまでのベクトルを作成
-	CPlayer* player = CPlayerManager::GetInstance()->GetPlayer();
-	VECTOR player_vec = MyMath::VecCreate(pos_, player->GetPos());
-	//Y要素は0
-	player_vec.y = 0.0f;
-	//向きを設定
-	rot_.y = atan2f(-player_vec.x, -player_vec.z);
-	//ベクトルを移動スピードの長さにして移動量にする
-	player_vec = MyMath::VecNormalize(player_vec);
-	VECTOR move_vec = MyMath::VecScale(player_vec, NORMAL_ENEMY_MOVE_SPEED);
-	move_.x = move_vec.x;
-	move_.z = move_vec.z;
-}
-
-void CNormalEnemy::StepBack()
-{
-	// 帰還ポイントまでのベクトルを作成
-	VECTOR back_vec = MyMath::VecCreate(pos_, back_pos_);
+	//トーテムに向かっていく
+	VECTOR vec = MyMath::VecCreate(pos_, g_totem.GetPos());
 	// y要素は0で
-	back_vec.y = 0.0f;
+	vec.y = 0.0f;
 	// そのベクトルを移動スピードの長さにして移動量とする
-	back_vec = MyMath::VecNormalize(back_vec);
-	VECTOR move_vec = MyMath::VecScale(back_vec, NORMAL_ENEMY_MOVE_SPEED);
+	vec = MyMath::VecNormalize(vec);
+	VECTOR move_vec = MyMath::VecScale(vec, NORMAL_ENEMY_MOVE_SPEED);
 	move_.x = move_vec.x;
 	move_.z = move_vec.z;
 	// 移動する方向を向く
 	rot_.y = atan2f(-move_.x, -move_.z);
+
 }
+
+//void CNormalEnemy::StepCaution()
+//{
+//	//プレイヤーまでのベクトルを作成
+//	CPlayer* player = CPlayerManager::GetInstance()->GetPlayer();
+//	VECTOR player_vec = MyMath::VecCreate(pos_, player->GetPos());
+//	//プレイヤーの向く角度を算出してY回転値に代入
+//	rot_.y = atan2f(-player_vec.x, -player_vec.z);
+//	//移動を止める
+//	move_.x = 0.0f;
+//	move_.z = 0.0f;
+//}
+
+void CNormalEnemy::StepAttack()
+{
+	////プレイヤーまでのベクトルを作成
+	//CPlayer* player = CPlayerManager::GetInstance()->GetPlayer();
+	//VECTOR player_vec = MyMath::VecCreate(pos_, player->GetPos());
+	
+	//トーテムに向かっていく
+	VECTOR vec = MyMath::VecCreate(pos_, g_totem.GetPos());
+	//Y要素は0
+	vec.y = 0.0f;
+	//向きを設定
+	rot_.y = atan2f(-vec.x, -vec.z);
+	//ベクトルを移動スピードの長さにして移動量にする
+	vec = MyMath::VecNormalize(vec);
+	VECTOR move_vec = MyMath::VecScale(vec, NORMAL_ENEMY_MOVE_SPEED);
+	move_.x = move_vec.x;
+	move_.z = move_vec.z;
+}
+
+//void CNormalEnemy::StepBack()
+//{
+//	// 帰還ポイントまでのベクトルを作成
+//	VECTOR back_vec = MyMath::VecCreate(pos_, back_pos_);
+//	// y要素は0で
+//	back_vec.y = 0.0f;
+//	// そのベクトルを移動スピードの長さにして移動量とする
+//	back_vec = MyMath::VecNormalize(back_vec);
+//	VECTOR move_vec = MyMath::VecScale(back_vec, NORMAL_ENEMY_MOVE_SPEED);
+//	move_.x = move_vec.x;
+//	move_.z = move_vec.z;
+//	// 移動する方向を向く
+//	rot_.y = atan2f(-move_.x, -move_.z);
+//}
