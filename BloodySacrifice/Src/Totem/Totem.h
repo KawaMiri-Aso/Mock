@@ -1,9 +1,9 @@
 #include "DxLib.h"
 
-#define TOTEM_W		(13.0f)
-#define TOTEM_H		(12.2f)
-#define TOTEM_D		(13.0f)
-#define TOTEM_RAD	(6.5f)
+#define TOTEM_W		(26.0f)
+#define TOTEM_H		(24.4f)
+#define TOTEM_D		(26.0f)
+#define TOTEM_RAD	(13.0f)
 
 enum TOTEM_STATE
 {
@@ -27,6 +27,8 @@ public:
 	VECTOR GetPos() { return pos_; }
 	TOTEM_STATE GetState() { return state_; }
 	float GetHp() { return hp_; }
+
+	void Damage(int damage) { hp_ -= damage; }
 
 private:
 	int handle_;

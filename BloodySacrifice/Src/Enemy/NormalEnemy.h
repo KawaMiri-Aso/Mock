@@ -18,6 +18,8 @@ public:
 	void Fin() override;
 	CEnemy* Clone() override;
 
+	int GetHandle() { return handle_; }
+
 private:
 	void StepAI();
 	void StepIdle();
@@ -31,6 +33,7 @@ private:
 private:
 	int handle_;
 	CAIBase* enemy_ai_;
+	float timer_;
 	//int posHandle_;		//座標用のモデルハンドル
 	//int posID_;			//フレーム（ボーン）の番号
 };

@@ -28,6 +28,7 @@ float CAIBase::GetBackPosDist(CEnemy* enemy)
 	return MyMath::VecLong(dis_vec);
 }
 
+//トーテムまでの距離算出
 float CAIBase::GetTotemDist(CEnemy* enemy)
 {
 	VECTOR dis_vec = MyMath::VecCreate(g_totem.GetPos(), enemy->GetPos());

@@ -8,6 +8,9 @@
 #include "../AI/AINormalEnemy.h"
 #include "../Totem/Totem.h"
 #include <math.h>
+#include "../Common/Time.h"
+
+#define DEBUG
 
 namespace {
 	int NORMAL_ENEMY_HP = 10;
@@ -16,12 +19,15 @@ namespace {
 	float NORMAL_ENEMY_ATTACK_RANGE = 25.0f;
 	float NORMAL_ENEMY_CAUTION_RANGE = 38.0f;
 	float NORMAL_ENEMY_BACK_RANGE = 58.0f;
+	float DAMAGE = 5.0f;	//与えるダメージ
+	float ATTACK_TIME = 60.0f;
 }
 
 
 CNormalEnemy::CNormalEnemy()
 {
 	handle_ = 0;
+	timer_ = 0.0f;
 }
 
 CNormalEnemy::~CNormalEnemy()
@@ -31,10 +37,10 @@ CNormalEnemy::~CNormalEnemy()
 
 void CNormalEnemy::Init()
 {
-	is_active_ = true;			//生存フラグ
+	active_ = true;			//生存フラグ
 	hp_ = NORMAL_ENEMY_HP;		//HP
 	rad_ = NORMAL_ENEMY_RAD;	//半径
-	is_hit_stonetrap = false;	//岩と当たっているか
+	//is_hit_stonetrap = false;	//岩と当たっているか
 	//AI状態遷移を設定
 	enemy_ai_ = new CAINomalEnemy;
 	static_cast<CAINomalEnemy*>(enemy_ai_)->Init(NORMAL_ENEMY_ATTACK_RANGE, NORMAL_ENEMY_CAUTION_RANGE, NORMAL_ENEMY_BACK_RANGE);
@@ -86,6 +92,10 @@ void CNormalEnemy::Step()
 void CNormalEnemy::Draw()
 {
 	MV1DrawModel(handle_);
+
+#ifdef DEBUG
+	DrawFormatString(10, 58, GetColor(255, 128, 0), "敵HP：%d", hp_);
+#endif 
 }
 
 void CNormalEnemy::Delete()
@@ -160,17 +170,29 @@ void CNormalEnemy::StepAttack()
 	//CPlayer* player = CPlayerManager::GetInstance()->GetPlayer();
 	//VECTOR player_vec = MyMath::VecCreate(pos_, player->GetPos());
 	
-	//トーテムに向かっていく
-	VECTOR vec = MyMath::VecCreate(pos_, g_totem.GetPos());
-	//Y要素は0
-	vec.y = 0.0f;
-	//向きを設定
-	rot_.y = atan2f(-vec.x, -vec.z);
-	//ベクトルを移動スピードの長さにして移動量にする
-	vec = MyMath::VecNormalize(vec);
-	VECTOR move_vec = MyMath::VecScale(vec, NORMAL_ENEMY_MOVE_SPEED);
-	move_.x = move_vec.x;
-	move_.z = move_vec.z;
+	////トーテムに向かっていく
+	//VECTOR vec = MyMath::VecCreate(pos_, g_totem.GetPos());
+	////Y要素は0
+	//vec.y = 0.0f;
+	////向きを設定
+	//rot_.y = atan2f(-vec.x, -vec.z);
+	////ベクトルを移動スピードの長さにして移動量にする
+	//vec = MyMath::VecNormalize(vec);
+	//VECTOR move_vec = MyMath::VecScale(vec, NORMAL_ENEMY_MOVE_SPEED);
+	//move_.x = move_vec.x;
+	//move_.z = move_vec.z;
+
+	//移動を止める
+	move_.x = 0.0f;
+	move_.z = 0.0f;
+
+	if (timer_ >= ATTACK_TIME)
+	{
+		g_totem.Damage(DAMAGE);
+		timer_ = 0.0f;
+	}
+
+	timer_ += Comn::GetGameDeltaFrame();
 }
 
 //void CNormalEnemy::StepBack()

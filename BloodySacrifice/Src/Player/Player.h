@@ -60,6 +60,8 @@ public:
 	//ゲームオーバー判定
 	bool Dead();
 
+	void Damage(int damage) { hp_ -= damage; }
+
 private:
 	//プレイヤーの回転処理
 	void AngleProcess();

@@ -41,6 +41,9 @@
     <Filter Include="Src\Totem">
       <UniqueIdentifier>{7a116394-3818-4f3f-bcef-4a820d355b55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Common">
+      <UniqueIdentifier>{97c87e96-a4f8-4a52-8ebf-1065d2eb0204}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Input\Input.cpp">
@@ -102,6 +105,9 @@
     </ClCompile>
     <ClCompile Include="Src\Totem\Totem.cpp">
       <Filter>Src\Totem</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Common\Time.cpp">
+      <Filter>Src\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +173,9 @@
     </ClInclude>
     <ClInclude Include="Src\Totem\Totem.h">
       <Filter>Src\Totem</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Common\Time.h">
+      <Filter>Src\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

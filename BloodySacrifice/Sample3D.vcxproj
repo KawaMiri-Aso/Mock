@@ -17,6 +17,7 @@
     <ClCompile Include="Src\Camera\DebugCamera.cpp" />
     <ClCompile Include="Src\Camera\PlayCamera.cpp" />
     <ClCompile Include="Src\Collision\Collision.cpp" />
+    <ClCompile Include="Src\Common\Time.cpp" />
     <ClCompile Include="Src\Enemy\Enemy.cpp" />
     <ClCompile Include="Src\Enemy\EnemyManager.cpp" />
     <ClCompile Include="Src\Enemy\NormalEnemy.cpp" />
@@ -41,6 +42,7 @@
     <ClInclude Include="Src\Camera\PlayCamera.h" />
     <ClInclude Include="Src\Collision\Collision.h" />
     <ClInclude Include="Src\Common.h" />
+    <ClInclude Include="Src\Common\Time.h" />
     <ClInclude Include="Src\Enemy\Enemy.h" />
     <ClInclude Include="Src\Enemy\EnemyManager.h" />
     <ClInclude Include="Src\Enemy\NormalEnemy.h" />

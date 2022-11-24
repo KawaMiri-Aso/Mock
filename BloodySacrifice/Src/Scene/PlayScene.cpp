@@ -12,6 +12,8 @@
 #include "../Enemy/EnemyManager.h"
 #include "../Totem/Totem.h"
 
+CTotem* totem = new CTotem;
+
 CPlayScene::CPlayScene()
 {
 	state_ = PLAY_STATE_NONE;
@@ -106,7 +108,7 @@ void CPlayScene::Draw()
 	//フィールドの描画
 	g_map.Draw();
 	g_totem.Draw();
-	g_stone_trap.Draw();
+	//g_stone_trap.Draw();
 
 	////プレイヤー管理描画
 	//g_player_manager.Draw();
@@ -121,6 +123,7 @@ void CPlayScene::Draw()
 	//文字列描画
 	DrawString(10, 10, "上下左右で移動", GetColor(255, 255, 255));
 	DrawString(10, 26, "スペースでジャンプ", GetColor(255, 255, 255));
+
 }
 
 //後処理
@@ -163,7 +166,7 @@ void CPlayScene::InitStoneTrap()
 
 void CPlayScene::InitTotem()
 {
-	g_totem.Init(VGet(0.0f, 6.1f, 0.0f));
+	g_totem.Init(VGet(0.0f, 12.2f, 0.0f));
 }
 
 void CPlayScene::LoadPlayer()

@@ -14,6 +14,16 @@
 #include "../Trap/Stone.h"
 #include "../Totem/Totem.h"
 
+namespace {
+	float PLAYER_HP = 500.0f;
+	float PLAYER_LOW_ATTACK = 3.0f;
+	float PLAYER_MID_ATTACK = 7.0f;
+	float PLAYER_HIGH_ATTACK = 15.0f;
+	
+}
+
+#define DEBUG
+
 MyMath* math;
 
 //コンストラクタ
@@ -23,6 +33,7 @@ CPlayer::CPlayer()
 	memset(&pos_, 0, sizeof(VECTOR));
 	player_state_ = PLAYER_STATE_NORMAL;
 	jump_time_ = 0.0f;
+	hp_ = 0.0f;
 }
 
 //デストラクタ
@@ -53,6 +64,7 @@ void CPlayer::Init(VECTOR pos)
 	handle_ = 0;
 	player_state_ = PLAYER_STATE_NORMAL;
 	jump_time_ = 0.0f;
+	hp_ = PLAYER_HP;
 }
 
 //読み込み
@@ -60,6 +72,7 @@ void CPlayer::Load()
 {
 	//モデルの読み込み
 	handle_ = MV1LoadModel("Data/Model/Player/Knight.x");
+	MV1SetScale(handle_, VGet(3.0f, 3.0f, 3.0f));
 }
 
 //削除
@@ -434,6 +447,7 @@ void CPlayer::Step()
 
 	//プレイヤーの座標
 	MV1SetPosition(handle_, pos_);
+
 }
 
 //描画
@@ -441,6 +455,10 @@ void CPlayer::Draw()
 {
 	//プレイヤーの描画
 	MV1DrawModel(handle_);
+
+#ifdef DEBUG
+	DrawFormatString(10, 74, GetColor(255, 128, 0), "プレイヤーHP：%d", hp_);
+#endif // DEBUG
 }
 
 //後処理

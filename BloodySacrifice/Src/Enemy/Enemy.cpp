@@ -4,13 +4,13 @@
 
 CEnemy::CEnemy()
 {
-	is_active_ = false;
+	active_ = false;
 	hp_ = 0;
 	pos_ = { 0 };
 	rot_ = { 0 };
 	move_ = { 0 };
 	rad_ = 0.0f;
-	is_hit_stonetrap = false;
+	/*is_hit_stonetrap = false;*/
 }
 
 CEnemy::~CEnemy()
@@ -26,4 +26,9 @@ void CEnemy::HitMap()
 		move_.y = 0.0f;
 	}
 	pos_ = VAdd(pos_, vVec);
+}
+
+void CEnemy::Dead()
+{
+	active_ = false;
 }
