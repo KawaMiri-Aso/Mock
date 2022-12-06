@@ -17,14 +17,40 @@
 #define PLAYER_WALK_SPEED_HALF	(PLAYER_WALK_SPEED*0.5)	//岩押し中の歩く早さ
 #define PLAYER_ROT_SCALING		(0.5f)		//左右入力用の数値
 #define PLAYER_ROT_SCALING_HALF	(0.25f)		//斜め入力用の数値
+#define ANIM_SPD (0.5f)
+#define CHANGE_SPD (0.01f)	//補間スピード
 
 //プレイヤー状態
 enum PLAYER_STATE
 {
 	PLAYER_STATE_NORMAL,	//通常
+	PLAYER_STATE_WALK,		//歩き中
 	PLAYER_STATE_JUMP_UP,	//ジャンプ上昇中
 	PLAYER_STATE_ATTACK,	//攻撃
 	PLAYER_STATE_DEAD,		//ゲームオーバー
+};
+
+//アニメ再生
+enum {
+	ANIM_MAIN,	//メイン再生
+	ANIM_SUB,	//サブ再生
+
+	BLEND_NUM
+
+};
+
+//アニメ種類
+enum ANIM
+{
+	WAIT,		//待機
+	WALK,		//歩き
+	RUN,		//走り
+	ATTACK_1,	//攻撃1
+	ATTACK_2,	//攻撃2
+	HIT_BACK,	//攻撃受けた
+	DEAD,		//死亡
+
+	ANIM_NUM
 };
 
 class CPlayer
@@ -62,9 +88,21 @@ public:
 
 	void Damage(int damage) { hp_ -= damage; }
 
+	//アニメーションリクエスト
+	void Request(int animID, float animSpd);
+	//アニメ更新
+	void AnimUpdate();
+
 private:
 	//プレイヤーの回転処理
 	void AngleProcess();
+
+	// アニメに関するデータ
+	float	m_animCount[BLEND_NUM];		// 現在のアニメカウント
+	float	m_animSpeed[BLEND_NUM];		// アニメーション速度
+	int		m_animIdx[BLEND_NUM];		// アニメのインデックス番号
+	float	m_animRate;					// アニメのレート
+	int		m_animType;					// 現在再生しているアニメタイプ
 
 private:
 

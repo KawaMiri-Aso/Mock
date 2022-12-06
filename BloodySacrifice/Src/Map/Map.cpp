@@ -98,3 +98,15 @@ VECTOR CMap::HitCheck(VECTOR vCenter, float fRadius)
 
 	return vOut;
 }
+
+//シャドウマップ関連
+void CMap::ShadowSet()
+{
+	shadow_handle_ = MakeShadowMap(2048, 2048);
+	//光の方向を設定
+	SetShadowMapLightDirection(shadow_handle_, VGet(1.0f, -1.0f, 0.0f));
+	//影を描画する範囲を設定
+	SetShadowMapDrawArea(shadow_handle_,
+		VGet(-500.0f, -1.0f, -500.0f),	//範囲の最小値
+		VGet(500.0f, 180.0f, 500.0f));		//範囲の最大値
+}

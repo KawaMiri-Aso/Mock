@@ -7,23 +7,11 @@
 #include "Camera/CameraManager.h"
 #include "Scene/SceneManager.h"
 #include "Enemy/EnemyManager.h"
+#include "Map/Map.h"
 
 //------------------------------
 // 定数
 //------------------------------
-
-//箱関連
-#define BOX_NUM		(4)		//箱の数
-#define BOX_W		(2.0f)	//箱の横幅
-#define BOX_H		(2.0f)	//箱の高さ
-#define BOX_D		(2.0f)	//箱の奥行き
-
-//箱情報
-struct BoxInfo
-{
-	int		handle;		//ハンドル
-	VECTOR	pos;		//座標
-};
 
 //------------------------------
 // グローバル変数
@@ -67,10 +55,8 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 
 	//ウィンドウサイズを変更
 	SetGraphMode(WINDOW_W, WINDOW_H, 32);
-	
 	//描画するスクリーンを設定
 	SetDrawScreen(DX_SCREEN_BACK);
-
 	//透過色を設定
 	SetTransColor(0, 127, 127);
 
@@ -81,31 +67,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 	CSceneManager* scene_manager = CSceneManager::GetInstance();
 	scene_manager->StartFirstScene(CSceneManager::SCENE_ID_PLAY);
 
+	//シャドウマップ初期設定
+	g_map.ShadowSet();
+
 	//キー入力初期化
 	g_input.Init();
-
-	////箱初期化
-	//BoxInfo box_info[BOX_NUM];
-
-	//{
-	//	VECTOR box_pos[BOX_NUM] = {
-	//		{ -7.0f, 1.0f, 7.0f },
-	//		{ 7.0f, 1.0f, 7.0f },
-	//		{ -7.0f, 1.0f, -7.0f },
-	//		{ 7.0f, 1.0f, -7.0f }
-	//	};
-
-	//	int box_original_handle = MV1LoadModel("Data/Model/Box/Box.x");
-
-	//	for(int box_index = 0; box_index < BOX_NUM; box_index++)
-	//	{
-	//		box_info[box_index].handle = MV1DuplicateModel(box_original_handle);
-	//		box_info[box_index].pos = box_pos[box_index];
-	//	}
-
-	//	//コピー元モデルは削除
-	//	MV1DeleteModel(box_original_handle);
-	//} 
 
 	//=====================================
 	//ゲームメインループ

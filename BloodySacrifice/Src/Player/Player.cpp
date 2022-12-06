@@ -34,6 +34,13 @@ CPlayer::CPlayer()
 	player_state_ = PLAYER_STATE_NORMAL;
 	jump_time_ = 0.0f;
 	hp_ = 0.0f;
+
+	for (int i = 0; i < BLEND_NUM; i++)
+	{
+		m_animCount[i] = 0.0f;
+		m_animSpeed[i] = 0.0f;
+		m_animIdx[i] = -1;
+	}
 }
 
 //デストラクタ
@@ -72,7 +79,12 @@ void CPlayer::Load()
 {
 	//モデルの読み込み
 	handle_ = MV1LoadModel("Data/Model/Player/Knight.x");
-	MV1SetScale(handle_, VGet(3.0f, 3.0f, 3.0f));
+	MV1SetScale(handle_, VGet(0.25f, 0.25f, 0.25f));
+
+	// アニメの再生
+	m_animIdx[ANIM_MAIN] = MV1AttachAnim(handle_, WAIT);
+	m_animCount[ANIM_MAIN] = 0.0f;
+	m_animSpeed[ANIM_MAIN] = ANIM_SPD;
 }
 
 //削除
@@ -185,6 +197,8 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
+		player_state_ = PLAYER_STATE_WALK;
+		
 	}
 	else if (g_input.IsCont(KEY_DOWN) && g_input.IsCont(KEY_LEFT) || g_input.IsCont(KEY_DOWN) && g_input.IsCont(KEY_RIGHT))
 	{
@@ -244,6 +258,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
+		player_state_ = PLAYER_STATE_WALK;
 	}
 	//カメラが向いている方向へ移動
 	else if(g_input.IsCont(KEY_UP))
@@ -284,6 +299,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
+		player_state_ = PLAYER_STATE_WALK;
 
 	}
 	//カメラが向いている方向とは逆へ移動
@@ -328,6 +344,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
+		player_state_ = PLAYER_STATE_WALK;
 	}
 	//左へ移動
 	else if(g_input.IsCont(KEY_LEFT))
@@ -380,6 +397,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
+		player_state_ = PLAYER_STATE_WALK;
 	}
 	//右へ移動
 	else if(g_input.IsCont(KEY_RIGHT))
@@ -430,6 +448,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
+		player_state_ = PLAYER_STATE_WALK;
 	}
 
 	//座標設定 =====
@@ -447,6 +466,26 @@ void CPlayer::Step()
 
 	//プレイヤーの座標
 	MV1SetPosition(handle_, pos_);
+
+	switch (player_state_)
+	{
+	case PLAYER_STATE_NORMAL:
+		Request(WAIT, ANIM_SPD);
+		break;
+	case PLAYER_STATE_WALK:
+		Request(WALK, ANIM_SPD);
+		break;
+	case PLAYER_STATE_JUMP_UP:
+		break;
+	case PLAYER_STATE_ATTACK:
+		Request(ATTACK_1, ANIM_SPD);
+		break;
+	case PLAYER_STATE_DEAD:
+		Request(DEAD, ANIM_SPD);
+		break;
+	default:
+		break;
+	}
 
 }
 
@@ -566,4 +605,70 @@ bool CPlayer::Dead()
 void CPlayer::IsAttack()
 {
 
+}
+
+//アニメーションリクエスト
+void CPlayer::Request(int animID, float animSpd)
+{
+	// 同じアニメは無視
+	if (m_animType == animID) return;
+
+	// とりあえず2つ以上は無理、すでに2つ再生中は1つ消す
+	if (m_animIdx[ANIM_SUB] != -1)
+	{
+		MV1DetachAnim(handle_, m_animIdx[ANIM_SUB]);
+		m_animIdx[ANIM_SUB] = -1;
+	}
+	// メイン再生のアニメ情報をサブに移動
+	m_animIdx[ANIM_SUB] = m_animIdx[ANIM_MAIN];
+	m_animCount[ANIM_SUB] = m_animCount[ANIM_MAIN];
+	m_animSpeed[ANIM_SUB] = m_animSpeed[ANIM_MAIN];
+
+	// その後新しくアタッチしなおす
+	m_animIdx[ANIM_MAIN] = MV1AttachAnim(handle_, animID);
+	// メインアニメは設定しなおし
+	m_animSpeed[ANIM_MAIN] = animSpd;
+	m_animCount[ANIM_MAIN] = 0;
+
+	m_animRate = 1.f;		// レート設定しなおし
+	m_animType = animID;
+}
+
+//アニメ更新
+void CPlayer::AnimUpdate()
+{
+	// レートの更新======================================================
+	if (m_animRate > 0.0f)
+	{
+		m_animRate -= CHANGE_SPD;
+		// レートが0を下回ったら古い方のアニメーションを削除
+		if (m_animRate < 0.0f)
+		{
+			MV1DetachAnim(handle_, m_animIdx[ANIM_SUB]);
+			m_animIdx[ANIM_SUB] = -1;
+		}
+	}
+	// ==================================================================
+
+	// アニメーション更新
+	for (int i = 0; i < BLEND_NUM; i++)
+	{
+		if (m_animIdx[i] == -1) continue;
+		m_animCount[i] += m_animSpeed[i];
+
+		// アニメが最後まで進んだら最初へ
+		if (MV1GetAnimTotalTime(handle_, m_animIdx[i]) < m_animCount[i])
+		{
+			m_animCount[i] = 0.0f;
+		}
+		
+		// 時間更新
+		MV1SetAttachAnimTime(handle_, m_animIdx[i], m_animCount[i]);
+		// レートを設定する
+		float rate = i == ANIM_MAIN ? 1.0f - m_animRate : m_animRate;
+		MV1SetAttachAnimBlendRate(handle_, m_animIdx[i], rate);
+	}
+
+	// 座標更新
+	MV1SetPosition(handle_, pos_);
 }

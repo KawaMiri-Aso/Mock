@@ -26,9 +26,6 @@
     <Filter Include="Src\Player">
       <UniqueIdentifier>{04fc5b0e-6ded-486a-921b-0a04c5292b9f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Src\Scene">
-      <UniqueIdentifier>{7f9c73c9-ccc4-4b6c-af4a-0cc8c85ce23b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Src\Map">
       <UniqueIdentifier>{e517351b-311a-43c9-a880-97c4dc4ce1d9}</UniqueIdentifier>
     </Filter>
@@ -43,6 +40,9 @@
     </Filter>
     <Filter Include="Src\Common">
       <UniqueIdentifier>{97c87e96-a4f8-4a52-8ebf-1065d2eb0204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Scene">
+      <UniqueIdentifier>{7f9c73c9-ccc4-4b6c-af4a-0cc8c85ce23b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

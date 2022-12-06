@@ -104,20 +104,25 @@ void CPlayScene::Step()
 
 //•`‰æ
 void CPlayScene::Draw()
-{	
-	//ƒtƒB[ƒ‹ƒh‚Ì•`‰æ
+{
+	// ‰e—p‚Ì•`‰æŠJŽn-------------------
+	ShadowMap_DrawSetup(g_map.GetShadowHandle());	//‰e‚Ì•`‰æ‘O‚É•K‚¸s‚¤
 	g_map.Draw();
 	g_totem.Draw();
-	//g_stone_trap.Draw();
-
-	////ƒvƒŒƒCƒ„[ŠÇ—•`‰æ
-	//g_player_manager.Draw();
-
-	////ƒJƒƒ‰‚Ì•`‰æ
-	//g_camera_manager.Draw();
-
 	CPlayerManager::GetInstance()->Draw();
 	CEnemyManager::GetInstance()->Draw();
+	ShadowMap_DrawEnd();				//‰e‚Ì•`‰æŒã‚É•K‚¸s‚¤
+	// ‰e—p‚Ì•`‰æI—¹-------------------
+
+	// ’Êí‚Ì•`‰æŠJŽn-------------------
+	SetUseShadowMap(0, g_map.GetShadowHandle());	//”½‰f‚³‚¹‚é‰e‚Ìƒnƒ“ƒhƒ‹‚Æ0`2‚ÌƒXƒƒbƒg”Ô†ƒZƒbƒg
+	g_map.Draw();
+	g_totem.Draw();
+	CPlayerManager::GetInstance()->Draw();
+	CEnemyManager::GetInstance()->Draw();
+	SetUseShadowMap(0, -1);			//I‚í‚Á‚½‚çŽg—p‚µ‚½ƒXƒƒbƒg”Ô†‚ð-1‚ÅI‚í‚ç‚¹‚é
+	// ’Êí‚Ì•`‰æI—¹-------------------
+
 	CCameraManager::GetInstance()->Draw();
 
 	//•¶Žš—ñ•`‰æ
@@ -137,6 +142,8 @@ void CPlayScene::Fin()
 	CPlayerManager::DeleteInstance();
 	CEnemyManager::DeleteInstance();
 	CCameraManager::DeleteInstance();
+
+	DeleteShadowMap(g_map.GetShadowHandle());
 }
 
 void CPlayScene::InitPlayer()

@@ -32,12 +32,17 @@ public:
 
 	int GetCol_handle() { return col_handle_; }
 
+	//シャドウマップ関連
+	void ShadowSet();
+	int GetShadowHandle() { return shadow_handle_; }
+
 private:
 	int handle_;						//画像ハンドル
 	int col_handle_;					//当たり判定用モデルハンドル
 	VECTOR pos_;						//座標
 
 	int m_sky_handle;					//天球
+	int shadow_handle_;					//シャドウハンドル
 };
 
 extern CMap g_map;
