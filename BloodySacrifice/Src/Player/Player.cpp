@@ -118,7 +118,7 @@ void CPlayer::Step()
 		if(g_input.IsPush(KEY_SPACE))
 		{
 			//状態をジャンプ上昇中へ
-			player_state_ = PLAYER_STATE_JUMP_UP;
+ 			player_state_ = PLAYER_STATE_JUMP_UP;
 			jump_time_ = 0.0f;
 		}
 	}
@@ -197,7 +197,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
-		player_state_ = PLAYER_STATE_WALK;
+		//player_state_ = PLAYER_STATE_WALK;
 		
 	}
 	else if (g_input.IsCont(KEY_DOWN) && g_input.IsCont(KEY_LEFT) || g_input.IsCont(KEY_DOWN) && g_input.IsCont(KEY_RIGHT))
@@ -258,7 +258,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
-		player_state_ = PLAYER_STATE_WALK;
+		//player_state_ = PLAYER_STATE_WALK;
 	}
 	//カメラが向いている方向へ移動
 	else if(g_input.IsCont(KEY_UP))
@@ -299,7 +299,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
-		player_state_ = PLAYER_STATE_WALK;
+		//player_state_ = PLAYER_STATE_WALK;
 
 	}
 	//カメラが向いている方向とは逆へ移動
@@ -344,7 +344,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
-		player_state_ = PLAYER_STATE_WALK;
+		//player_state_ = PLAYER_STATE_WALK;
 	}
 	//左へ移動
 	else if(g_input.IsCont(KEY_LEFT))
@@ -397,7 +397,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
-		player_state_ = PLAYER_STATE_WALK;
+		//player_state_ = PLAYER_STATE_WALK;
 	}
 	//右へ移動
 	else if(g_input.IsCont(KEY_RIGHT))
@@ -448,7 +448,7 @@ void CPlayer::Step()
 
 		//移動したに変える
 		moveFlg = true;
-		player_state_ = PLAYER_STATE_WALK;
+		//player_state_ = PLAYER_STATE_WALK;
 	}
 
 	//座標設定 =====
@@ -458,6 +458,11 @@ void CPlayer::Step()
 	{
 		//プレイヤーの回転
 		AngleProcess();
+		player_state_ = PLAYER_STATE_WALK;
+	}
+	else
+	{
+		player_state_ = PLAYER_STATE_NORMAL;
 	}
 
 	VECTOR vVec;
@@ -487,6 +492,7 @@ void CPlayer::Step()
 		break;
 	}
 
+	AnimUpdate();
 }
 
 //描画

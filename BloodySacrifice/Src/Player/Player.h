@@ -8,17 +8,18 @@
 
 //プレイヤー関連
 #define PLAYER_W	(4.454f)	//プレイヤーの横幅
-#define PLAYER_H	(18.6f)	//プレイヤーの高さ
+#define PLAYER_H	(18.6f)		//プレイヤーの高さ
 #define PLAYER_D	(5.215f)	//プレイヤーの奥行き
-#define PLAYER_RAD	(9.3f)	//プレイヤーの半径
-#define PLAYER_JUMP_VAL		(0.8f)	//ジャンプ量
+#define PLAYER_RAD	(9.3f)		//プレイヤーの半径
+#define PLAYER_JUMP_VAL		(2.0f)	//ジャンプ量
 #define PLAYER_JUMP_TIME	(0.8f)	//ジャンプの時間
-#define PLAYER_WALK_SPEED	(0.8f)	//歩く速さ
+#define PLAYER_WALK_SPEED	(1.0f)	//歩く速さ
+#define PLAYER_RUN_SPEED	(1.5f)	//走る速さ
 #define PLAYER_WALK_SPEED_HALF	(PLAYER_WALK_SPEED*0.5)	//岩押し中の歩く早さ
 #define PLAYER_ROT_SCALING		(0.5f)		//左右入力用の数値
 #define PLAYER_ROT_SCALING_HALF	(0.25f)		//斜め入力用の数値
-#define ANIM_SPD (0.5f)
-#define CHANGE_SPD (0.01f)	//補間スピード
+#define ANIM_SPD (1.0f)
+#define CHANGE_SPD (0.05f)	//補間スピード
 
 //プレイヤー状態
 enum PLAYER_STATE
