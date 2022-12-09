@@ -4,9 +4,7 @@
 //各カメラへのアクセスは必ずCCameraManagerを経由
 
 #include "CameraManager.h"
-#include "PlayCamera.h"
-#include "DebugCamera.h"
-#include "CameraBase.h"
+
 
 
 CCameraManager* CCameraManager::instance_ = nullptr;

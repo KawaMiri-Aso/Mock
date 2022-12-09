@@ -22,7 +22,7 @@ void CPlayerManager::Init()
 {
 	//プレイヤーの初期化を呼ぶ
 	m_player = new CPlayer;
-	m_player->Init(VGet(-41.0f, 0.0f, 41.0f));
+	m_player->Init(VGet(-41.0f, 1.0f, 41.0f));
 }
 
 //ロード

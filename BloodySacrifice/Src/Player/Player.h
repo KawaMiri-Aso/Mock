@@ -11,9 +11,9 @@
 #define PLAYER_H	(18.6f)		//プレイヤーの高さ
 #define PLAYER_D	(5.215f)	//プレイヤーの奥行き
 #define PLAYER_RAD	(9.3f)		//プレイヤーの半径
-#define PLAYER_JUMP_VAL		(2.0f)	//ジャンプ量
+#define PLAYER_JUMP_VAL		(30.0f)	//ジャンプ量
 #define PLAYER_JUMP_TIME	(0.8f)	//ジャンプの時間
-#define PLAYER_WALK_SPEED	(1.0f)	//歩く速さ
+#define PLAYER_WALK_SPEED	(0.8f)	//歩く速さ
 #define PLAYER_RUN_SPEED	(1.5f)	//走る速さ
 #define PLAYER_WALK_SPEED_HALF	(PLAYER_WALK_SPEED*0.5)	//岩押し中の歩く早さ
 #define PLAYER_ROT_SCALING		(0.5f)		//左右入力用の数値
@@ -26,6 +26,7 @@ enum PLAYER_STATE
 {
 	PLAYER_STATE_NORMAL,	//通常
 	PLAYER_STATE_WALK,		//歩き中
+	PLAYER_STATE_RUN,		//走り中
 	PLAYER_STATE_JUMP_UP,	//ジャンプ上昇中
 	PLAYER_STATE_ATTACK,	//攻撃
 	PLAYER_STATE_DEAD,		//ゲームオーバー
@@ -74,10 +75,26 @@ public:
 	//後処理
 	void Fin();
 
+	//******************************
+	//取得関数
+	//******************************
+	
 	//座標を取得
-	VECTOR GetPos()const { return pos_; }
+	inline VECTOR GetPos() { return pos_; }
 	//移動速度ベクトルを取得
 	VECTOR GetSpeed()const { return speed_; }
+	//回転角度を取得
+	inline VECTOR GetRot() { return rot_; }
+
+	//******************************
+	//設定関数
+	//******************************
+	void SetCameraRot(VECTOR camRot) { camrot_ = camRot; }
+
+	//座標設定
+	inline void	SetPos(VECTOR pos) { pos_ = pos; }
+	//回転角度設定
+	inline void SetRot(VECTOR rot) { rot_ = rot; }
 
 	////岩を押しているか
 	//bool IsPushStone();
@@ -97,6 +114,22 @@ public:
 private:
 	//プレイヤーの回転処理
 	void AngleProcess();
+	//待機処理
+	void ExecWait();
+	//歩き処理
+	void ExecWalk();
+	//走り処理
+	void ExecRun();
+	//移動処理
+	bool CalcMove();
+
+	//ジャンプ処理
+	void CalcJump();
+
+	//十字キーによる移動方向取得
+	VECTOR GetSpeed();
+	//速度をプレイヤーに反映させる
+	void CalcSpeed(VECTOR speed);
 
 	// アニメに関するデータ
 	float	m_animCount[BLEND_NUM];		// 現在のアニメカウント
@@ -110,6 +143,8 @@ private:
 	int				handle_;		//ハンドル
 	VECTOR			pos_;			//座標
 	VECTOR			speed_;			//移動速度ベクトル
+	VECTOR			camrot_;
+	VECTOR			rot_;			//回転角度
 	float			angle_;			//向いている方向の角度
 	PLAYER_STATE	player_state_;	//状態
 	float			jump_time_;		//ジャンプの時間

@@ -39,11 +39,15 @@ public:
 	//注視点を取得
 	VECTOR GetLook(){ return look_; }
 
+	//カメラ角度取得
+	VECTOR GetCameraRot() { return camRot_; }
+
 private:
 
 	//VECTOR	pos_;		//視点
 	//VECTOR	look_;		//注視点
 	//VECTOR	up_;		//アップベクトル
+	
 
 };
 

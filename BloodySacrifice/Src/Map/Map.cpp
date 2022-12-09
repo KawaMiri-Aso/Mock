@@ -31,6 +31,7 @@ void CMap::Init()
 
 	//天球読み込み
 	m_sky_handle = MV1LoadModel("Data/Model/Sky/Sky.x");
+	MV1SetPosition(m_sky_handle, VGet(0.0f, 0.0f, 0.0f));
 	//天球のサイズを大きくする
 	MV1SetScale(m_sky_handle, VGet(2000.0f, 2000.0f, 2000.0f));
 }
@@ -107,6 +108,6 @@ void CMap::ShadowSet()
 	SetShadowMapLightDirection(shadow_handle_, VGet(1.0f, -1.0f, 0.0f));
 	//影を描画する範囲を設定
 	SetShadowMapDrawArea(shadow_handle_,
-		VGet(-500.0f, -1.0f, -500.0f),	//範囲の最小値
+		VGet(-500.0f, -1.0f, -500.0f),		//範囲の最小値
 		VGet(500.0f, 180.0f, 500.0f));		//範囲の最大値
 }

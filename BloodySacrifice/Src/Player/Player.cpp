@@ -106,11 +106,16 @@ void CPlayer::Step()
 	//初期状態では移動していない
 	moveFlg = false;
 
-	//プレイヤーに常に重力をかける
-	pos_.y -= GRAVITY;
-
 	//移動速度ベクトルを初期化
 	speed_ = { 0 };
+
+	//プレイヤーに常に重力をかける
+	/*pos_.y -= GRAVITY;*/
+	speed_.y -= GRAVITY;
+	pos_.y += speed_.y;
+
+	////移動速度ベクトルを初期化
+	//speed_ = { 0 };
 
 	//プレイヤー通常
 	if(player_state_ == PLAYER_STATE_NORMAL)
@@ -120,26 +125,31 @@ void CPlayer::Step()
 			//状態をジャンプ上昇中へ
  			player_state_ = PLAYER_STATE_JUMP_UP;
 			jump_time_ = 0.0f;
+			//上昇
+			speed_.y = PLAYER_JUMP_VAL;
 		}
 	}
 
 	//プレイヤージャンプ上昇中
-	if(player_state_ == PLAYER_STATE_JUMP_UP)
+ 	if(player_state_ == PLAYER_STATE_JUMP_UP)
 	{
 		//上昇
-		pos_.y += PLAYER_JUMP_VAL;
+		/*speed_.y = PLAYER_JUMP_VAL;*/
 		jump_time_ += 1.0f / FRAME_RATE;
+		speed_.y -= GRAVITY;
 
 		//ジャンプ時間が過ぎたら
-		if(jump_time_ >= PLAYER_JUMP_TIME)
+		/*if (speed_.y <= 0.0f)
 		{
 			jump_time_ = 0.0f;
+			speed_.y = 0.0f;
 			player_state_ = PLAYER_STATE_NORMAL;
-		}
+		}*/
 	}
 
+
 	//斜め移動
-	if (g_input.IsCont(KEY_UP) && g_input.IsCont(KEY_LEFT) || g_input.IsCont(KEY_UP) && g_input.IsCont(KEY_RIGHT))
+	if (g_input.IsCont(KEY_W) && g_input.IsCont(KEY_A) || g_input.IsCont(KEY_W) && g_input.IsCont(KEY_D))
 	{
 		VECTOR move_up_sidle = { 0 };
 
@@ -153,13 +163,22 @@ void CPlayer::Step()
 		//正規化
 		move_up_sidle = math->VecNormalize(move_up_sidle);
 		//歩く速さを掛け算
-		move_up_sidle = math->VecScale(move_up_sidle, PLAYER_WALK_SPEED);
-
+		if (g_input.IsCont(KEY_LSHIFT))
+		{
+			move_up_sidle = math->VecScale(move_up_sidle, PLAYER_RUN_SPEED);
+			player_state_ = PLAYER_STATE_RUN;
+		}
+		else
+		{
+			move_up_sidle = math->VecScale(move_up_sidle, PLAYER_WALK_SPEED);
+			player_state_ = PLAYER_STATE_WALK;
+		}
+		
 		//平行移動行列取得
 		MATRIX m_dir = MGetTranslate(move_up_sidle);
 		MATRIX m_rotY;
 		//Y軸回転行列取得
-		if (!g_input.IsCont(KEY_RIGHT))
+		if (!g_input.IsCont(KEY_D))
 		{
 			m_rotY = MGetRotY(DX_PI_F * -PLAYER_ROT_SCALING_HALF);
 		}
@@ -200,7 +219,7 @@ void CPlayer::Step()
 		//player_state_ = PLAYER_STATE_WALK;
 		
 	}
-	else if (g_input.IsCont(KEY_DOWN) && g_input.IsCont(KEY_LEFT) || g_input.IsCont(KEY_DOWN) && g_input.IsCont(KEY_RIGHT))
+	else if (g_input.IsCont(KEY_S) && g_input.IsCont(KEY_A) || g_input.IsCont(KEY_S) && g_input.IsCont(KEY_D))
 	{
 		VECTOR move_up_sidle = { 0 };
 
@@ -214,13 +233,22 @@ void CPlayer::Step()
 		//正規化
 		move_up_sidle = math->VecNormalize(move_up_sidle);
 		//歩く速さを掛け算
-		move_up_sidle = math->VecScale(move_up_sidle, -PLAYER_WALK_SPEED);
+		if (g_input.IsCont(KEY_LSHIFT))
+		{
+			move_up_sidle = math->VecScale(move_up_sidle, -PLAYER_RUN_SPEED);
+			player_state_ = PLAYER_STATE_RUN;
+		}
+		else
+		{
+			move_up_sidle = math->VecScale(move_up_sidle, -PLAYER_WALK_SPEED);
+			player_state_ = PLAYER_STATE_WALK;
+		}
 
 		//平行移動行列取得
 		MATRIX m_dir = MGetTranslate(move_up_sidle);
 		MATRIX m_rotY;
 		//Y軸回転行列取得
-		if (!g_input.IsCont(KEY_RIGHT))
+		if (!g_input.IsCont(KEY_D))
 		{
 			m_rotY = MGetRotY(DX_PI_F * PLAYER_ROT_SCALING_HALF);
 		}
@@ -261,7 +289,7 @@ void CPlayer::Step()
 		//player_state_ = PLAYER_STATE_WALK;
 	}
 	//カメラが向いている方向へ移動
-	else if(g_input.IsCont(KEY_UP))
+	else if(g_input.IsCont(KEY_W))
 	{
 		VECTOR move_up = { 0 };
 
@@ -275,7 +303,16 @@ void CPlayer::Step()
 		//正規化
 		move_up = math->VecNormalize(move_up);
 		//歩く速さを掛け算
-		move_up = math->VecScale(move_up, PLAYER_WALK_SPEED);
+		if (g_input.IsCont(KEY_LSHIFT))
+		{
+			move_up = math->VecScale(move_up, PLAYER_RUN_SPEED);
+			player_state_ = PLAYER_STATE_RUN;
+		}
+		else
+		{
+			move_up = math->VecScale(move_up, PLAYER_WALK_SPEED);
+			player_state_ = PLAYER_STATE_WALK;
+		}
 
 		//移動速度ベクトルに入れる
 		speed_ = move_up;
@@ -303,7 +340,7 @@ void CPlayer::Step()
 
 	}
 	//カメラが向いている方向とは逆へ移動
-	else if(g_input.IsCont(KEY_DOWN))
+	else if(g_input.IsCont(KEY_S))
 	{
 		VECTOR move_down = { 0 };
 
@@ -317,7 +354,16 @@ void CPlayer::Step()
 		//正規化
 		move_down = math->VecNormalize(move_down);
 		//歩く速さを掛け算
-		move_down = math->VecScale(move_down, -PLAYER_WALK_SPEED);
+		if (g_input.IsCont(KEY_LSHIFT))
+		{
+			move_down = math->VecScale(move_down, -PLAYER_RUN_SPEED);
+			player_state_ = PLAYER_STATE_RUN;
+		}
+		else
+		{
+			move_down = math->VecScale(move_down, -PLAYER_WALK_SPEED);
+			player_state_ = PLAYER_STATE_WALK;
+		}
 
 		//移動速度ベクトルに入れる
 		speed_ = move_down;
@@ -347,7 +393,7 @@ void CPlayer::Step()
 		//player_state_ = PLAYER_STATE_WALK;
 	}
 	//左へ移動
-	else if(g_input.IsCont(KEY_LEFT))
+	else if(g_input.IsCont(KEY_A))
 	{
 		VECTOR move_left = { 0 };
 
@@ -361,7 +407,16 @@ void CPlayer::Step()
 		//正規化
 		move_left = math->VecNormalize(move_left);
 		//歩く速さを掛け算
-		move_left = math->VecScale(move_left, -PLAYER_WALK_SPEED);
+		if (g_input.IsCont(KEY_LSHIFT))
+		{
+			move_left = math->VecScale(move_left, -PLAYER_RUN_SPEED);
+			player_state_ = PLAYER_STATE_RUN;
+		}
+		else
+		{
+			move_left = math->VecScale(move_left, -PLAYER_WALK_SPEED);
+			player_state_ = PLAYER_STATE_WALK;
+		}
 		
 		//平行移動行列取得
 		MATRIX m_dir = MGetTranslate(move_left);
@@ -400,7 +455,7 @@ void CPlayer::Step()
 		//player_state_ = PLAYER_STATE_WALK;
 	}
 	//右へ移動
-	else if(g_input.IsCont(KEY_RIGHT))
+	else if(g_input.IsCont(KEY_D))
 	{
 		VECTOR move_right = { 0 };
 
@@ -414,7 +469,16 @@ void CPlayer::Step()
 		//正規化
 		move_right = math->VecNormalize(move_right);
 		//歩く速さを掛け算
-		move_right = math->VecScale(move_right, -PLAYER_WALK_SPEED);
+		if (g_input.IsCont(KEY_LSHIFT))
+		{
+			move_right = math->VecScale(move_right, -PLAYER_RUN_SPEED);
+			player_state_ = PLAYER_STATE_RUN;
+		}
+		else
+		{
+			move_right = math->VecScale(move_right, -PLAYER_WALK_SPEED);
+			player_state_ = PLAYER_STATE_WALK;
+		}
 
 		//平行移動行列
 		MATRIX m_dir = MGetTranslate(move_right);
@@ -429,7 +493,7 @@ void CPlayer::Step()
 		//移動前の座標と足して新たな座標を得る
 		/*pos_ = math->VecAdd(pos_, speed_);*/
 
-			//移動前の座標と足して新たな座標を得る
+		//移動前の座標と足して新たな座標を得る
 		pos_.x += speed_.x;
 		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
 		{
@@ -458,19 +522,46 @@ void CPlayer::Step()
 	{
 		//プレイヤーの回転
 		AngleProcess();
-		player_state_ = PLAYER_STATE_WALK;
 	}
 	else
 	{
 		player_state_ = PLAYER_STATE_NORMAL;
 	}
 
+	//プレイヤーの座標
+	MV1SetPosition(handle_, pos_);
+
+	//SetCameraRot(CCameraManager::GetInstance()->GetPlayerCameraRot());
+
+	//switch (m_animType)
+	//{
+	//case WAIT:
+	//	ExecWait();
+	//	break;
+	//case WALK:
+	//	ExecWalk();
+	//	break;
+	//case RUN:
+	//	ExecRun();
+	//	break;
+	//}
+
+	//プレイヤーに常に重力をかける
+	/*pos_.y -= GRAVITY;*/
+	speed_.y -= GRAVITY;
+	pos_.y += speed_.y;
+	SetPos(pos_);
+
+	//床との当たり判定
 	VECTOR vVec;
 	vVec = g_map.HitCheck(pos_, PLAYER_RAD);
 	pos_ = VAdd(pos_, vVec);
-
-	//プレイヤーの座標
-	MV1SetPosition(handle_, pos_);
+	/*if (vVec.y > 0.0f && player_state_ == PLAYER_STATE_JUMP_UP)
+	{
+		jump_time_ = 0.0f;
+		speed_.y = 0.0f;
+		player_state_ = PLAYER_STATE_NORMAL;
+	}*/
 
 	switch (player_state_)
 	{
@@ -479,6 +570,9 @@ void CPlayer::Step()
 		break;
 	case PLAYER_STATE_WALK:
 		Request(WALK, ANIM_SPD);
+		break;
+	case PLAYER_STATE_RUN:
+		Request(RUN, ANIM_SPD);
 		break;
 	case PLAYER_STATE_JUMP_UP:
 		break;
@@ -550,7 +644,14 @@ void CPlayer::AngleProcess()
 	if (DiffAngle > 0.0f)
 	{
 		// 差がプラスの場合は引く
-		DiffAngle -= PLAYER_WALK_SPEED;
+		if (player_state_ == PLAYER_STATE_WALK)
+		{
+			DiffAngle -= PLAYER_WALK_SPEED;
+		}
+		else
+		{
+			DiffAngle -= PLAYER_RUN_SPEED;
+		}
 		if (DiffAngle < 0.0f)
 		{
 			DiffAngle = 0.0f;
@@ -559,7 +660,15 @@ void CPlayer::AngleProcess()
 	else
 	{
 		// 差がマイナスの場合は足す
-		DiffAngle += PLAYER_WALK_SPEED;
+		if (player_state_ == PLAYER_STATE_WALK)
+		{
+			DiffAngle += PLAYER_WALK_SPEED;
+		}
+		else
+		{
+			DiffAngle += PLAYER_RUN_SPEED;
+		}
+
 		if (DiffAngle > 0.0f)
 		{
 			DiffAngle = 0.0f;
@@ -610,7 +719,13 @@ bool CPlayer::Dead()
 //プレイヤーの攻撃処理
 void CPlayer::IsAttack()
 {
+	if (speed_.x == 0.0f && speed_.y == 0.0f && speed_.z == 0.0f)
+	{
+		if (g_input.IsCont(KEY_LSHIFT))
+		{
 
+		}
+	}
 }
 
 //アニメーションリクエスト
@@ -678,3 +793,608 @@ void CPlayer::AnimUpdate()
 	// 座標更新
 	MV1SetPosition(handle_, pos_);
 }
+
+////待機処理
+//void CPlayer::ExecWait()
+//{
+//	//通常攻撃
+//	if (g_input.IsPush(KEY_Z))
+//	{
+//		Request(ATTACK_1, ANIM_SPD);
+//	}
+//	//ジャンプ
+//	else if (g_input.IsPush(KEY_SPACE))
+//	{
+//		//ジャンプアニメのリクエスト
+//	}
+//	//歩き・走り
+//	else
+//	{
+//		VECTOR spd = GetSpeed();
+//		//移動してなければ待機
+//		if (speed_.x == 0.0f && speed_.y == 0.0f && speed_.z == 0.0f)
+//		{
+//			Request(WAIT, ANIM_SPD);
+//		}
+//		else
+//		{
+//			//シフトキーを押していたら走り
+//			if (g_input.IsCont(KEY_LSHIFT))
+//			{
+//				Request(RUN, ANIM_SPD);
+//				spd = math->VecScale(spd, PLAYER_RUN_SPEED);
+//			}
+//			//何もなければ歩き
+//			else
+//			{
+//				Request(WALK, ANIM_SPD);
+//				spd = math->VecScale(spd, PLAYER_WALK_SPEED);
+//			}
+//			CalcSpeed(spd);
+//		}
+//	}
+//}
+//
+////歩き処理
+//void CPlayer::ExecWalk()
+//{
+//	//通常攻撃
+//	if (g_input.IsPush(KEY_Z))
+//	{
+//		Request(ATTACK_1, ANIM_SPD);
+//	}
+//	//ジャンプ
+//	else if (g_input.IsPush(KEY_SPACE))
+//	{
+//		//ジャンプアニメのリクエスト
+//	}
+//	//歩き・走り
+//	else
+//	{
+//		VECTOR spd = GetSpeed();
+//		//移動してなければ待機
+//		if (speed_.x == 0.0f && speed_.y == 0.0f && speed_.z == 0.0f)
+//		{
+//			Request(WAIT, ANIM_SPD);
+//		}
+//		else
+//		{
+//			//シフトキーを押していたら走り
+//			if (g_input.IsCont(KEY_LSHIFT))
+//			{
+//				Request(RUN, ANIM_SPD);
+//				spd = math->VecScale(spd, PLAYER_RUN_SPEED);
+//			}
+//			//何もなければ歩き
+//			else
+//			{
+//				spd = math->VecScale(spd, PLAYER_WALK_SPEED);
+//			}
+//			CalcSpeed(spd);
+//		}
+//	}
+//}
+//
+////走り処理
+//void CPlayer::ExecRun()
+//{
+//	//通常攻撃
+//	if (g_input.IsPush(KEY_Z))
+//	{
+//		Request(ATTACK_1, ANIM_SPD);
+//	}
+//	//ジャンプ
+//	else if (g_input.IsPush(KEY_SPACE))
+//	{
+//		//ジャンプアニメのリクエスト
+//	}
+//	//歩き・走り
+//	else
+//	{
+//		VECTOR spd = GetSpeed();
+//		//移動してなければ待機
+//		if (speed_.x == 0.0f && speed_.y == 0.0f && speed_.z == 0.0f)
+//		{
+//			Request(WAIT, ANIM_SPD);
+//		}
+//		else
+//		{
+//			//シフトキーを押していたら走り
+//			if (g_input.IsCont(KEY_LSHIFT))
+//			{
+//				spd = math->VecScale(spd, PLAYER_RUN_SPEED);
+//			}
+//			//何もなければ歩き
+//			else
+//			{
+//				Request(WALK, ANIM_SPD);
+//				spd = math->VecScale(spd, PLAYER_WALK_SPEED);
+//			}
+//			CalcSpeed(spd);
+//		}
+//	}
+//}
+//
+////移動処理
+//bool CPlayer::CalcMove()
+//{
+//	//移動フラグ
+//	bool moveFlg = false;
+//
+//	//斜め移動
+//	if (g_input.IsCont(KEY_W) && g_input.IsCont(KEY_A) || g_input.IsCont(KEY_W) && g_input.IsCont(KEY_D))
+//	{
+//		VECTOR move_up_sidle = { 0 };
+//
+//		//カメラ情報取得
+//		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
+//
+//		//カメラの視点、注視点からベクトルを作成
+//		move_up_sidle = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
+//		//Y成分は初期化
+//		move_up_sidle.y = 0;
+//		//正規化
+//		move_up_sidle = math->VecNormalize(move_up_sidle);
+//		//歩く速さを掛け算
+//		if (g_input.IsCont(KEY_LSHIFT))
+//		{
+//			move_up_sidle = math->VecScale(move_up_sidle, PLAYER_RUN_SPEED);
+//			player_state_ = PLAYER_STATE_RUN;
+//		}
+//		else
+//		{
+//			move_up_sidle = math->VecScale(move_up_sidle, PLAYER_WALK_SPEED);
+//			player_state_ = PLAYER_STATE_WALK;
+//		}
+//
+//		//平行移動行列取得
+//		MATRIX m_dir = MGetTranslate(move_up_sidle);
+//		MATRIX m_rotY;
+//		//Y軸回転行列取得
+//		if (!g_input.IsCont(KEY_RIGHT))
+//		{
+//			m_rotY = MGetRotY(DX_PI_F * -PLAYER_ROT_SCALING_HALF);
+//		}
+//		else
+//		{
+//			m_rotY = MGetRotY(DX_PI_F * PLAYER_ROT_SCALING_HALF);
+//		}
+//		//行列同士の掛け算
+//		MATRIX m_result = MMult(m_dir, m_rotY);
+//
+//		//移動速度ベクトルに入れる
+//		speed_.x = m_result.m[3][0];
+//		speed_.y = m_result.m[3][1];
+//		speed_.z = m_result.m[3][2];
+//
+//		//移動前の座標と足して新たな座標を得る
+//		/*pos_ = math->VecAdd(pos_, speed_);*/
+//
+//		//移動前の座標と足して新たな座標を得る
+//		pos_.x += speed_.x;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.x -= speed_.x;
+//		}
+//		pos_.y += speed_.y;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.y -= speed_.y;
+//		}
+//		pos_.z += speed_.z;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.z -= speed_.z;
+//		}
+//
+//		//移動したに変える
+//		moveFlg = true;
+//		//player_state_ = PLAYER_STATE_WALK;
+//
+//	}
+//	else if (g_input.IsCont(KEY_S) && g_input.IsCont(KEY_A) || g_input.IsCont(KEY_S) && g_input.IsCont(KEY_D))
+//	{
+//		VECTOR move_up_sidle = { 0 };
+//
+//		//カメラ情報取得
+//		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
+//
+//		//カメラの視点、注視点からベクトルを作成
+//		move_up_sidle = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
+//		//Y成分は初期化
+//		move_up_sidle.y = 0;
+//		//正規化
+//		move_up_sidle = math->VecNormalize(move_up_sidle);
+//		//歩く速さを掛け算
+//		if (g_input.IsCont(KEY_LSHIFT))
+//		{
+//			move_up_sidle = math->VecScale(move_up_sidle, -PLAYER_RUN_SPEED);
+//			player_state_ = PLAYER_STATE_RUN;
+//		}
+//		else
+//		{
+//			move_up_sidle = math->VecScale(move_up_sidle, -PLAYER_WALK_SPEED);
+//			player_state_ = PLAYER_STATE_WALK;
+//		}
+//
+//		//平行移動行列取得
+//		MATRIX m_dir = MGetTranslate(move_up_sidle);
+//		MATRIX m_rotY;
+//		//Y軸回転行列取得
+//		if (!g_input.IsCont(KEY_RIGHT))
+//		{
+//			m_rotY = MGetRotY(DX_PI_F * PLAYER_ROT_SCALING_HALF);
+//		}
+//		else
+//		{
+//			m_rotY = MGetRotY(DX_PI_F * -PLAYER_ROT_SCALING_HALF);
+//		}
+//		//行列同士の掛け算
+//		MATRIX m_result = MMult(m_dir, m_rotY);
+//
+//		//移動速度ベクトルに入れる
+//		speed_.x = m_result.m[3][0];
+//		speed_.y = m_result.m[3][1];
+//		speed_.z = m_result.m[3][2];
+//
+//		//移動前の座標と足して新たな座標を得る
+//		/*pos_ = math->VecAdd(pos_, speed_);*/
+//
+//		//移動前の座標と足して新たな座標を得る
+//		pos_.x += speed_.x;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.x -= speed_.x;
+//		}
+//		pos_.y += speed_.y;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.y -= speed_.y;
+//		}
+//		pos_.z += speed_.z;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.z -= speed_.z;
+//		}
+//
+//		//移動したに変える
+//		moveFlg = true;
+//		//player_state_ = PLAYER_STATE_WALK;
+//	}
+//	//カメラが向いている方向へ移動
+//	else if (g_input.IsCont(KEY_W))
+//	{
+//		VECTOR move_up = { 0 };
+//
+//		//カメラ情報取得
+//		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
+//
+//		//カメラの視点、注視点からベクトルを作成
+//		move_up = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
+//		//Y成分は初期化
+//		move_up.y = 0;
+//		//正規化
+//		move_up = math->VecNormalize(move_up);
+//		//歩く速さを掛け算
+//		if (g_input.IsCont(KEY_LSHIFT))
+//		{
+//			move_up = math->VecScale(move_up, PLAYER_RUN_SPEED);
+//			player_state_ = PLAYER_STATE_RUN;
+//		}
+//		else
+//		{
+//			move_up = math->VecScale(move_up, PLAYER_WALK_SPEED);
+//			player_state_ = PLAYER_STATE_WALK;
+//		}
+//
+//		//移動速度ベクトルに入れる
+//		speed_ = move_up;
+//
+//		//移動前の座標と足して新たな座標を得る
+//		pos_.x += speed_.x;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.x -= speed_.x;
+//		}
+//		pos_.y += speed_.y;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.y -= speed_.y;
+//		}
+//		pos_.z += speed_.z;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.z -= speed_.z;
+//		}
+//
+//		//移動したに変える
+//		moveFlg = true;
+//		//player_state_ = PLAYER_STATE_WALK;
+//
+//	}
+//	//カメラが向いている方向とは逆へ移動
+//	else if (g_input.IsCont(KEY_S))
+//	{
+//		VECTOR move_down = { 0 };
+//
+//		//カメラ情報取得
+//		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
+//
+//		//カメラの視点、注視点からベクトルを作成
+//		move_down = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
+//		//Y成分は初期化
+//		move_down.y = 0;
+//		//正規化
+//		move_down = math->VecNormalize(move_down);
+//		//歩く速さを掛け算
+//		if (g_input.IsCont(KEY_LSHIFT))
+//		{
+//			move_down = math->VecScale(move_down, -PLAYER_RUN_SPEED);
+//			player_state_ = PLAYER_STATE_RUN;
+//		}
+//		else
+//		{
+//			move_down = math->VecScale(move_down, -PLAYER_WALK_SPEED);
+//			player_state_ = PLAYER_STATE_WALK;
+//		}
+//
+//		//移動速度ベクトルに入れる
+//		speed_ = move_down;
+//
+//		//移動前の座標と足して新たな座標を得る
+//		/*pos_ = math->VecAdd(pos_, speed_);*/
+//
+//			//移動前の座標と足して新たな座標を得る
+//		pos_.x += speed_.x;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.x -= speed_.x;
+//		}
+//		pos_.y += speed_.y;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.y -= speed_.y;
+//		}
+//		pos_.z += speed_.z;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.z -= speed_.z;
+//		}
+//
+//		//移動したに変える
+//		moveFlg = true;
+//		//player_state_ = PLAYER_STATE_WALK;
+//	}
+//	//左へ移動
+//	else if (g_input.IsCont(KEY_A))
+//	{
+//		VECTOR move_left = { 0 };
+//
+//		//カメラ情報取得
+//		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
+//
+//		//カメラの視点、注視点からベクトルを作成
+//		move_left = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
+//		//Y成分は初期化
+//		move_left.y = 0;
+//		//正規化
+//		move_left = math->VecNormalize(move_left);
+//		//歩く速さを掛け算
+//		if (g_input.IsCont(KEY_LSHIFT))
+//		{
+//			move_left = math->VecScale(move_left, -PLAYER_RUN_SPEED);
+//			player_state_ = PLAYER_STATE_RUN;
+//		}
+//		else
+//		{
+//			move_left = math->VecScale(move_left, -PLAYER_WALK_SPEED);
+//			player_state_ = PLAYER_STATE_WALK;
+//		}
+//
+//		//平行移動行列取得
+//		MATRIX m_dir = MGetTranslate(move_left);
+//		//Y軸回転行列取得
+//		MATRIX m_rotY = MGetRotY(DX_PI_F * PLAYER_ROT_SCALING);
+//		//各行列を合成
+//		MATRIX m_result = MMult(m_dir, m_rotY);
+//
+//		//移動速度ベクトルに入れる
+//		speed_.x = m_result.m[3][0];
+//		speed_.y = m_result.m[3][1];
+//		speed_.z = m_result.m[3][2];
+//
+//		//移動前の座標と足して新たな座標を得る
+//		/*pos_ = math->VecAdd(pos_, speed_);*/
+//
+//		//移動前の座標と足して新たな座標を得る
+//		pos_.x += speed_.x;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.x -= speed_.x;
+//		}
+//		pos_.y += speed_.y;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.y -= speed_.y;
+//		}
+//		pos_.z += speed_.z;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.z -= speed_.z;
+//		}
+//
+//		//移動したに変える
+//		moveFlg = true;
+//		//player_state_ = PLAYER_STATE_WALK;
+//	}
+//	//右へ移動
+//	else if (g_input.IsCont(KEY_D))
+//	{
+//		VECTOR move_right = { 0 };
+//
+//		//カメラ情報取得
+//		CPlayCamera* play_camera = CCameraManager::GetInstance()->GetPlayCamera();
+//
+//		//カメラの視点、注視点からベクトルを作成
+//		move_right = math->VecCreate(play_camera->GetPos(), play_camera->GetLook());
+//		//Y成分は初期化
+//		move_right.y = 0;
+//		//正規化
+//		move_right = math->VecNormalize(move_right);
+//		//歩く速さを掛け算
+//		if (g_input.IsCont(KEY_LSHIFT))
+//		{
+//			move_right = math->VecScale(move_right, -PLAYER_RUN_SPEED);
+//			player_state_ = PLAYER_STATE_RUN;
+//		}
+//		else
+//		{
+//			move_right = math->VecScale(move_right, -PLAYER_WALK_SPEED);
+//			player_state_ = PLAYER_STATE_WALK;
+//		}
+//
+//		//平行移動行列
+//		MATRIX m_dir = MGetTranslate(move_right);
+//		MATRIX m_rotY = MGetRotY(DX_PI_F * -PLAYER_ROT_SCALING);
+//		MATRIX m_result = MMult(m_dir, m_rotY);
+//
+//		//移動速度ベクトルに入れる
+//		speed_.x = m_result.m[3][0];
+//		speed_.y = m_result.m[3][1];
+//		speed_.z = m_result.m[3][2];
+//
+//		//移動前の座標と足して新たな座標を得る
+//		/*pos_ = math->VecAdd(pos_, speed_);*/
+//
+//		//移動前の座標と足して新たな座標を得る
+//		pos_.x += speed_.x;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.x -= speed_.x;
+//		}
+//		pos_.y += speed_.y;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.y -= speed_.y;
+//		}
+//		pos_.z += speed_.z;
+//		if (CCollision::IsHitSphere(pos_, PLAYER_RAD, g_totem.GetPos(), TOTEM_RAD))
+//		{
+//			pos_.z -= speed_.z;
+//		}
+//
+//		//移動したに変える
+//		moveFlg = true;
+//		//player_state_ = PLAYER_STATE_WALK;
+//	}
+//
+//	//移動してなければ回転処理をしない
+//	if (moveFlg)
+//	{
+//		//プレイヤーの回転
+//		AngleProcess();
+//	}
+//	
+//	////移動してなければ待機
+//	//if (speed_.x == 0.0f && speed_.y == 0.0f && speed_.z == 0.0f)
+//	//{
+//	//	Request(WAIT, ANIM_SPD);
+//	//}
+//
+//	return moveFlg;
+//}
+//
+////ジャンプ処理
+//void CPlayer::CalcJump()
+//{
+//	//プレイヤー通常
+//	if (player_state_ == PLAYER_STATE_NORMAL)
+//	{
+//		if (g_input.IsPush(KEY_SPACE))
+//		{
+//			//状態をジャンプ上昇中へ
+//			player_state_ = PLAYER_STATE_JUMP_UP;
+//			jump_time_ = 0.0f;
+//			//上昇
+//			speed_.y = PLAYER_JUMP_VAL;
+//		}
+//	}
+//
+//	//プレイヤージャンプ上昇中
+//	if (player_state_ == PLAYER_STATE_JUMP_UP)
+//	{
+//		//上昇
+//		/*speed_.y = PLAYER_JUMP_VAL;*/
+//		jump_time_ += 1.0f / FRAME_RATE;
+//		speed_.y -= GRAVITY;
+//
+//		//ジャンプ時間が過ぎたら
+//		/*if (speed_.y <= 0.0f)
+//		{
+//			jump_time_ = 0.0f;
+//			speed_.y = 0.0f;
+//			player_state_ = PLAYER_STATE_NORMAL;
+//		}*/
+//	}
+//
+//	if (pos_.y > 0.0f && player_state_ == PLAYER_STATE_JUMP_UP)
+//	{
+//		jump_time_ = 0.0f;
+//		speed_.y = 0.0f;
+//		player_state_ = PLAYER_STATE_NORMAL;
+//	}
+//}
+
+////十字キーによる移動方向取得
+//VECTOR CPlayer::GetSpeed()
+//{
+//	bool	isMove = false;
+//
+//	// プレイヤー移動
+//	VECTOR	plSpd = { 0.0f, 0.0f, 0.0f };
+//	float	fSpd = 1.0f;
+//
+//	if (g_input.IsCont(KEY_D))
+//	{
+//		plSpd.x -= fSpd;
+//	}
+//	if (g_input.IsCont(KEY_A))
+//	{
+//		plSpd.x += fSpd;
+//	}
+//	if (g_input.IsCont(KEY_W))
+//	{
+//		plSpd.z -= fSpd;
+//	}
+//	if (g_input.IsCont(KEY_S))
+//	{
+//		plSpd.z += fSpd;
+//	}
+//
+//	// 移動しているようであれば更新
+//	if (plSpd.x != 0.0f || plSpd.z != 0.0f)
+//	{
+//		// 速度を正規化
+//		plSpd = VNorm(plSpd);
+//		// 回転行列を利用してカメラ位置設定
+//		MATRIX	mat1, mat2;
+//		mat1 = MGetTranslate(plSpd);
+//		mat2 = MGetRotY(camrot_.y);
+//		mat1 = MMult(mat1, mat2);
+//		plSpd = VGet(mat1.m[3][0], mat1.m[3][1], mat1.m[3][2]);
+//	}
+//
+//	return plSpd;
+//}
+////速度をプレイヤーに反映させる
+//void CPlayer::CalcSpeed(VECTOR speed)
+//{
+//	// 速度を加算
+//	VECTOR playerPos = GetPos();
+//	playerPos = VAdd(playerPos, speed);
+//	// 移動速度からY軸回転角度を取得
+//	float rotY = atan2f(-speed.x, -speed.z);
+//
+//	SetPos(playerPos);
+//	SetRot(VGet(0.0f, rotY, 0.0f));
+//}

@@ -59,7 +59,7 @@ void CStoneTrap::Step()
 			if (CCollision::IsHitSphere(pos_, STONE_RAD, player->GetPos(), PLAYER_W * 0.5f))
 			{
 				//プレイヤーが押す方向に押し出す
-				pos_ = MyMath::VecAdd(pos_, player->GetSpeed());
+				/*pos_ = MyMath::VecAdd(pos_, player->GetSpeed());*/
 			}
 		}
 		else

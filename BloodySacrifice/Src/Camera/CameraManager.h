@@ -4,6 +4,10 @@
 //各カメラへのアクセスは必ずCCameraManagerを経由
 #pragma once
 
+#include "PlayCamera.h"
+#include "DebugCamera.h"
+#include "CameraBase.h"
+
 class CCameraBase;
 class CPlayCamera;
 class CDebugCamera;
@@ -52,6 +56,9 @@ public:
 
 	//デバッグカメラを取得
 	CDebugCamera* GetDebugCamera() { return m_DebugCamera; }
+
+
+	VECTOR GetPlayerCameraRot() { return m_PlayCamera->GetCameraRot(); }
 
 private:
 

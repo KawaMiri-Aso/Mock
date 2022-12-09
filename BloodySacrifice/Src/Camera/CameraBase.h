@@ -25,4 +25,5 @@ protected:
 	VECTOR pos_;
 	VECTOR look_;
 	VECTOR up_;
+	VECTOR camRot_;
 };
