@@ -85,6 +85,8 @@ public:
 	VECTOR GetSpeed()const { return speed_; }
 	//‰ñ“]Šp“x‚ğæ“¾
 	inline VECTOR GetRot() { return rot_; }
+	//ó‘Ô‚ğæ“¾
+	inline int GetState() { return player_state_; }
 
 	//******************************
 	//İ’èŠÖ”
