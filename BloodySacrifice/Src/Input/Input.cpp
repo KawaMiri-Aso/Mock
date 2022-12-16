@@ -77,6 +77,17 @@ void CInput::Step()
 
 	if(CheckHitKey(KEY_INPUT_RSHIFT) == 1)
 		m_nCurrentKeyState |= KEY_RSHIFT;
+
+	if (CheckHitKey(KEY_INPUT_J) == 1)
+		m_nCurrentKeyState |= KEY_J;
+
+	if (CheckHitKey(KEY_INPUT_K) == 1)
+		m_nCurrentKeyState |= KEY_K;
+
+	if (CheckHitKey(KEY_INPUT_L) == 1)
+		m_nCurrentKeyState |= KEY_L;
+
+
 }
 
 //ç°âüÇ≥ÇÍÇΩ

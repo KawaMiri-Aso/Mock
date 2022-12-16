@@ -24,7 +24,7 @@ void CMap::Init()
 	// モデル読み込み
 	handle_ = MV1LoadModel("Data/Model/Field/Field.x");
 	// 当たり判定用モデル読み込み
-	col_handle_ = MV1LoadModel("Data/Model/Field/Field.x");
+	col_handle_ = MV1LoadModel("Data/Model/Field/Col_Field.x");
 	// 当たり判定用モデルのポリゴン情報をセットアップ
 	MV1SetupCollInfo(col_handle_);
 	pos_ = { 0 };
@@ -33,7 +33,7 @@ void CMap::Init()
 	m_sky_handle = MV1LoadModel("Data/Model/Sky/Sky.x");
 	MV1SetPosition(m_sky_handle, VGet(0.0f, 0.0f, 0.0f));
 	//天球のサイズを大きくする
-	MV1SetScale(m_sky_handle, VGet(2000.0f, 2000.0f, 2000.0f));
+	MV1SetScale(m_sky_handle, VGet(1000.0f, 1000.0f, 1000.0f));
 }
 
 //ステップ

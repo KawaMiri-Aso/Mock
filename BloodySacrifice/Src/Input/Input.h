@@ -17,6 +17,9 @@
 #define KEY_D		(1 << 12)	// Dキー
 #define KEY_LSHIFT	(1 << 13)	// 左SHIFT
 #define KEY_RSHIFT	(1 << 14)	// 右SHIFT
+#define KEY_J		(1 << 15)	// Jキー
+#define KEY_K		(1 << 16)	// Kキー
+#define KEY_L		(1 << 17)	// Lキー
 
 class CInput
 {
