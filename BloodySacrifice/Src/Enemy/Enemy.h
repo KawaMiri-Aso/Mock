@@ -28,6 +28,9 @@ public:
 	void Damage(int damage) { hp_ -= damage; }
 	void Dead();
 
+	//Œ»İˆÊ’u‚ÉÀ•W‰ÁZ
+	void ReflectCollision(VECTOR addVec);
+
 protected:
 	void HitMap();
 

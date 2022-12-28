@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "../Map/Map.h"
 #include "../Common.h"
+#include "../Player/PlayerManager.h"
 
 CEnemy::CEnemy()
 {
@@ -31,4 +32,17 @@ void CEnemy::HitMap()
 void CEnemy::Dead()
 {
 	active_ = false;
+}
+
+//Œ»ÝˆÊ’u‚ÉÀ•W‰ÁŽZ
+void CEnemy::ReflectCollision(VECTOR addVec)
+{
+	// ƒI[ƒ‹ƒ[ƒ‚È‚ç‰½‚à‚µ‚È‚¢
+	if (addVec.x == 0.0f && addVec.y == 0.0f && addVec.z == 0.0f) return;
+
+	CPlayer* player = CPlayerManager::GetInstance()->GetPlayer();
+	VECTOR	pos = player->GetPos();
+	pos = VAdd(pos, addVec);
+	//m_gravity = 0.0f;
+	SetPos(pos);
 }

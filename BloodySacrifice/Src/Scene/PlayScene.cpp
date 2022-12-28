@@ -5,11 +5,9 @@
 #include "PlayScene.h"
 #include "SceneManager.h"
 #include "../Camera/CameraManager.h"
-#include "../Player/PlayerManager.h"
 #include "../Map/Map.h"
 #include "../Collision/Collision.h"
 #include "../Trap/Stone.h"
-#include "../Enemy/EnemyManager.h"
 #include "../Totem/Totem.h"
 
 CTotem* totem = new CTotem;
@@ -202,6 +200,32 @@ void CPlayScene::LoadTotem()
 }
 
 void CPlayScene::StepPlayState()
+{
+
+}
+
+//ƒvƒŒƒCƒ„[‚Æ“G‚Ì“–‚½‚è”»’è
+void CPlayScene::HitCheckEnemyToPlayer(CPlayer* player, CEnemy* enemy)
+{
+	VECTOR plPos = player->GetPos();
+	VECTOR enPos = enemy->GetPos();
+
+	//‚Q“_ŠÔ‚Ì‹——£‚ðŽæ“¾
+	VECTOR vec = VSub(enPos, plPos);
+	float len = VSize(vec);
+
+	//ˆê’è”ÍˆÍ‚æ‚è’Z‚¯‚ê‚Îƒqƒbƒg
+	if (len < 10.0f)
+	{
+		//“G‚ð‰Ÿ‚µ•Ô‚·
+		vec = VNorm(vec);
+		vec = VScale(vec, 10.0f - len);
+	//	enemy.
+	}
+}
+
+//ƒvƒŒƒCƒ„[‚ÌUŒ‚‚Æ“G‚Ì“–‚½‚è”»’è
+void CPlayScene::HitCheckEnemyToPlayerAttack(CPlayer* player, CEnemy* enemy)
 {
 
 }

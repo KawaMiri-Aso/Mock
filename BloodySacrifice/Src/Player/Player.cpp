@@ -216,9 +216,10 @@ void CPlayer::Draw()
 
 #ifdef DEBUG
 	DrawFormatString(10, 74, GetColor(255, 128, 0), "プレイヤーHP：%d", hp_);
+	DrawFormatString(10, 110, GetColor(255, 128, 0), "プレイヤー攻撃当たり判定座標: X=%.f, Y=%.f, Z=%.f", GetAttackPos().x, GetAttackPos().y, GetAttackPos().z);
 	if (IsAttack())
 	{
-		DrawSphere3D(GetAttackPos(), 15.0f, 32, GetColor(255, 0, 0), GetColor(255, 0, 0), FALSE);
+		DrawSphere3D(GetAttackPos(), ATTACK_COL_RAD, 32, GetColor(255, 0, 0), GetColor(255, 0, 0), FALSE);
 	}
 #endif // DEBUG
 }
@@ -926,13 +927,16 @@ bool CPlayer::IsAttack()
 	return false;
 }
 
+//攻撃した座標を取得
 VECTOR CPlayer::GetAttackPos()
 {
 	VECTOR pos = VGet(0.0f, 0.0f, 0.0f);
+	//攻撃1のとき
 	if (player_state_ == PLAYER_STATE_ATTACK1)
 	{
 		pos = GetLeftHand();
 	}
+	//攻撃2のとき
 	else if (player_state_ == PLAYER_STATE_ATTACK2)
 	{
 		pos = GetRightHand();
@@ -940,14 +944,14 @@ VECTOR CPlayer::GetAttackPos()
 	return pos;
 }
 
-//攻撃当たり判定の中心位置取得
+//攻撃当たり判定の左手中心位置取得
 VECTOR	CPlayer::GetLeftHand()
 {
 	VECTOR	center = MV1GetFramePosition(handle_, 14);
 	return center;
 }
 
-//攻撃当たり判定の中心位置取得
+//攻撃当たり判定の右手中心位置取得
 VECTOR	CPlayer::GetRightHand()
 {
 	VECTOR	center = MV1GetFramePosition(handle_, 50);

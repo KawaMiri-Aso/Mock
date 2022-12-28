@@ -20,6 +20,7 @@
 #define PLAYER_ROT_SCALING_HALF	(0.25f)		//斜め入力用の数値
 #define ANIM_SPD (1.0f)
 #define CHANGE_SPD (0.05f)	//補間スピード
+#define ATTACK_COL_RAD	(15.0f)
 
 //プレイヤー状態
 enum PLAYER_STATE
