@@ -2,6 +2,15 @@
 
 #include "DxLib.h"
 
+//敵の行動タイプ
+enum
+{	
+	STATE_WALK,		//歩き中
+	STATE_BACK,		//ノックバック中
+
+	STATE_NUM
+};
+
 class CEnemy
 {
 public:
@@ -30,6 +39,9 @@ public:
 
 	//現在位置に座標加算
 	void ReflectCollision(VECTOR addVec);
+
+	//プレイヤーの攻撃がヒットした後の処理
+	void HitCalc(VECTOR move);
 
 protected:
 	void HitMap();

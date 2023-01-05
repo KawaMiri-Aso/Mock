@@ -46,3 +46,10 @@ void CEnemy::ReflectCollision(VECTOR addVec)
 	//m_gravity = 0.0f;
 	SetPos(pos);
 }
+
+//プレイヤーの攻撃がヒットした後の処理
+void CEnemy::HitCalc(VECTOR move)
+{
+	move_ = move;
+	
+}
