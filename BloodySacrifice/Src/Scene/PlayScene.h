@@ -67,11 +67,6 @@ private:
 
 	void StepPlayState();
 
-	//プレイヤーと敵の当たり判定
-	void HitCheckEnemyToPlayer(CPlayer* player, CEnemy* enemy);
-	//プレイヤーの攻撃と敵の当たり判定
-	void HitCheckEnemyToPlayerAttack(CPlayer* player, CEnemy* enemy);
-
 private:
 
 	PlayState state_;

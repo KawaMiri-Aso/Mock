@@ -1,7 +1,7 @@
 #include "Enemy.h"
 #include "../Map/Map.h"
 #include "../Common.h"
-#include "../Player/PlayerManager.h"
+#include "../MyMath/MyMath.h"
 
 CEnemy::CEnemy()
 {
@@ -52,4 +52,53 @@ void CEnemy::HitCalc(VECTOR move)
 {
 	move_ = move;
 	
+}
+
+//ƒvƒŒƒCƒ„[‚Æ“G‚Ì“–‚½‚è”»’è
+void CEnemy::HitCheckEnemyToPlayer(CPlayer* player, CEnemy* enemy)
+{
+	VECTOR plPos = player->GetPos();
+	VECTOR enPos = GetPos();
+
+	//‚Q“_ŠÔ‚Ì‹——£‚ðŽæ“¾
+	VECTOR vec = VSub(enPos, plPos);
+	float len = VSize(vec);
+
+	//ˆê’è”ÍˆÍ‚æ‚è’Z‚¯‚ê‚Îƒqƒbƒg
+	if (len < 10.0f)
+	{
+		//“G‚ð‰Ÿ‚µ•Ô‚·
+		vec = VNorm(vec);
+		vec = VScale(vec, 10.0f - len);
+		ReflectCollision(vec);
+	}
+}
+
+//ƒvƒŒƒCƒ„[‚ÌUŒ‚‚Æ“G‚Ì“–‚½‚è”»’è
+void CEnemy::HitCheckEnemyToPlayerAttack(CPlayer* player, CEnemy* enemy)
+{
+	//UŒ‚’†‚Å‚È‚¯‚ê‚ÎI—¹
+	if (!player->IsAttack())
+	{
+		return;
+	}
+
+	//“G‚ÌÀ•W‚ÆƒvƒŒƒCƒ„[‚ÌUŒ‚‚µ‚½À•W‚ðŽæ“¾
+	VECTOR plAttackPos = player->GetAttackPos();
+	VECTOR enPos = GetPos();
+
+	//2“_ŠÔ‚Ì‹——£‚ðŽæ“¾
+	VECTOR vec = MyMath::VecSubtract(enPos, plAttackPos);
+	float len = VSize(vec);
+
+	//ˆê’è”ÍˆÍ‚æ‚è’Z‚¯‚ê‚Îƒqƒbƒg
+	if (len < 10.0f)
+	{
+		vec = MyMath::VecNormalize(vec);
+		vec.y = 5.0f;						//ã•ûŒü‚É”ò‚Î‚·—Í
+		vec = MyMath::VecScale(vec, 3.0f);	//‘S‘Ì‚Ì‚«”ò‚Î‚·—Í
+
+		//“G‚É‚«”ò‚Ô•ûŒü‚ð—^‚¦‚é
+		HitCalc(vec);
+	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "DxLib.h"
+#include "../Player/PlayerManager.h"
 
 //敵の行動タイプ
 enum
@@ -42,6 +43,11 @@ public:
 
 	//プレイヤーの攻撃がヒットした後の処理
 	void HitCalc(VECTOR move);
+
+	//プレイヤーと敵の当たり判定
+	void HitCheckEnemyToPlayer(CPlayer* player, CEnemy* enemy);
+	//プレイヤーの攻撃と敵の当たり判定
+	void HitCheckEnemyToPlayerAttack(CPlayer* player, CEnemy* enemy);
 
 protected:
 	void HitMap();

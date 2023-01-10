@@ -96,6 +96,7 @@ void CPlayScene::Step()
 
 	CPlayerManager::GetInstance()->Step();
 	CEnemyManager::GetInstance()->Step();
+	
 	//CMap‚ðƒQƒbƒgƒCƒ“ƒXƒ^ƒ“ƒX‚ÅStep
 	CCameraManager::GetInstance()->Step();
 	CCameraManager::GetInstance()->Update();
@@ -205,51 +206,3 @@ void CPlayScene::StepPlayState()
 
 }
 
-//ƒvƒŒƒCƒ„[‚Æ“G‚Ì“–‚½‚è”»’è
-void CPlayScene::HitCheckEnemyToPlayer(CPlayer* player, CEnemy* enemy)
-{
-	VECTOR plPos = player->GetPos();
-	VECTOR enPos = enemy->GetPos();
-
-	//‚Q“_ŠÔ‚Ì‹——£‚ðŽæ“¾
-	VECTOR vec = VSub(enPos, plPos);
-	float len = VSize(vec);
-
-	//ˆê’è”ÍˆÍ‚æ‚è’Z‚¯‚ê‚Îƒqƒbƒg
-	if (len < 10.0f)
-	{
-		//“G‚ð‰Ÿ‚µ•Ô‚·
-		vec = VNorm(vec);
-		vec = VScale(vec, 10.0f - len);
-		enemy->ReflectCollision(vec);
-	}
-}
-
-//ƒvƒŒƒCƒ„[‚ÌUŒ‚‚Æ“G‚Ì“–‚½‚è”»’è
-void CPlayScene::HitCheckEnemyToPlayerAttack(CPlayer* player, CEnemy* enemy)
-{
-	//UŒ‚’†‚Å‚È‚¯‚ê‚ÎI—¹
-	if (!player->IsAttack())
-	{
-		return;
-	}
-
-	//“G‚ÌÀ•W‚ÆƒvƒŒƒCƒ„[‚ÌUŒ‚‚µ‚½À•W‚ðŽæ“¾
-	VECTOR plAttackPos = player->GetAttackPos();
-	VECTOR enPos = enemy->GetPos();
-
-	//2“_ŠÔ‚Ì‹——£‚ðŽæ“¾
-	VECTOR vec = MyMath::VecSubtract(enPos, plAttackPos);
-	float len = VSize(vec);
-
-	//ˆê’è”ÍˆÍ‚æ‚è’Z‚¯‚ê‚Îƒqƒbƒg
-	if (len < 10.0f)
-	{
-		vec = MyMath::VecNormalize(vec);
-		vec.y = 5.0f;						//ã•ûŒü‚É”ò‚Î‚·—Í
-		vec = MyMath::VecScale(vec, 3.0f);	//‘S‘Ì‚Ì‚«”ò‚Î‚·—Í
-
-		//“G‚É‚«”ò‚Ô•ûŒü‚ð—^‚¦‚é
-		enemy.hitcalc
-	}
-}

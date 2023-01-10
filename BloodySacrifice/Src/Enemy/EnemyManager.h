@@ -30,9 +30,12 @@ public:
 	void Draw();
 	void Fin();
 
+	//エネミークラスを取得
+	CEnemy* GetEnemy()const { return org_enemy_[ENEMY_ID_NORMAL]; }
+
 private:
 	static CEnemyManager* instance_;
-	CEnemy* org_enemy_[ENEMY_ID_MAX];
+	CEnemy* org_enemy_[ENEMY_ID_MAX];	//敵クラス
 	EnemyList enemy_list_;
 	int norm_pos_hndl;		//座標用のモデルハンドル
 	int norm_pos_ID_;		//フレーム（ボーン）の番号

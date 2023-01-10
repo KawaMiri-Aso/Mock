@@ -82,7 +82,7 @@ public:
 	//******************************
 	//ê›íËä÷êî
 	//******************************
-	void SetCameraRot(VECTOR camRot) { camrot_ = camRot; }
+	//void SetCameraRot(VECTOR camRot) { camrot_ = camRot; }
 
 	//ç¿ïWê›íË
 	inline void	SetPos(VECTOR pos) { pos_ = pos; }

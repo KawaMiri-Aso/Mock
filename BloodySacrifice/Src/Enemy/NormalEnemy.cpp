@@ -9,6 +9,7 @@
 #include "../Totem/Totem.h"
 #include <math.h>
 #include "../Common/Time.h"
+#include "../Enemy/EnemyManager.h"
 
 #define DEBUG
 
@@ -69,6 +70,13 @@ void CNormalEnemy::Step()
 		vVec = g_map.HitCheck(pos_, rad_);
 		pos_ = VAdd(pos_, vVec);*/
 		HitMap();
+
+		CPlayer* player = CPlayerManager::GetInstance()->GetPlayer();
+		CEnemy* enemy = CEnemyManager::GetInstance()->GetEnemy();
+
+		//ƒvƒŒƒCƒ„[‚Æ“G‚Ì“–‚½‚è”»’è
+		HitCheckEnemyToPlayer(player, enemy);
+		HitCheckEnemyToPlayerAttack(player, enemy);
 
 		//ˆÚ“®ˆ—
 		pos_ = MyMath::VecAdd(pos_, move_);
