@@ -7,6 +7,7 @@
 enum
 {	
 	STATE_WALK,		//歩き中
+	STATE_PL_BACK,	//プレイヤーとぶつかってバック
 	STATE_BACK,		//ノックバック中
 
 	STATE_NUM
