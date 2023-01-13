@@ -49,7 +49,7 @@ void CNormalEnemy::Init()
 
 void CNormalEnemy::Load()
 {
-	handle_ = MV1LoadModel("Data/Model/Enemy/enemy-mock.x");
+	handle_ = MV1LoadModel("Data/Model/Enemy/Goblin.x");
 }
 
 void CNormalEnemy::Step()

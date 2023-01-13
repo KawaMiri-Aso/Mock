@@ -30,10 +30,10 @@ void CMap::Init()
 	pos_ = { 0 };
 
 	//天球読み込み
-	m_sky_handle = MV1LoadModel("Data/Model/Sky/Sky.x");
+	m_sky_handle = MV1LoadModel("Data/Model/Sky/BlueSky.x");
 	MV1SetPosition(m_sky_handle, VGet(0.0f, 0.0f, 0.0f));
 	//天球のサイズを大きくする
-	MV1SetScale(m_sky_handle, VGet(1000.0f, 1000.0f, 1000.0f));
+	MV1SetScale(m_sky_handle, VGet(800.0f, 800.0f, 800.0f));
 }
 
 //ステップ
