@@ -7,11 +7,13 @@
 enum
 {	
 	STATE_WALK,		//歩き中
+	STATE_ATTACK,	//攻撃
 	STATE_PL_BACK,	//プレイヤーとぶつかってバック
 	STATE_BACK,		//ノックバック中
 
 	STATE_NUM
 };
+
 
 class CEnemy
 {
@@ -50,8 +52,10 @@ public:
 	//プレイヤーの攻撃と敵の当たり判定
 	void HitCheckEnemyToPlayerAttack(CPlayer* player, CEnemy* enemy);
 
+
 protected:
 	void HitMap();
+
 
 protected:
 	bool active_;	// 生存フラグ

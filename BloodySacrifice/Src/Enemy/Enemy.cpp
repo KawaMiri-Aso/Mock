@@ -102,3 +102,4 @@ void CEnemy::HitCheckEnemyToPlayerAttack(CPlayer* player, CEnemy* enemy)
 		HitCalc(vec);
 	}
 }
+

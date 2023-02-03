@@ -53,7 +53,7 @@ enum ANIM
 	ATTACK_1,	//UŒ‚1
 	ATTACK_2,	//UŒ‚2
 	END_COMBO,	//ƒRƒ“ƒ{I—¹
-	HIT_BACK,	//UŒ‚Žó‚¯‚½
+	HIT_BACK,	//‚Ì‚¯‚¼‚è
 	DEAD,		//Ž€–S
 
 	ANIM_NUM

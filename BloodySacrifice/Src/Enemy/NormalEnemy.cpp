@@ -49,7 +49,15 @@ void CNormalEnemy::Init()
 
 void CNormalEnemy::Load()
 {
+	//モデルの読み込み
 	handle_ = MV1LoadModel("Data/Model/Enemy/Goblin.x");
+	//モデルのスケール設定
+	MV1SetScale(handle_, VGet(0.25f, 0.25f, 0.25f));
+
+	// アニメの再生
+	m_animIdx[ANIM_MAIN] = MV1AttachAnim(handle_, EN_WALK);
+	m_animCount[ANIM_MAIN] = 0.0f;
+	m_animSpeed[ANIM_MAIN] = ANIM_SPD;
 }
 
 void CNormalEnemy::Step()
@@ -81,6 +89,9 @@ void CNormalEnemy::Step()
 		//移動処理
 		pos_ = MyMath::VecAdd(pos_, move_);
 
+		//アニメ更新
+		AnimUpdate();
+
 		MV1SetRotationXYZ(handle_, rot_);
 		MV1SetPosition(handle_, pos_);
 	}
@@ -95,6 +106,8 @@ void CNormalEnemy::Step()
 	//{
 	//	is_active_ = false;
 	//}
+
+	
 }
 
 void CNormalEnemy::Draw()
@@ -142,6 +155,7 @@ void CNormalEnemy::StepAI()
 	//	StepBack();
 	//	break;
 	}
+
 }
 
 void CNormalEnemy::StepIdle()
@@ -158,6 +172,7 @@ void CNormalEnemy::StepIdle()
 	// 移動する方向を向く
 	rot_.y = atan2f(-move_.x, -move_.z);
 
+	Request(EN_WALK, ANIM_SPD);
 }
 
 //void CNormalEnemy::StepCaution()
@@ -194,6 +209,8 @@ void CNormalEnemy::StepAttack()
 	move_.x = 0.0f;
 	move_.z = 0.0f;
 
+	Request(EN_ATTACK, ANIM_SPD);
+
 	if (timer_ >= ATTACK_TIME)
 	{
 		g_totem.Damage(DAMAGE);
@@ -217,3 +234,69 @@ void CNormalEnemy::StepAttack()
 //	// 移動する方向を向く
 //	rot_.y = atan2f(-move_.x, -move_.z);
 //}
+
+//アニメーションリクエスト
+void CNormalEnemy::Request(int animID, float animSpd)
+{
+	// 同じアニメは無視
+	if (m_animType == animID) return;
+
+	// とりあえず2つ以上は無理、すでに2つ再生中は1つ消す
+	if (m_animIdx[ANIM_SUB] != -1)
+	{
+		MV1DetachAnim(handle_, m_animIdx[ANIM_SUB]);
+		m_animIdx[ANIM_SUB] = -1;
+	}
+	// メイン再生のアニメ情報をサブに移動
+	m_animIdx[ANIM_SUB] = m_animIdx[ANIM_MAIN];
+	m_animCount[ANIM_SUB] = m_animCount[ANIM_MAIN];
+	m_animSpeed[ANIM_SUB] = m_animSpeed[ANIM_MAIN];
+
+	// その後新しくアタッチしなおす
+	m_animIdx[ANIM_MAIN] = MV1AttachAnim(handle_, animID);
+	// メインアニメは設定しなおし
+	m_animSpeed[ANIM_MAIN] = animSpd;
+	m_animCount[ANIM_MAIN] = 0;
+
+	m_animRate = 1.f;		// レート設定しなおし
+	m_animType = animID;
+}
+
+//アニメ更新
+void CNormalEnemy::AnimUpdate()
+{
+	// レートの更新======================================================
+	if (m_animRate > 0.0f)
+	{
+		m_animRate -= CHANGE_SPD;
+		// レートが0を下回ったら古い方のアニメーションを削除
+		if (m_animRate < 0.0f)
+		{
+			MV1DetachAnim(handle_, m_animIdx[ANIM_SUB]);
+			m_animIdx[ANIM_SUB] = -1;
+		}
+	}
+	// ==================================================================
+
+	// アニメーション更新
+	for (int i = 0; i < BLEND_NUM; i++)
+	{
+		if (m_animIdx[i] == -1) continue;
+		m_animCount[i] += m_animSpeed[i];
+
+		// アニメが最後まで進んだら最初へ
+		if (MV1GetAnimTotalTime(handle_, m_animIdx[i]) < m_animCount[i])
+		{
+			m_animCount[i] = 0.0f;
+		}
+
+		// 時間更新
+		MV1SetAttachAnimTime(handle_, m_animIdx[i], m_animCount[i]);
+		// レートを設定する
+		float rate = i == ANIM_MAIN ? 1.0f - m_animRate : m_animRate;
+		MV1SetAttachAnimBlendRate(handle_, m_animIdx[i], rate);
+	}
+
+	// 座標更新
+	MV1SetPosition(handle_, pos_);
+}
