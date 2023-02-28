@@ -18,10 +18,10 @@
 //アニメ種類
 enum EN_ANIM
 {
-	EN_ATTACK = 1,		//攻撃
-	EN_DEAD = 2,		//死亡
-	EN_HIT_BACK = 30,	//のけぞり
-	EN_WALK = 32,		//歩き
+	EN_ATTACK = 0,		//攻撃
+	EN_DEAD = 1,		//死亡
+	EN_HIT_BACK = 29,	//のけぞり
+	EN_WALK = 30,		//歩き
 
 	EN_ANIM_NUM = 4,
 };
@@ -53,10 +53,12 @@ public:
 
 private:
 	void StepAI();
-	void StepIdle();
+	void StepIdle();		//状態：歩き
 	void StepCaution();
-	void StepAttack();
+	void StepAttack();		//状態：攻撃
 	void StepBack();
+	void StepHitBack();	//状態：のけぞり
+	void StepDead();		//状態：死亡
 
 
 	// アニメに関するデータ

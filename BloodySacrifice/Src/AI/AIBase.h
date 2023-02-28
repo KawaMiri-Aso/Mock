@@ -10,7 +10,9 @@ public:
 		ENEMY_AI_STATE_IDLE,	//ë“ã@
 		ENEMY_AI_STATE_CAUTION,	//åxâ˙
 		ENEMY_AI_STATE_ATTACK,	//çUåÇ
+		ENEMY_AI_STATE_HITBACK, //ÇÃÇØÇºÇË
 		ENEMY_AI_STATE_BACK,	//ãAä“
+		ENEMY_AI_STATE_DEAD,	//éÄñS
 	};
 public:
 	CAIBase();

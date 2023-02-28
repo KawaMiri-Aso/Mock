@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AIBase.h"
+#include "../Enemy/EnemyManager.h"
 
 class CAINomalEnemy : public CAIBase
 {
@@ -28,6 +29,10 @@ private:
 	int AINormalFromCaution(CEnemy* enemy);
 	// UŒ‚ó‘Ô‚©‚çŸ‚É‚Ç‚Ìó‘Ô‚É‚È‚é‚©
 	int AINormalFromAttack(CEnemy* enemy);
+	// ‚Ì‚¯‚¼‚èó‘Ô‚©‚çŸ‚É‚Ç‚Ìó‘Ô‚É‚È‚é‚©
+	int AINormalFromHitBack(CEnemy* enemy);
+	// €–Só‘Ô‚©‚çÁ‚¦‚é
+	int AINormalFromDead(CEnemy* enemy);
 	// ‹AŠÒó‘Ô‚©‚çŸ‚É‚Ç‚Ìó‘Ô‚É‚È‚é‚©
 	int AIAttackFromBack(CEnemy* enemy);
 

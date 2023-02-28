@@ -9,7 +9,8 @@ enum
 	STATE_WALK,		//歩き中
 	STATE_ATTACK,	//攻撃
 	STATE_PL_BACK,	//プレイヤーとぶつかってバック
-	STATE_BACK,		//ノックバック中
+	STATE_HITBACK,	//ノックバック中
+	STATE_DAED,		//死亡
 
 	STATE_NUM
 };

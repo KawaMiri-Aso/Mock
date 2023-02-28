@@ -116,6 +116,7 @@ void CNormalEnemy::Draw()
 
 #ifdef DEBUG
 	DrawFormatString(10, 58, GetColor(255, 128, 0), "敵HP：%d", hp_);
+	DrawSphere3D(pos_, 10.0f, 4, GetColor(255, 255, 0), GetColor(255, 255, 0), FALSE);
 #endif 
 }
 
@@ -154,10 +155,17 @@ void CNormalEnemy::StepAI()
 	//case CAIBase::ENEMY_AI_STATE_BACK:	//帰還状態更新
 	//	StepBack();
 	//	break;
+	case CAIBase::ENEMY_AI_STATE_HITBACK:
+		StepHitBack();
+		break;
+	case CAIBase::ENEMY_AI_STATE_DEAD:
+		StepDead();
+		break;
 	}
 
 }
 
+//状態：歩き
 void CNormalEnemy::StepIdle()
 {
 	//トーテムに向かっていく
@@ -187,6 +195,7 @@ void CNormalEnemy::StepIdle()
 //	move_.z = 0.0f;
 //}
 
+//状態：攻撃
 void CNormalEnemy::StepAttack()
 {
 	////プレイヤーまでのベクトルを作成
@@ -234,6 +243,18 @@ void CNormalEnemy::StepAttack()
 //	// 移動する方向を向く
 //	rot_.y = atan2f(-move_.x, -move_.z);
 //}
+
+//状態：のけぞり
+void CNormalEnemy::StepHitBack()
+{
+	Request(EN_HIT_BACK, ANIM_SPD);
+}
+
+//状態：死亡
+void CNormalEnemy::StepDead()
+{
+	Request(EN_DEAD, ANIM_SPD);
+}
 
 //アニメーションリクエスト
 void CNormalEnemy::Request(int animID, float animSpd)
