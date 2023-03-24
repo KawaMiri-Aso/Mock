@@ -118,13 +118,13 @@ int CAINomalEnemy::AINormalFromAttack(CEnemy* enemy)
 // ‚Ì‚¯‚¼‚èó‘Ô‚©‚ç‚Ì‘JˆÚ
 int CAINomalEnemy::AINormalFromHitBack(CEnemy* enemy)
 {
-
+	return 0;
 }
 
 // €–Só‘Ô‚©‚çÁ‚¦‚é
 int CAINomalEnemy::AINormalFromDead(CEnemy* enemy)
 {
-
+	return 0;
 }
 
 //// ‹AŠÒó‘Ô‚©‚ç‚Ì‘JˆÚ
