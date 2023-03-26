@@ -31,6 +31,8 @@ public:
 	virtual CEnemy* Clone() = 0;
 
 public:
+	void OnPlCollisionEnter(CPlayer* another);
+
 	void SetPos(VECTOR pos) { pos_ = pos; }
 	void SetBackPos(VECTOR pos) { back_pos_ = pos; }
 
@@ -47,12 +49,6 @@ public:
 
 	//プレイヤーの攻撃がヒットした後の処理
 	void HitCalc(VECTOR move);
-
-	//プレイヤーと敵の当たり判定
-	void HitCheckEnemyToPlayer(CPlayer* player, CEnemy* enemy);
-	//プレイヤーの攻撃と敵の当たり判定
-	void HitCheckEnemyToPlayerAttack(CPlayer* player, CEnemy* enemy);
-
 
 protected:
 	void HitMap();

@@ -1,3 +1,2 @@
-﻿  NormalEnemy.cpp
-C:\Users\mirih\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\NormalEnemy.cpp(217,18): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+﻿  Enemy.cpp
   Sample3D.vcxproj -> C:\Users\mirih\Documents\GitHub\Mock\BloodySacrifice\Debug\Sample3D.exe

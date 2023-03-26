@@ -109,6 +109,18 @@
     <ClCompile Include="Src\Common\Time.cpp">
       <Filter>Src\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Src\Collision\CollisionBase.cpp">
+      <Filter>Src\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Collision\CollisionManager.cpp">
+      <Filter>Src\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Collision\BoxCollision.cpp">
+      <Filter>Src\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Collision\SphereCollision.cpp">
+      <Filter>Src\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\Input\Input.h">
@@ -176,6 +188,18 @@
     </ClInclude>
     <ClInclude Include="Src\Common\Time.h">
       <Filter>Src\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Collision\CollisionBase.h">
+      <Filter>Src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Collision\CollisionManager.h">
+      <Filter>Src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Collision\BoxCollision.h">
+      <Filter>Src\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Collision\SphereCollision.h">
+      <Filter>Src\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

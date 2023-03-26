@@ -5,6 +5,7 @@
 #pragma once
 
 #include "DxLib.h"
+#include "../Enemy/EnemyManager.h"
 
 //プレイヤー関連
 #define PLAYER_W	(4.454f)	//プレイヤーの横幅
@@ -122,6 +123,8 @@ public:
 	void AnimUpdate();
 	//現在再生しているアニメタイプを取得
 	inline int GetAnimType() { return m_animType; }
+
+	void OnEnCollisionEnter(CEnemy* another);
 
 private:
 	//プレイヤーの回転処理

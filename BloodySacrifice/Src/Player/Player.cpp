@@ -957,3 +957,8 @@ VECTOR	CPlayer::GetRightHand()
 	VECTOR	center = MV1GetFramePosition(handle_, 50);
 	return center;
 }
+
+void CPlayer::OnEnCollisionEnter(CEnemy* another)
+{
+
+}

@@ -1,6 +1,6 @@
 #include "NormalEnemy.h"
 #include "../Common.h"
-#include "../Player/PlayerManager.h"
+//#include "../Player/PlayerManager.h"
 #include "../MyMath/MyMath.h"
 #include "../Map/Map.h"
 #include "../Trap/Stone.h"
@@ -83,8 +83,15 @@ void CNormalEnemy::Step()
 		CEnemy* enemy = CEnemyManager::GetInstance()->GetEnemy();
 
 		//プレイヤーと敵の当たり判定
-		HitCheckEnemyToPlayer(player, enemy);
-		HitCheckEnemyToPlayerAttack(player, enemy);
+		/*if (HitCheckEnemyToPlayer(player, enemy))
+		{
+			StepHitBack();
+		}
+		else */
+		if (HitCheckEnemyToPlayerAttack(player, enemy))
+		{
+			StepHitBack();
+		}
 
 		//移動処理
 		pos_ = MyMath::VecAdd(pos_, move_);
@@ -143,22 +150,16 @@ void CNormalEnemy::StepAI()
 	//現在の状態から各AI処理へ
 	switch (ai_state_)
 	{
-	case CAIBase::ENEMY_AI_STATE_IDLE:	//待機状態更新
+	case CAIBase::ENEMY_AI_STATE_IDLE:		//待機状態更新
 		StepIdle();
 		break;
-	//case CAIBase::ENEMY_AI_STATE_CAUTION:	//警戒状態更新
-	//	StepCaution();
-	//	break;
 	case CAIBase::ENEMY_AI_STATE_ATTACK:	//攻撃状態更新
 		StepAttack();
 		break;
-	//case CAIBase::ENEMY_AI_STATE_BACK:	//帰還状態更新
-	//	StepBack();
-	//	break;
-	case CAIBase::ENEMY_AI_STATE_HITBACK:
+	case CAIBase::ENEMY_AI_STATE_HITBACK:	//のけぞり
 		StepHitBack();
 		break;
-	case CAIBase::ENEMY_AI_STATE_DEAD:
+	case CAIBase::ENEMY_AI_STATE_DEAD:		//死亡
 		StepDead();
 		break;
 	}
@@ -183,18 +184,6 @@ void CNormalEnemy::StepIdle()
 	Request(EN_WALK, ANIM_SPD);
 }
 
-//void CNormalEnemy::StepCaution()
-//{
-//	//プレイヤーまでのベクトルを作成
-//	CPlayer* player = CPlayerManager::GetInstance()->GetPlayer();
-//	VECTOR player_vec = MyMath::VecCreate(pos_, player->GetPos());
-//	//プレイヤーの向く角度を算出してY回転値に代入
-//	rot_.y = atan2f(-player_vec.x, -player_vec.z);
-//	//移動を止める
-//	move_.x = 0.0f;
-//	move_.z = 0.0f;
-//}
-
 //状態：攻撃
 void CNormalEnemy::StepAttack()
 {
@@ -214,6 +203,7 @@ void CNormalEnemy::StepAttack()
 	//move_.x = move_vec.x;
 	//move_.z = move_vec.z;
 
+	//トーテムに着いた時点で攻撃
 	//移動を止める
 	move_.x = 0.0f;
 	move_.z = 0.0f;
@@ -228,21 +218,6 @@ void CNormalEnemy::StepAttack()
 
 	timer_ += Comn::GetGameDeltaFrame();
 }
-
-//void CNormalEnemy::StepBack()
-//{
-//	// 帰還ポイントまでのベクトルを作成
-//	VECTOR back_vec = MyMath::VecCreate(pos_, back_pos_);
-//	// y要素は0で
-//	back_vec.y = 0.0f;
-//	// そのベクトルを移動スピードの長さにして移動量とする
-//	back_vec = MyMath::VecNormalize(back_vec);
-//	VECTOR move_vec = MyMath::VecScale(back_vec, NORMAL_ENEMY_MOVE_SPEED);
-//	move_.x = move_vec.x;
-//	move_.z = move_vec.z;
-//	// 移動する方向を向く
-//	rot_.y = atan2f(-move_.x, -move_.z);
-//}
 
 //状態：のけぞり
 void CNormalEnemy::StepHitBack()

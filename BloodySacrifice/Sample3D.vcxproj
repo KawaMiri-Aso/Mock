@@ -16,7 +16,11 @@
     <ClCompile Include="Src\Camera\CameraManager.cpp" />
     <ClCompile Include="Src\Camera\DebugCamera.cpp" />
     <ClCompile Include="Src\Camera\PlayCamera.cpp" />
+    <ClCompile Include="Src\Collision\BoxCollision.cpp" />
     <ClCompile Include="Src\Collision\Collision.cpp" />
+    <ClCompile Include="Src\Collision\CollisionBase.cpp" />
+    <ClCompile Include="Src\Collision\CollisionManager.cpp" />
+    <ClCompile Include="Src\Collision\SphereCollision.cpp" />
     <ClCompile Include="Src\Common\Time.cpp" />
     <ClCompile Include="Src\Enemy\Enemy.cpp" />
     <ClCompile Include="Src\Enemy\EnemyManager.cpp" />
@@ -40,7 +44,11 @@
     <ClInclude Include="Src\Camera\CameraManager.h" />
     <ClInclude Include="Src\Camera\DebugCamera.h" />
     <ClInclude Include="Src\Camera\PlayCamera.h" />
+    <ClInclude Include="Src\Collision\BoxCollision.h" />
     <ClInclude Include="Src\Collision\Collision.h" />
+    <ClInclude Include="Src\Collision\CollisionBase.h" />
+    <ClInclude Include="Src\Collision\CollisionManager.h" />
+    <ClInclude Include="Src\Collision\SphereCollision.h" />
     <ClInclude Include="Src\Common.h" />
     <ClInclude Include="Src\Common\Time.h" />
     <ClInclude Include="Src\Enemy\Enemy.h" />

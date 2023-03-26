@@ -116,16 +116,16 @@ int CAINomalEnemy::AINormalFromAttack(CEnemy* enemy)
 }
 
 // ‚Ì‚¯‚¼‚èó‘Ô‚©‚ç‚Ì‘JˆÚ
-int CAINomalEnemy::AINormalFromHitBack(CEnemy* enemy)
-{
-
-}
-
-// €–Só‘Ô‚©‚çÁ‚¦‚é
-int CAINomalEnemy::AINormalFromDead(CEnemy* enemy)
-{
-
-}
+//int CAINomalEnemy::AINormalFromHitBack(CEnemy* enemy)
+//{
+//
+//}
+//
+//// €–Só‘Ô‚©‚çÁ‚¦‚é
+//int CAINomalEnemy::AINormalFromDead(CEnemy* enemy)
+//{
+//
+//}
 
 //// ‹AŠÒó‘Ô‚©‚ç‚Ì‘JˆÚ
 //int CAINomalEnemy::AIAttackFromBack(CEnemy* enemy)
