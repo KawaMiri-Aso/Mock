@@ -1,2 +1,100 @@
-﻿  Enemy.cpp
-  Sample3D.vcxproj -> C:\Users\mirih\Documents\GitHub\Mock\BloodySacrifice\Debug\Sample3D.exe
+﻿  AIBase.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(5,29): error C2065: 'CEnemy': 定義されていない識別子です。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(5,36): error C2059: 構文エラー: '>'
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,33): error C2238: ';' の前に無効なトークンがあります。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,26): error C2334: '{' の前に予期しないトークンがありました。関数の本体は無視されます
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,34): error C2238: ';' の前に無効なトークンがあります。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\Player.h(128,26): error C2061: 構文エラー: 識別子 'CEnemy'
+  AINormalEnemy.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(5,29): error C2065: 'CEnemy': 定義されていない識別子です。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(5,36): error C2059: 構文エラー: '>'
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,33): error C2238: ';' の前に無効なトークンがあります。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,26): error C2334: '{' の前に予期しないトークンがありました。関数の本体は無視されます
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,34): error C2238: ';' の前に無効なトークンがあります。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\Player.h(128,26): error C2061: 構文エラー: 識別子 'CEnemy'
+  CameraManager.cpp
+  PlayCamera.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  BoxCollision.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  Collision.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  CollisionBase.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  CollisionManager.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Collision\CollisionManager.cpp(133,66): error C2660: 'CEnemy::OnPlCollisionEnter': 関数に 1 個の引数を指定できません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,7): message : 'CEnemy::OnPlCollisionEnter' の宣言を確認してください
+  SphereCollision.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  Time.cpp
+  Enemy.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(5,29): error C2065: 'CEnemy': 定義されていない識別子です。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(5,36): error C2059: 構文エラー: '>'
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,33): error C2238: ';' の前に無効なトークンがあります。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,26): error C2334: '{' の前に予期しないトークンがありました。関数の本体は無視されます
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,34): error C2238: ';' の前に無効なトークンがあります。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\Player.h(128,26): error C2061: 構文エラー: 識別子 'CEnemy'
+  EnemyManager.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\Player.h(128,26): error C2061: 構文エラー: 識別子 'CEnemy'
+  NormalEnemy.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(5,29): error C2065: 'CEnemy': 定義されていない識別子です。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(5,36): error C2059: 構文エラー: '>'
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(24,33): error C2238: ';' の前に無効なトークンがあります。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(34,26): error C2334: '{' の前に予期しないトークンがありました。関数の本体は無視されます
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,8): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,8): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(38,34): error C2238: ';' の前に無効なトークンがあります。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\Player.h(128,26): error C2061: 構文エラー: 識別子 'CEnemy'
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\NormalEnemy.cpp(83,49): error C2039: 'GetEnemy': 'CEnemyManager' のメンバーではありません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\EnemyManager.h(7): message : 'CEnemyManager' の宣言を確認してください
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\NormalEnemy.cpp(215,18): warning C4244: '引数': 'float' から 'int' への変換です。データが失われる可能性があります。
+  Input.cpp
+  Main.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  Map.cpp
+  Player.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\PlayerManager.h(35,9): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\PlayerManager.h(35,9): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\PlayerManager.h(35,28): error C2334: '{' の前に予期しないトークンがありました。関数の本体は無視されます
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\PlayerManager.h(39,9): error C2143: 構文エラー: ';' が '*' の前にありません。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\PlayerManager.h(39,9): error C4430: 型指定子がありません - int と仮定しました。メモ: C++ は int を既定値としてサポートしていません
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\PlayerManager.h(39,19): error C2238: ';' の前に無効なトークンがあります。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\Player.cpp(36,8): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Player\Player.cpp(75,8): warning C4244: '=': 'float' から 'int' への変換です。データが失われる可能性があります。
+  PlayerManager.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  PlayScene.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  SceneManager.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  コードを生成中...
+  コンパイル中...
+  Totem.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  Stone.cpp
+C:\Users\2109407\Documents\GitHub\Mock\BloodySacrifice\Src\Enemy\Enemy.h(34,26): error C2061: 構文エラー: 識別子 'CPlayer'
+  コードを生成中...

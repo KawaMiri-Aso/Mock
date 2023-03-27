@@ -2,6 +2,7 @@
 //PlayerManager.cpp
 //プレイヤー管理
 //CPlayerへのアクセスは必ずCPlayerManagerを経由
+#pragma once
 
 #include "PlayerManager.h"
 

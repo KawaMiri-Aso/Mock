@@ -88,10 +88,10 @@ void CNormalEnemy::Step()
 			StepHitBack();
 		}
 		else */
-		if (HitCheckEnemyToPlayerAttack(player, enemy))
+		/*if (HitCheckEnemyToPlayerAttack(player, enemy))
 		{
 			StepHitBack();
-		}
+		}*/
 
 		//ˆÚ“®ˆ—
 		pos_ = MyMath::VecAdd(pos_, move_);

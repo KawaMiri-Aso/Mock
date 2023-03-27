@@ -1,3 +1,4 @@
+#pragma once
 #include "Enemy.h"
 #include "../Map/Map.h"
 #include "../Common.h"
